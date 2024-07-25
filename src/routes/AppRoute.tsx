@@ -1,8 +1,10 @@
 import { lazy } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
+import Donate from '@components/Donate';
+import DonutHandler from '@components/DonutHandler';
 import IndexLayout from '@components/Layouts/IndexLayout';
-import NewProject from '@components/NewProject';
+import ProjectHandler from '@components/ProjectHandler';
 
 const Home = lazy(() => import('@pages/Home'));
 const About = lazy(() => import('@pages/About'));
@@ -10,6 +12,7 @@ const Dashboard = lazy(() => import('@pages/Dashboard'));
 const HelpUkraine = lazy(() => import('@pages/HelpUkraine'));
 const NotFounded = lazy(() => import('@pages/404'));
 const Portfolio = lazy(() => import('@pages/Portfolio'));
+const SingleProject = lazy(() => import('@pages/SingleProject'));
 
 const router = createBrowserRouter([
   {
@@ -37,6 +40,14 @@ const router = createBrowserRouter([
     ),
   },
   {
+    path: '/portfolio/:id',
+    element: (
+      <IndexLayout>
+        <SingleProject />
+      </IndexLayout>
+    ),
+  },
+  {
     path: '/dashboard',
     element: (
       <IndexLayout>
@@ -46,7 +57,23 @@ const router = createBrowserRouter([
   },
   {
     path: '/dashboard/newProject',
-    element: <NewProject />,
+    element: <ProjectHandler />,
+  },
+  {
+    path: '/dashboard/editProject/:id',
+    element: <ProjectHandler />,
+  },
+  {
+    path: '/dashboard/donut',
+    element: <Donate />,
+  },
+  {
+    path: '/dashboard/donut/newDonut',
+    element: <DonutHandler />,
+  },
+  {
+    path: '/dashboard/donut/editDonut/:id',
+    element: <DonutHandler />,
   },
   {
     path: '/helpUkraine',

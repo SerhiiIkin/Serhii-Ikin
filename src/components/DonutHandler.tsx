@@ -1,18 +1,20 @@
-import HandleProjectForms from '@components/HandleProjectForms';
+import DonutForm from '@components/DonutForm';
 import DashboardLayout from '@components/Layouts/DashboardLayout';
 import IndexLayout from '@components/Layouts/IndexLayout';
 import SectionLayout from '@components/Layouts/SectionLayout';
+import Title from '@components/Title';
 
-const NewProject = () => {
+const DonutHandler = () => {
   return (
     <IndexLayout>
-      <SectionLayout className="min-h-screen bg-gradient-to-b from-primaryLigthBlue to-primaryGreen">
+      <SectionLayout>
         <DashboardLayout>
-          <HandleProjectForms />
+          <Title typeTitle="h1"> Donut handler </Title>
+          <DonutForm />
         </DashboardLayout>
       </SectionLayout>
     </IndexLayout>
   );
 };
 
-export default NewProject;
+export default DonutHandler;

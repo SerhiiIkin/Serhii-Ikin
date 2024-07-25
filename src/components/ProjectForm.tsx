@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import type { ChangeEvent, FormEvent } from 'react';
-import { createRef, useEffect, useState } from 'react';
+import type { ChangeEvent, FormEvent, RefObject } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
 
@@ -15,9 +15,10 @@ import Textarea from '@components/Textarea';
 
 import axios from '@utils/axios';
 
-const HandleProjectForms = () => {
-  const inputFileRef = createRef<HTMLInputElement>();
+const ProjectForm = () => {
   const queryClient = useQueryClient();
+  const inputFileRef: RefObject<HTMLInputElement> =
+    useRef<HTMLInputElement>(null);
 
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [images, setImages] = useState<FileList | null>(null);
@@ -52,19 +53,16 @@ const HandleProjectForms = () => {
         ? await axios.get(`api/projects/${id}`).then(res => res.data)
         : initialData;
     },
+    initialData: initialData,
   });
 
-  const [data, setData] = useState<ProjectType>(
-    id ? currentProject : initialData
-  );
+  const [data, setData] = useState<ProjectType>(initialData);
 
   const createProjectMutation = useMutation({
     mutationKey: ['project'],
     mutationFn: async (data: ProjectType) => axios.post('api/projects', data),
     onSuccess: () => {
-      setData(initialData);
-      setImages(null);
-      if (inputFileRef?.current !== null) inputFileRef.current.value = '';
+      resetHandler();
 
       setTextNotification('Проєкт успішно створено');
 
@@ -217,8 +215,19 @@ const HandleProjectForms = () => {
     }
   };
 
+  const resetHandler = () => {
+    setData(initialData);
+    setImages(null);
+    setPreviewImages([]);
+    if (inputFileRef?.current !== null) {
+      inputFileRef.current.value = '';
+    }
+  };
+
   useEffect(() => {
-    setData(currentProject);
+    if (currentProject) {
+      setData(currentProject);
+    }
   }, [currentProject]);
 
   useEffect(() => {
@@ -227,7 +236,7 @@ const HandleProjectForms = () => {
 
   return (
     <>
-      <SectionLayout className="pt-10">
+      <SectionLayout>
         <form onSubmit={uploadImages} className="pb-4">
           <input
             ref={inputFileRef}
@@ -238,7 +247,11 @@ const HandleProjectForms = () => {
             multiple
           />
           <Button type="submit">Upload image</Button>
-          <Button type="reset" className="ml-2 bg-secondaryRed">
+          <Button
+            type="reset"
+            onClick={resetHandler}
+            className="ml-2 bg-secondaryRed"
+          >
             Reset
           </Button>
         </form>
@@ -259,7 +272,7 @@ const HandleProjectForms = () => {
         >
           {currentProject && <h3 className="pb-4">Current images</h3>}
           {currentProject && (
-            <div className="flex gap-4 pb-4">
+            <div className="flex flex-wrap gap-4 pb-4">
               {Array.isArray(data?.images) &&
                 data?.images?.map((image, index) => (
                   <img
@@ -279,7 +292,7 @@ const HandleProjectForms = () => {
             name="ukr"
             className=""
             placeholder="title ukr"
-            value={data?.title?.ukr}
+            value={data?.title?.ukr || ''}
             onChange={dataHandler}
           />
 
@@ -289,7 +302,7 @@ const HandleProjectForms = () => {
             name="eng"
             className=""
             placeholder="title eng"
-            value={data?.title?.eng}
+            value={data?.title?.eng || ''}
             onChange={dataHandler}
           />
           <Input
@@ -297,25 +310,25 @@ const HandleProjectForms = () => {
             name="dk"
             className=""
             placeholder="title dk"
-            value={data?.title?.dk}
+            value={data?.title?.dk || ''}
             onChange={dataHandler}
           />
           <Textarea
             name="ukr"
             placeholder="descriptionUKR"
-            value={data?.description?.ukr}
+            value={data?.description?.ukr || ''}
             onChange={dataHandler}
           />
           <Textarea
             name="eng"
             placeholder="descriptionENG"
-            value={data?.description?.eng}
+            value={data?.description?.eng || ''}
             onChange={dataHandler}
           />
           <Textarea
             name="dk"
             placeholder="descriptionDK"
-            value={data?.description?.dk}
+            value={data?.description?.dk || ''}
             onChange={dataHandler}
           />
           <Input
@@ -323,7 +336,7 @@ const HandleProjectForms = () => {
             name="link"
             className=""
             placeholder="link"
-            value={data?.link}
+            value={data?.link || ''}
             onChange={dataHandler}
           />
           <label
@@ -346,7 +359,11 @@ const HandleProjectForms = () => {
             <Button className="bg-primaryDarkBlue" type="submit">
               Submit
             </Button>
-            <Button type="reset" className="ml-2 bg-secondaryRed">
+            <Button
+              type="reset"
+              className="ml-2 bg-secondaryRed"
+              onClick={resetHandler}
+            >
               Reset
             </Button>
           </div>
@@ -357,4 +374,4 @@ const HandleProjectForms = () => {
   );
 };
 
-export default HandleProjectForms;
+export default ProjectForm;

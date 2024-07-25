@@ -1,39 +1,25 @@
-// eslint-disable-next-line import/no-unresolved
-import { useMemo } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
-// eslint-disable-next-line import/no-unresolved
-import HelpUkraineText from '@MultilanguageText/HelpUkraineText';
+import type { DonutType } from '@modules/DonutType';
+import { DonutContextValueHelpUkraine } from '@variables/DonutContextValueHelpUkraine';
+import HelpUkraineText from '@variables/HelpUkraineText';
 
 import Converter from '@components/Converter';
-import ImageSlider from '@components/ImageSlider';
+import DonutContent from '@components/DonutContent';
+import { DonutContext } from '@components/Layouts/DonutContext';
+import FetchDataHandler from '@components/Layouts/FetchDataHandlerLayout';
 import SectionLayout from '@components/Layouts/SectionLayout';
 import Title from '@components/Title';
 
-import Multilanguage from '@utils/Multilanguage';
+import axios from '@utils/axios';
 
 const HelpUkraine = () => {
   const { convertorTitle, convertorText, title } = HelpUkraineText();
 
-  const donationData = useMemo(
-    () => [
-      {
-        id: 1,
-        title: {
-          ukr: 'Постійний збір на дрони камікадзе',
-          eng: 'Permanent collection for kamikaze drones',
-          dk: 'Permanent samling til kamikaze-droner',
-        },
-        description: {
-          ukr: 'Сергій Стерненко і його команда, постійно збирають військовим на допомогу українським військовим. Є що допомогти? Використовуйте посилання до сторінки донатів. Маленьких донатів не буває',
-          eng: 'Serhii Sternenko and his team are constantly collecting military personnel to help the Ukrainian military. Is there anything to help? Use the link to the donation page. There are no small donations',
-          dk: 'Serhii Sternenko og hans team indsamler konstant militært personel for at hjælpe det ukrainske militær. Er der noget at hjælpe? Brug linket til donationssiden. Der er ingen små donationer',
-        },
-        imgs: ['sternenko/sternenko.jpg'],
-        link: 'https://send.monobank.ua/jar/dzBdJ3737',
-      },
-    ],
-    []
-  );
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['donate'],
+    queryFn: async () => axios.get('api/donut').then(res => res.data),
+  });
 
   return (
     <SectionLayout className="pt-8">
@@ -41,27 +27,17 @@ const HelpUkraine = () => {
       <p className="pb-4">{convertorText}</p>
       <Converter />
       <Title typeTitle="h1">{title}</Title>
-      <ul className="marker:text-primaryLigthBlue list-decimal marker:font-bold">
-        {donationData.map(({ title, description, imgs, id, link }) => {
-          const titleLanguage = Multilanguage(title);
-          const descriptionLanguage = Multilanguage(description);
-          return (
-            <li key={id}>
-              <a href={link} target="_blank" className="">
-                <Title
-                  typeTitle="h2"
-                  className="xl:hover:text-primaryLigth xl:hover:bg-primaryLigthBlue bg-primaryDarkBlue rounded p-2 text-left xl:hover:duration-500"
-                >
-                  {titleLanguage}
-                </Title>
-              </a>
-              <p className="pb-4">{descriptionLanguage}</p>
-
-              <ImageSlider images={imgs} />
-            </li>
-          );
-        })}
-      </ul>
+      <DonutContext.Provider value={DonutContextValueHelpUkraine}>
+        <FetchDataHandler
+          data={{ data, error: error?.message ? error.message : '', isLoading }}
+        >
+          <ul className="list-decimal marker:font-bold marker:text-primaryDarkBlue">
+            {data?.map((donut: DonutType) => (
+              <DonutContent key={donut._id} {...donut} />
+            ))}
+          </ul>
+        </FetchDataHandler>
+      </DonutContext.Provider>
     </SectionLayout>
   );
 };

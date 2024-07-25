@@ -1,6 +1,6 @@
 import Multilanguage from '@utils/Multilanguage';
 
-export default function HelpUkraineText() {
+const HelpUkraineText = () => {
   const title = Multilanguage({
     ukr: 'Пожертви українським військовим',
     eng: 'Donations to the Ukrainian military',
@@ -30,4 +30,6 @@ export default function HelpUkraineText() {
     convertorTitle,
     convertorText,
   };
-}
+};
+
+export default HelpUkraineText;

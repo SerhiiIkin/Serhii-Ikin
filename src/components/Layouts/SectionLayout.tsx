@@ -8,7 +8,7 @@ const SectionLayout = ({
   classNameContainer,
 }: SectionLayoutProps) => {
   return (
-    <section className={classes(['py-5 md:py-7 xl:py-10', className ?? ''])}>
+    <section className={classes(['py-3 md:py-5 xl:py-7', className ?? ''])}>
       <div
         className={classes([
           'container mx-auto px-2 md:px-4 xl:px-8',

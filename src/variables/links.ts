@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/no-unresolved
-import HeaderText from '@MultilanguageText/HeaderText';
+import HeaderText from '@variables/HeaderText';
 
 export const Links = () => {
   const localToken = localStorage.getItem('token')?.length

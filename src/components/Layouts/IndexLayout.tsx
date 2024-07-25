@@ -1,30 +1,60 @@
-import { type FC, Suspense } from 'react';
+import type { FC, RefObject } from 'react';
+import { Suspense, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 import type { indexLayoutProps } from '@modules/indexLayoutProps';
 
+import Footer from '@components/Footer';
 import Header from '@components/Header';
 import Loader from '@components/Loader';
 
 import Multilanguage from '@utils/Multilanguage';
 
 const IndexLayout: FC<indexLayoutProps> = ({ children }) => {
+  const linkRef: RefObject<HTMLAnchorElement> = useRef<HTMLAnchorElement>(null);
+  const headerRef = useRef<HTMLElement | null>(null);
+  const footerRef = useRef<HTMLElement | null>(null);
+  const mainRef = useRef<HTMLElement | null>(null);
+
   const helpUkraine = Multilanguage({
     ukr: 'Допомогти Україні',
     eng: 'Help for Ukraine',
     dk: 'Hjælp for Ukraine',
   });
 
+  const handleResize = () => {
+    if (
+      headerRef.current?.clientHeight &&
+      mainRef.current &&
+      footerRef.current
+    ) {
+      const headerHeight = headerRef.current.clientHeight;
+      const footerHeight = footerRef.current.clientHeight;
+      const linkHeight = linkRef?.current?.clientHeight || 0;
+      mainRef.current.style.marginTop = `${linkHeight + headerHeight}px`;
+      mainRef.current.style.paddingBottom = `${footerHeight}px`;
+    }
+  };
+
+  useEffect(() => {
+    handleResize();
+    window.addEventListener('resize', handleResize);
+  }, []);
+
   return (
-    <div className="flex min-h-screen flex-col">
+    <>
       <Link
+        ref={linkRef}
         to="/HelpUkraine"
         className="fixed left-0 top-0 z-10 w-full bg-gradient-to-b from-primaryLigthYellow to-primaryDarkBlue text-center text-primaryLigth xl:hover:text-primaryDarkBlue xl:hover:shadow-md xl:hover:shadow-primaryDarkBlue xl:hover:duration-500"
       >
         {helpUkraine}
       </Link>
-      <Header />
-      <main className="flex-1 pt-20">
+      <Header ref={headerRef} />
+      <main
+        ref={mainRef}
+        className="min-h-screen bg-gradient-to-b from-primaryLigthBlue to-primaryGreen"
+      >
         <Suspense
           fallback={
             <Loader
@@ -36,8 +66,8 @@ const IndexLayout: FC<indexLayoutProps> = ({ children }) => {
           {children}
         </Suspense>
       </main>
-      <footer>Footer</footer>
-    </div>
+      <Footer ref={footerRef} />
+    </>
   );
 };
 

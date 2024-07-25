@@ -12,40 +12,37 @@ const Welcome = () => {
   const minLength = 10;
   const intervalDuration = 100;
   const [lengthText, setLengthText] = useState(minLength);
-  const [intervalId, setIntervalId] = useState(null);
+  let index = lengthText;
+
   const textAboutMe = Multilanguage({
     ukr: 'Привіт! Я Сергій Ікін, відданий і пристрасний full-stack розробник з комплексним набором навичок, що охоплює як інтерфейс, так і сервер технології Маючи міцну основу в HTML, CSS/SCSS і JavaScript/TypeScript, я спеціалізуюся на створенні динамічних і адаптивних веб-додатки.',
     eng: "Hello! I'm Serhii Ikin, a dedicated and passionate full-stack developer with a comprehensive skill set spanning both front-end and back-en technologies. With a strong foundation in HTML, CSS/SCSS, and JavaScript/TypeScript, I specialize in building dynamic and responsiveweb applications.",
     dk: 'Hej! Jeg er Serhii Ikin, en dedikeret og passioneret fuld stack-udvikler med et omfattende færdighedssæt, der spænder over både front-end og back-en teknologier. Med et stærkt fundament i HTML, CSS/SCSS og JavaScript/TypeScript er jeg specialiseret i at bygge dynamiske og responsive webapplikationer.',
   });
-  let index = lengthText;
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setLengthText(prev => {
-        if (prev >= textAboutMe.length) {
-          clearInterval(interval);
-          setIntervalId(null);
-          return prev;
+    let timerId: NodeJS.Timeout | null = null;
+    const startTimer = () => {
+      timerId = setInterval(() => {
+        setLengthText(prev => prev + 1);
+        index++;
+        if (index >= textAboutMe.length) {
+          stopTimer();
         }
-        return prev + 1;
-      });
-      index++;
-      if (index >= textAboutMe.length) {
-        clearInterval(interval);
-        setIntervalId(null);
-      }
-    }, intervalDuration);
-
-    return () => {
-      if (intervalId) clearInterval(intervalId);
+      }, intervalDuration);
     };
+    const stopTimer = () => {
+      if (timerId) clearInterval(timerId);
+      timerId = null;
+    };
+    startTimer();
+    return () => stopTimer();
   }, []);
 
   return (
     <SectionLayout
       className="bg-gradient-to-b from-primaryLigthBlue to-primaryLigthYellow"
-      classNameContainer="grid md:grid-cols-3 h-full gap-2 md:gap-4 xl:gap-6"
+      classNameContainer="grid md:grid-cols-3 h-full gap-2 md:gap-4 xl:gap-6  pt-6"
     >
       <Title
         typeTitle="h3"
@@ -70,7 +67,9 @@ const Welcome = () => {
       />
       {skillsListGoup.map((skill, i) => (
         <ul key={i} className="md:row-start-3">
-          <Title typeTitle="h6">{skill.title}:</Title>
+          <Title typeTitle="h6" className="text-primaryLigth">
+            {skill.title}:
+          </Title>
           {skill.list.map((item, index) => (
             <li
               key={index}

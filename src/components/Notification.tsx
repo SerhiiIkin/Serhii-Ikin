@@ -4,7 +4,7 @@ import type { NotificationProps } from '@modules/NotificationProps';
 
 import { classes } from '@utils/classes';
 
-function Notification({ textNotification }: NotificationProps) {
+const Notification = ({ textNotification }: NotificationProps) => {
   const [isOpenWindon, setIsOpenWindon] = useState(false);
 
   useEffect(() => {
@@ -15,16 +15,16 @@ function Notification({ textNotification }: NotificationProps) {
     }, 5000);
   }, [textNotification]);
 
-  function closeNotificationWindow() {
+  const closeNotificationWindow = () => {
     setIsOpenWindon(false);
-  }
+  };
 
   return (
     <div>
       {textNotification?.length > 0 && (
         <div
           className={classes([
-            'bg-primaryOrange fixed -right-80 bottom-14 z-50 rounded-xl p-4 transition-all',
+            'fixed -right-80 bottom-14 z-50 rounded-xl bg-primaryOrange p-4 transition-all',
             isOpenWindon ? 'right-8' : "''",
           ])}
         >
@@ -40,6 +40,6 @@ function Notification({ textNotification }: NotificationProps) {
       )}
     </div>
   );
-}
+};
 
 export default Notification;

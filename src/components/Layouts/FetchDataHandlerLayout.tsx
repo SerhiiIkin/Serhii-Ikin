@@ -11,7 +11,9 @@ const FetchDataHandler = ({
 }: FetchDataHandlerLayoutProps) => {
   if (data.error) {
     return (
-      <div className={classes(['mb-5', className ?? ''])}>{data.error}</div>
+      <div className={classes(['mb-5 text-secondaryRed', className ?? ''])}>
+        {data.error}
+      </div>
     );
   }
   if (data?.data?.length === 0 && !data.isLoading && !data.error) {

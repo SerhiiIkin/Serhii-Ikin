@@ -1,25 +1,21 @@
 import type { MouseEvent } from 'react';
-import { useEffect, useState } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-// eslint-disable-next-line import/no-unresolved
 import { btnsLanguage } from '@variables/btnsLanguage';
-// eslint-disable-next-line import/no-unresolved
 import { Links } from '@variables/links';
+import { logoLink } from '@variables/logoLink';
 
 import Button from '@components/Button';
-// eslint-disable-next-line import/no-unresolved
 import NavLink from '@components/NavLink';
 
-// eslint-disable-next-line import/no-unresolved
 import { dk, eng, ukr } from '@store/Slices/languageSlice';
 
-// eslint-disable-next-line import/no-unresolved
 import { useAppDispatch, useAppSelector } from '@hooks/redux.ts';
 
 import { classes } from '@utils/classes';
 
-const Header = () => {
+const Header = forwardRef<HTMLElement>((_, ref) => {
   const dispatch = useAppDispatch();
   const location = useLocation();
 
@@ -70,12 +66,15 @@ const Header = () => {
   };
 
   return (
-    <header className="fixed left-0 top-6 z-20 flex h-20 w-full items-center justify-between bg-gradient-to-b from-primaryDarkBlue to-primaryLigthBlue px-2 py-4 text-primaryLigth sm:px-10 md:grid md:grid-cols-3 md:grid-rows-1">
+    <header
+      ref={ref}
+      className="fixed left-0 top-6 z-20 flex w-full items-center justify-between bg-gradient-to-b from-primaryDarkBlue to-primaryLigthBlue px-2 py-4 text-primaryLigth sm:px-10 md:grid md:grid-cols-3 md:grid-rows-1"
+    >
       <Link to="/">
         <img
           className="max-w-20 rounded"
           loading="lazy"
-          src="/logo.jpg"
+          src={logoLink}
           alt="logo"
         />
       </Link>
@@ -145,6 +144,6 @@ const Header = () => {
       </Button>
     </header>
   );
-};
+});
 
 export default Header;

@@ -1,6 +1,6 @@
 import Multilanguage from '@utils/Multilanguage';
 
-function HeaderText() {
+const HeaderText = () => {
   const fullName = Multilanguage({
     ukr: 'Сергій Ікін',
     eng: 'Serhii Ikin',
@@ -24,5 +24,5 @@ function HeaderText() {
     about,
     portfolio,
   };
-}
+};
 export default HeaderText;

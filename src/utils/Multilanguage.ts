@@ -4,43 +4,21 @@ import type { MultilanguageType } from '@modules/MultilanguageType';
 
 import type { RootState } from '../store/store';
 
-const Multilanguage = ({ ukr, eng, dk }: MultilanguageType) => {
+const Multilanguage = (languages: MultilanguageType) => {
   const lang = useSelector((state: RootState) => state.language.language);
-
-  class LanguageItem {
-    ukr: string;
-    eng: string;
-    dk: string;
-
-    constructor(ukr: string, eng: string, dk: string) {
-      this.ukr = ukr;
-      this.eng = eng;
-      this.dk = dk;
-    }
-  }
-
-  if (!eng && !dk) {
-    eng = ukr;
-    dk = ukr;
-  }
-
-  const englishText = eng ? eng : ukr;
-
-  const dkText = dk ? dk : ukr;
-
-  const text = new LanguageItem(ukr, englishText, dkText);
+  if (!languages) return '';
 
   switch (lang) {
     case 'UKR':
-      return text.ukr;
+      return languages.ukr;
 
     case 'ENG':
-      return text.eng;
+      return languages.eng;
 
     case 'DK':
-      return text.dk;
+      return languages.dk;
     default:
-      return text.dk;
+      return languages.dk;
   }
 };
 export default Multilanguage;

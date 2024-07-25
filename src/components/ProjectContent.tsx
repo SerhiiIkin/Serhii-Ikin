@@ -1,11 +1,13 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useContext, useMemo, useState } from 'react';
 import { FaArrowRight, FaEdit, FaRegTrashAlt } from 'react-icons/fa';
+import { useInView } from 'react-intersection-observer';
 import { Link } from 'react-router-dom';
 
 import type { ProjectContentProps } from '@modules/ProjectContentProps';
 
 import Button from '@components/Button';
+import ImageSlider from '@components/ImageSlider';
 import { ProjectContext } from '@components/Layouts/ProjectContext';
 import Notification from '@components/Notification';
 import Title from '@components/Title';
@@ -20,14 +22,24 @@ const ProjectContent = ({
   title,
   description,
 }: ProjectContentProps) => {
-  const { isAdmin, isDescription, classNameProject } =
+  const { isAdmin, isDescription, classNameProject, isMore, isSlider } =
     useContext(ProjectContext);
+
   const linkText = Multilanguage({ ukr: 'Більше', eng: 'More', dk: 'Mere' });
-  const queryClient = useQueryClient();
-  const [textNotification, setTextNotification] = useState('');
-  const srcFirstImage = useMemo(() => images[0].fileUrl, [images]);
   const titleMultilanguage = Multilanguage(title);
   const descriptionMultilanguage = Multilanguage(description);
+
+  const queryClient = useQueryClient();
+
+  const [textNotification, setTextNotification] = useState('');
+
+  const imagesURL = useMemo(
+    () =>
+      images != undefined && images?.length > 0
+        ? images?.map(image => image.fileUrl)
+        : [],
+    [images]
+  );
 
   const removeImages = useMutation({
     mutationFn: async () => {
@@ -66,8 +78,21 @@ const ProjectContent = ({
     removeImages.mutate();
   };
 
+  const [inViewRef, inView] = useInView({
+    threshold: 0.5,
+  });
+
   return (
-    <div  className={classes(['grid gap-2', classNameProject?.content ?? ''])}>
+    <div
+      ref={inViewRef}
+      className={classes([
+        'flex flex-col gap-2',
+        inView
+          ? 'md:translate-x-0 md:opacity-100 md:duration-1000'
+          : 'even:-translate-x-6 md:translate-x-6 md:opacity-0 md:duration-1000 md:motion-reduce:translate-x-0',
+        classNameProject?.content ?? '',
+      ])}
+    >
       <Title
         typeTitle="h3"
         className={classes([
@@ -77,14 +102,12 @@ const ProjectContent = ({
       >
         {titleMultilanguage}
       </Title>
-      <img
-        className={classes([
-          'aspect-video w-full object-cover',
-          classNameProject?.img ?? '',
-        ])}
-        src={srcFirstImage}
-        alt={titleMultilanguage}
+      <ImageSlider
+        images={imagesURL}
+        imageClasses={classNameProject?.img}
+        isSlider={isSlider ?? false}
       />
+
       {isDescription && (
         <p
           className={classes([
@@ -95,23 +118,25 @@ const ProjectContent = ({
           {descriptionMultilanguage}
         </p>
       )}
-      <div className={'flex gap-2 sm:pb-0'}>
-        <Link
-          className={classes([
-            'flex items-center gap-x-2 rounded bg-primaryOrange px-4 py-2 text-primaryLigth last:ml-0',
-            'xl:hover:bg-primaryLigth xl:hover:text-primaryOrange xl:hover:duration-500',
-            classNameProject?.link ?? '',
-          ])}
-          to={`/portfolio/${_id}`}
-        >
-          {linkText} <FaArrowRight />
-        </Link>
+      <div className={'mt-auto flex gap-2 sm:pb-0'}>
+        {isMore && (
+          <Link
+            className={classes([
+              'mr-auto flex items-center gap-x-2 rounded bg-primaryOrange px-4 py-2 text-primaryLigth last:ml-0',
+              'xl:hover:bg-primaryLigth xl:hover:text-primaryOrange xl:hover:duration-500',
+              classNameProject?.link ?? '',
+            ])}
+            to={`/portfolio/${_id}`}
+          >
+            {linkText} <FaArrowRight />
+          </Link>
+        )}
         {isAdmin && (
           <Link
             type="button"
             to={`editProject/${_id}`}
             className={
-              'ml-auto rounded bg-primaryOrange px-4 py-2 text-primaryLigth last:ml-0 xl:hover:bg-primaryLigth xl:hover:text-primaryOrange xl:hover:duration-500'
+              'rounded bg-primaryOrange px-4 py-2 text-primaryLigth last:ml-0 xl:hover:bg-primaryLigth xl:hover:text-primaryOrange xl:hover:duration-500'
             }
           >
             <FaEdit />

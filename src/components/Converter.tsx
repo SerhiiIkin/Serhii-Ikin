@@ -14,7 +14,7 @@ import Select from '@components/Select';
 import Multilanguage from '@utils/Multilanguage';
 
 const Converter = () => {
-  const { isPending, error, data } = useQuery({
+  const { isPending, data, error } = useQuery({
     queryKey: ['valuta'],
     queryFn: () =>
       axios.get(import.meta.env.VITE_BankApi).then(res => res.data),
@@ -26,6 +26,7 @@ const Converter = () => {
   const [selectTwo, setSelectTwo] = useState('1');
   const [isCheckedSelectOne, setIsCheckedSelectOne] = useState(false);
   const [isCheckedSelectTwo, setIsCheckedSelectTwo] = useState(false);
+
 
   const errorMessage = Multilanguage({
     ukr: 'Помилка завантаження даних з банку!',
@@ -109,7 +110,11 @@ const Converter = () => {
 
   return (
     <FetchDataHandlerLayout
-      data={{ data, error: error ? errorMessage : '', isLoading: isPending }}
+      data={{
+        data,
+        error: error?.message ? errorMessage : '',
+        isLoading: isPending,
+      }}
     >
       <div className="inline-grid grid-cols-1 gap-2 pb-4 sm:grid-cols-2 lg:grid-cols-4">
         <Input

@@ -7,7 +7,7 @@ const Input = ({ className, ...rest }: InputProps) => {
     <input
       {...rest}
       className={classes([
-        'border-secondaryGrey rounded border px-4 py-2',
+        'rounded border border-secondaryGrey px-4 py-2',
         className ?? '',
       ])}
     />
