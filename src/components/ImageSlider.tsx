@@ -74,7 +74,7 @@ const ImageSlider = ({
               className={classes([
                 'order-1 max-h-[40dvh] min-w-full object-contain opacity-0 duration-[4s]',
                 index === currentImageIndex
-                  ? 'opacity-1 order-0 duration-[2s]'
+                  ? 'opacity-1 order-0 duration-[4s]'
                   : '',
                 imageClasses ? imageClasses : '',
               ])}

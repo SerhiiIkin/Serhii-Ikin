@@ -1,4 +1,3 @@
-import IndexLayout from '@components/Layouts/IndexLayout';
 import SectionLayout from '@components/Layouts/SectionLayout';
 import Title from '@components/Title';
 
@@ -89,7 +88,7 @@ Min passion for webudvikling er drevet af et konstant ønske om selvforbedring o
   ];
 
   return (
-    <IndexLayout>
+    <>
       <SectionLayout>
         <Title typeTitle="h2"> {resumeTitle} </Title>
         <p> {resumeText} </p>
@@ -118,7 +117,7 @@ Min passion for webudvikling er drevet af et konstant ønske om selvforbedring o
           ))}
         </ul>
       </SectionLayout>
-    </IndexLayout>
+    </>
   );
 };
 

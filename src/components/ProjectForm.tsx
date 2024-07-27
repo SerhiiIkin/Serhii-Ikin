@@ -13,7 +13,13 @@ import SectionLayout from '@components/Layouts/SectionLayout';
 import Notification from '@components/Notification';
 import Textarea from '@components/Textarea';
 
-import axios from '@utils/axios';
+import {
+  createProjectAxios,
+  getSingleProjectOrInitAxios,
+  updateImagesAxios,
+  updateProjectAxios,
+  uploadImagesAxios,
+} from '@utils/axios';
 
 const ProjectForm = () => {
   const queryClient = useQueryClient();
@@ -48,11 +54,11 @@ const ProjectForm = () => {
     data: currentProject,
   } = useQuery({
     queryKey: ['editproject'],
-    queryFn: async () => {
-      return id
-        ? await axios.get(`api/projects/${id}`).then(res => res.data)
-        : initialData;
-    },
+    queryFn: async () =>
+      getSingleProjectOrInitAxios({
+        id: id ?? '',
+        initialData,
+      }),
     initialData: initialData,
   });
 
@@ -60,7 +66,7 @@ const ProjectForm = () => {
 
   const createProjectMutation = useMutation({
     mutationKey: ['project'],
-    mutationFn: async (data: ProjectType) => axios.post('api/projects', data),
+    mutationFn: async (data: ProjectType) => createProjectAxios(data),
     onSuccess: () => {
       resetHandler();
 
@@ -72,14 +78,15 @@ const ProjectForm = () => {
   const updateProjectMutation = useMutation({
     mutationKey: ['project'],
     mutationFn: async (data: ProjectType) =>
-      axios.put(`api/projects/${id}`, data).then(res => res.data),
+      updateProjectAxios({ id: id ?? '', data }),
     onSuccess: data => {
       setData(data);
       setImages(null);
 
       setTextNotification('Проєкт успішно оновленно');
-      // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ['projects', id] });
+      setTimeout(() => {
+        queryClient.invalidateQueries({ queryKey: ['projects', id] });
+      }, 3000);
     },
   });
 
@@ -187,8 +194,8 @@ const ProjectForm = () => {
   const handleImages = async (formData: FormData) => {
     try {
       const response = id
-        ? await axios.post('api/images', formData)
-        : await axios.put('api/images', formData);
+        ? await uploadImagesAxios(formData)
+        : await updateImagesAxios(formData);
       setTextNotification(
         id ? 'Картинки оновленно на сервері' : 'Картинки завантажено на сервер'
       );

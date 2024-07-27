@@ -5,13 +5,13 @@ import { Link } from 'react-router-dom';
 import type { DonutType } from '@modules/DonutType';
 
 import Button from '@components/Button';
+import { DonutContext } from '@components/Context/DonutContext';
 import ImageSlider from '@components/ImageSlider';
-import { DonutContext } from '@components/Layouts/DonutContext';
 import Notification from '@components/Notification';
 import Title from '@components/Title';
 
 import Multilanguage from '@utils/Multilanguage';
-import axios from '@utils/axios';
+import { removeDonutAxios, removeImagesAxios } from '@utils/axios';
 
 const DonutContent = ({ title, description, images, _id, link }: DonutType) => {
   const [textNotification, setTextNotification] = useState('');
@@ -29,29 +29,20 @@ const DonutContent = ({ title, description, images, _id, link }: DonutType) => {
 
   const removeDonutMutation = useMutation({
     mutationKey: ['donate'],
-    mutationFn: async () => {
-      const response = await axios.delete(`api/donut/${_id}`);
-      return { message: response.data.message };
-    },
+    mutationFn: removeDonutAxios,
     onSuccess: (data: { message?: string }) => {
       if (data?.message) {
         setTextNotification(data.message);
       }
       setTimeout(() => {
         queryClient.invalidateQueries({ queryKey: ['donate'] });
-      }, 2000);
+      }, 3000);
     },
     onError: err => setTextNotification(err.message),
   });
 
   const removeImages = useMutation({
-    mutationFn: async () => {
-      const folderName = images[0]?.fileName.split('/')[0];
-      const response = await axios.delete(`api/images`, {
-        data: { folderName },
-      });
-      return response.data;
-    },
+    mutationFn: removeImagesAxios,
     onSuccess: (data: { message?: string }) => {
       if (data?.message) {
         setTextNotification(data.message);
@@ -61,8 +52,9 @@ const DonutContent = ({ title, description, images, _id, link }: DonutType) => {
   });
 
   const removeDonut = () => {
-    removeImages.mutate();
-    removeDonutMutation.mutate();
+    const folderName = images[0]?.fileName.split('/')[0];
+    removeImages.mutate(folderName);
+    removeDonutMutation.mutate({ id: _id ?? '' });
   };
 
   return (
@@ -79,7 +71,7 @@ const DonutContent = ({ title, description, images, _id, link }: DonutType) => {
 
       <ImageSlider images={imagesURL} isSlider />
       {isAdmin && (
-        <div className="flex gap-2">
+        <div className="flex gap-2 pt-4">
           <Link
             className="rounded bg-primaryOrange px-4 py-2 text-primaryLigth last:ml-0 xl:hover:bg-primaryLigth xl:hover:text-primaryOrange xl:hover:duration-500"
             to={`editDonut/${_id}`}

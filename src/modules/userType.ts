@@ -1,13 +1,11 @@
 import type { messageType } from '@modules/messageType';
+import type { tokenType } from '@modules/tokenType';
 
 export type userType = {
   username: string;
   roomId: string;
   messages: messageType[];
-  id?: string;
-  token: {
-    value: string;
-    expiry: number;
-    message: string;
-  };
+  role: string;
+  _id?: string;
+  token: tokenType;
 };

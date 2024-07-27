@@ -12,7 +12,7 @@ const Notification = ({ textNotification }: NotificationProps) => {
 
     setTimeout(() => {
       setIsOpenWindon(false);
-    }, 5000);
+    }, 6000);
   }, [textNotification]);
 
   const closeNotificationWindow = () => {
@@ -20,12 +20,12 @@ const Notification = ({ textNotification }: NotificationProps) => {
   };
 
   return (
-    <div>
+    <>
       {textNotification?.length > 0 && (
         <div
           className={classes([
-            'fixed -right-80 bottom-14 z-50 rounded-xl bg-primaryOrange p-4 transition-all',
-            isOpenWindon ? 'right-8' : "''",
+            'translate-display fixed -right-80 bottom-14 z-50 rounded-xl bg-primaryOrange p-4 opacity-0',
+            isOpenWindon ? 'right-8 opacity-100' : '',
           ])}
         >
           <button
@@ -38,7 +38,7 @@ const Notification = ({ textNotification }: NotificationProps) => {
           <div>{textNotification}</div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

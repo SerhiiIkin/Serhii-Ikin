@@ -1,7 +1,7 @@
-export type TextareaProps = {
+import type { TextareaHTMLAttributes } from 'react';
+
+export interface TextareaProps
+  extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   className?: string;
-  name: string;
-  placeholder: string;
-  value: string;
-  onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
-};
+  stopTyping?: () => void;
+}

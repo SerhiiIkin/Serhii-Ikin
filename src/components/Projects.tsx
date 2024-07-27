@@ -3,21 +3,21 @@ import { useContext, useMemo } from 'react';
 
 import type { ProjectType } from '@modules/ProjectType';
 
+import { ProjectContext } from '@components/Context/ProjectContext';
 import FetchDataHandler from '@components/Layouts/FetchDataHandlerLayout';
-import { ProjectContext } from '@components/Layouts/ProjectContext';
 import SectionLayout from '@components/Layouts/SectionLayout';
 import ProjectContent from '@components/ProjectContent';
 import Title from '@components/Title';
 
 import Multilanguage from '@utils/Multilanguage';
-import axios from '@utils/axios';
+import { getProjects } from '@utils/axios';
 import { classes } from '@utils/classes';
 
 const Projects = () => {
   const { classNameProjects, title, isFavorites } = useContext(ProjectContext);
   const { data, error, isLoading } = useQuery({
     queryKey: ['projects'],
-    queryFn: async () => axios.get('api/projects').then(res => res.data),
+    queryFn: getProjects,
   });
 
   const projects = useMemo(
@@ -40,7 +40,11 @@ const Projects = () => {
         {title}
       </Title>
       <FetchDataHandler
-        data={{ data, error: error?.message ? error.message : '', isLoading }}
+        data={{
+          data,
+          error: error?.message ? error.message : '',
+          isLoading,
+        }}
       >
         <article
           className={classes([

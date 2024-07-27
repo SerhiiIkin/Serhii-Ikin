@@ -1,14 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import languageReducer from './Slices/languageSlice';
-import userSlice from './Slices/userSlice';
-import usersSlice from './Slices/usersSlice';
+import adminSlice from '@store/Slices/adminSlice';
+import languageReducer from '@store/Slices/languageSlice';
+import userSlice from '@store/Slices/userSlice';
+import usersSlice from '@store/Slices/usersSlice';
 
 export const store = configureStore({
   reducer: {
     language: languageReducer,
     user: userSlice,
     users: usersSlice,
+    admin: adminSlice,
   },
 });
 

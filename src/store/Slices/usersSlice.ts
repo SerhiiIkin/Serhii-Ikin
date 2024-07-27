@@ -1,10 +1,9 @@
 import type { messageType } from '@modules/messageType';
 import type { userType } from '@modules/userType';
-import type { usersType } from '@modules/usersType';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState: usersType = {
+const initialState: { users: userType[] } = {
   users: [],
 };
 
@@ -15,6 +14,10 @@ export const usersSlice = createSlice({
     setUser: (state, action: PayloadAction<userType>) => ({
       ...state,
       users: [...state.users, action.payload],
+    }),
+    removeUser: (state, action: PayloadAction<string>) => ({
+      ...state,
+      users: [...state.users.filter(user => user._id !== action.payload)],
     }),
     setUsers: (state, action: PayloadAction<userType[]>) => ({
       ...state,
@@ -36,5 +39,6 @@ export const usersSlice = createSlice({
   },
 });
 
-export const { setUser, updateUserMessages, setUsers } = usersSlice.actions;
+export const { setUser, updateUserMessages, setUsers, removeUser } =
+  usersSlice.actions;
 export default usersSlice.reducer;

@@ -8,11 +8,13 @@ const initialState: userType = {
   username: '',
   roomId: '',
   messages: [],
-  id: '',
+  role: 'user',
+  _id: '',
   token: {
     value: '',
     expiry: 0,
     message: '',
+    role: 'user',
   },
 };
 

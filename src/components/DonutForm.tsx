@@ -12,7 +12,13 @@ import SectionLayout from '@components/Layouts/SectionLayout';
 import Notification from '@components/Notification';
 import Textarea from '@components/Textarea';
 
-import axios from '@utils/axios';
+import {
+  createDonutAxios,
+  getSingleDonutAxios,
+  updateDonutAxios,
+  updateImagesAxios,
+  uploadImagesAxios,
+} from '@utils/axios';
 
 const DonutForm = () => {
   const queryClient = useQueryClient();
@@ -46,11 +52,11 @@ const DonutForm = () => {
     data: currentDonut,
   } = useQuery({
     queryKey: ['editdonut'],
-    queryFn: async () => {
-      return id
-        ? await axios.get(`api/donut/${id}`).then(res => res.data)
-        : initialData;
-    },
+    queryFn: () =>
+      getSingleDonutAxios({
+        id: id ?? '',
+        initialData,
+      }),
     initialData: initialData,
   });
 
@@ -58,7 +64,7 @@ const DonutForm = () => {
 
   const createDonutMutation = useMutation({
     mutationKey: ['donate'],
-    mutationFn: async (data: DonutType) => axios.post('api/donut', data),
+    mutationFn: createDonutAxios,
     onSuccess: () => {
       resetHandler();
 
@@ -69,15 +75,15 @@ const DonutForm = () => {
   });
   const updateDonutMutation = useMutation({
     mutationKey: ['donate'],
-    mutationFn: async (data: DonutType) =>
-      axios.put(`api/donut/${id}`, data).then(res => res.data),
+    mutationFn: updateDonutAxios,
     onSuccess: data => {
       setData(data);
       setImages(null);
 
       setTextNotification('Донат успішно оновленно');
-
-      queryClient.invalidateQueries({ queryKey: ['donate', id] });
+      setTimeout(() => {
+        queryClient.invalidateQueries({ queryKey: ['donate', id] });
+      }, 3000);
     },
   });
 
@@ -85,7 +91,9 @@ const DonutForm = () => {
     event.preventDefault();
 
     if (Array.isArray(data.images) && data.images.length > 0) {
-      id ? updateDonutMutation.mutate(data) : createDonutMutation.mutate(data);
+      id
+        ? updateDonutMutation.mutate({ data, id: id ?? '' })
+        : createDonutMutation.mutate(data);
       setTextNotification('Завантаження  на сервер');
     } else {
       setTextNotification('Забув загрузити картинки на сервер');
@@ -182,9 +190,9 @@ const DonutForm = () => {
 
   const handleImages = async (formData: FormData) => {
     try {
-      const response = id
-        ? await axios.post('api/images', formData)
-        : await axios.put('api/images', formData);
+      const response = await (id
+        ? uploadImagesAxios(formData)
+        : updateImagesAxios(formData));
       setTextNotification(
         id ? 'Картинки оновленно на сервері' : 'Картинки завантажено на сервер'
       );

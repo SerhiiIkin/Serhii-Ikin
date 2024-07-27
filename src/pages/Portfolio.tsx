@@ -1,7 +1,7 @@
 import { ProjectContentValue } from '@variables/ProjectContentValuePortfolio';
 
+import { ProjectContext } from '@components/Context/ProjectContext';
 import IndexLayout from '@components/Layouts/IndexLayout';
-import { ProjectContext } from '@components/Layouts/ProjectContext';
 import Projects from '@components/Projects';
 
 const Portfolio = () => {

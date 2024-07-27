@@ -4,7 +4,8 @@ export default {
   theme: {
     extend: {
       gridTemplateColumns: {
-        'auto-fit': 'repeat(auto-fit, minmax(min(var(--gridMinWidth), 100%), 1fr))',
+        'auto-fit':
+          'repeat(auto-fit, minmax(min(var(--gridMinWidth), 100%), 1fr))',
       },
       colors: {
         primaryGreen: 'rgb(74, 222, 128)',
@@ -19,8 +20,12 @@ export default {
       },
       animation: {
         'lds-spinner': 'lds-spinner 1.2s linear infinite',
+        typing: 'typing 2s ease-in-out infinite',
       },
       keyframes: {
+        typing: {
+          '50%': { opacity: 0 },
+        },
         'lds-spinner': {
           '0%': {
             opacity: 1,

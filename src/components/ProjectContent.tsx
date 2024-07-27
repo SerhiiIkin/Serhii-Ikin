@@ -7,13 +7,13 @@ import { Link } from 'react-router-dom';
 import type { ProjectContentProps } from '@modules/ProjectContentProps';
 
 import Button from '@components/Button';
+import { ProjectContext } from '@components/Context/ProjectContext';
 import ImageSlider from '@components/ImageSlider';
-import { ProjectContext } from '@components/Layouts/ProjectContext';
 import Notification from '@components/Notification';
 import Title from '@components/Title';
 
 import Multilanguage from '@utils/Multilanguage';
-import axios from '@utils/axios';
+import { deleteProjectAxios, removeImagesAxios } from '@utils/axios';
 import { classes } from '@utils/classes';
 
 const ProjectContent = ({
@@ -42,16 +42,13 @@ const ProjectContent = ({
   );
 
   const removeImages = useMutation({
-    mutationFn: async () => {
-      const folderName = images[0]?.fileName.split('/')[0];
-      const response = await axios.delete(`api/images`, {
-        data: { folderName },
-      });
-      return response.data;
-    },
+    mutationFn: async (folderName: string) => removeImagesAxios(folderName),
     onSuccess: (data: { message?: string }) => {
       if (data?.message) {
-        setTextNotification(data.message);
+        setTextNotification('Картинки видалено з серверу');
+        setTimeout(() => {
+          setTextNotification('');
+        }, 2000);
       }
     },
     onError: error => setTextNotification(error.message),
@@ -59,23 +56,24 @@ const ProjectContent = ({
 
   const removeProjectMutation = useMutation({
     mutationKey: ['projects'],
-    mutationFn: async () => {
-      const response = await axios.delete(`api/projects/${_id}`);
-      return { message: response.data.message };
-    },
+    mutationFn: async () => deleteProjectAxios(_id ?? ''),
     onSuccess: (data: { message?: string }) => {
       if (data?.message) {
-        setTextNotification(data.message);
+        setTimeout(() => {
+          setTextNotification('Проєкт успішно видалено');
+        }, 3000);
       }
-      // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ['projects'] });
+      setTimeout(() => {
+        queryClient.invalidateQueries({ queryKey: ['projects'] });
+      }, 6000);
     },
     onError: err => setTextNotification(err.message),
   });
 
   const removeProject = () => {
+    const folderName = images[0]?.fileName.split('/')[0];
     removeProjectMutation.mutate();
-    removeImages.mutate();
+    removeImages.mutate(folderName);
   };
 
   const [inViewRef, inView] = useInView({
@@ -83,73 +81,75 @@ const ProjectContent = ({
   });
 
   return (
-    <div
-      ref={inViewRef}
-      className={classes([
-        'flex flex-col gap-2',
-        inView
-          ? 'md:translate-x-0 md:opacity-100 md:duration-1000'
-          : 'even:-translate-x-6 md:translate-x-6 md:opacity-0 md:duration-1000 md:motion-reduce:translate-x-0',
-        classNameProject?.content ?? '',
-      ])}
-    >
-      <Title
-        typeTitle="h3"
+    <>
+      <div
+        ref={inViewRef}
         className={classes([
-          'capitalize text-primaryDarkBlue',
-          classNameProject?.title ?? '',
+          'flex flex-col gap-2',
+          inView
+            ? 'md:translate-x-0 md:opacity-100 md:duration-1000'
+            : 'even:-translate-x-6 md:translate-x-6 md:opacity-0 md:duration-1000 md:motion-reduce:translate-x-0',
+          classNameProject?.content ?? '',
         ])}
       >
-        {titleMultilanguage}
-      </Title>
-      <ImageSlider
-        images={imagesURL}
-        imageClasses={classNameProject?.img}
-        isSlider={isSlider ?? false}
-      />
-
-      {isDescription && (
-        <p
+        <Title
+          typeTitle="h3"
           className={classes([
-            'text-primaryLigth',
-            classNameProject?.description ?? '',
+            'capitalize text-primaryDarkBlue',
+            classNameProject?.title ?? '',
           ])}
         >
-          {descriptionMultilanguage}
-        </p>
-      )}
-      <div className={'mt-auto flex gap-2 sm:pb-0'}>
-        {isMore && (
-          <Link
+          {titleMultilanguage}
+        </Title>
+        <ImageSlider
+          images={imagesURL}
+          imageClasses={classNameProject?.img}
+          isSlider={isSlider ?? false}
+        />
+
+        {isDescription && (
+          <p
             className={classes([
-              'mr-auto flex items-center gap-x-2 rounded bg-primaryOrange px-4 py-2 text-primaryLigth last:ml-0',
-              'xl:hover:bg-primaryLigth xl:hover:text-primaryOrange xl:hover:duration-500',
-              classNameProject?.link ?? '',
+              'text-primaryLigth',
+              classNameProject?.description ?? '',
             ])}
-            to={`/portfolio/${_id}`}
           >
-            {linkText} <FaArrowRight />
-          </Link>
+            {descriptionMultilanguage}
+          </p>
         )}
-        {isAdmin && (
-          <Link
-            type="button"
-            to={`editProject/${_id}`}
-            className={
-              'rounded bg-primaryOrange px-4 py-2 text-primaryLigth last:ml-0 xl:hover:bg-primaryLigth xl:hover:text-primaryOrange xl:hover:duration-500'
-            }
-          >
-            <FaEdit />
-          </Link>
-        )}
-        {isAdmin && (
-          <Button onClick={removeProject} type="button">
-            <FaRegTrashAlt />
-          </Button>
-        )}
+        <div className={'mt-auto flex gap-2 sm:pb-0'}>
+          {isMore && (
+            <Link
+              className={classes([
+                'mr-auto flex items-center gap-x-2 rounded bg-primaryOrange px-4 py-2 text-primaryLigth last:ml-0',
+                'xl:hover:bg-primaryLigth xl:hover:text-primaryOrange xl:hover:duration-500',
+                classNameProject?.link ?? '',
+              ])}
+              to={`/portfolio/${_id}`}
+            >
+              {linkText} <FaArrowRight />
+            </Link>
+          )}
+          {isAdmin && (
+            <Link
+              type="button"
+              to={`editProject/${_id}`}
+              className={
+                'rounded bg-primaryOrange px-4 py-2 text-primaryLigth last:ml-0 xl:hover:bg-primaryLigth xl:hover:text-primaryOrange xl:hover:duration-500'
+              }
+            >
+              <FaEdit />
+            </Link>
+          )}
+          {isAdmin && (
+            <Button onClick={removeProject} type="button">
+              <FaRegTrashAlt />
+            </Button>
+          )}
+        </div>
       </div>
       <Notification textNotification={textNotification} />
-    </div>
+    </>
   );
 };
 

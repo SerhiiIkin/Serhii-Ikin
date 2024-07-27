@@ -4,10 +4,13 @@ import type { TextareaProps } from '@modules/TextareaProps';
 
 import { classes } from '@utils/classes';
 
-const Textarea = ({ className, ...rest }: TextareaProps) => {
+const Textarea = ({ className, stopTyping, ...rest }: TextareaProps) => {
   const textAriaRef = useRef<HTMLTextAreaElement>(null);
 
   const changeTextArea = () => {
+    if (typeof stopTyping === 'function') {
+      stopTyping();
+    }
     if (textAriaRef.current && textAriaRef.current.scrollHeight > 0) {
       textAriaRef.current.style.height = 0 + 'px';
       const scrollHeight = textAriaRef.current.scrollHeight;
@@ -15,6 +18,7 @@ const Textarea = ({ className, ...rest }: TextareaProps) => {
     }
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => changeTextArea(), [textAriaRef.current?.scrollHeight]);
 
   const focusTextAria = () => changeTextArea();

@@ -1,12 +1,12 @@
 import type { FC, RefObject } from 'react';
-import { Suspense, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 import type { indexLayoutProps } from '@modules/indexLayoutProps';
 
 import Footer from '@components/Footer';
 import Header from '@components/Header';
-import Loader from '@components/Loader';
+import LoginForm from '@components/LoginForm';
 
 import Multilanguage from '@utils/Multilanguage';
 
@@ -33,6 +33,7 @@ const IndexLayout: FC<indexLayoutProps> = ({ children }) => {
       const linkHeight = linkRef?.current?.clientHeight || 0;
       mainRef.current.style.marginTop = `${linkHeight + headerHeight}px`;
       mainRef.current.style.paddingBottom = `${footerHeight}px`;
+      mainRef.current.style.minHeight = `calc(100vh - ${headerHeight}px - ${footerHeight}px)`;
     }
   };
 
@@ -53,20 +54,12 @@ const IndexLayout: FC<indexLayoutProps> = ({ children }) => {
       <Header ref={headerRef} />
       <main
         ref={mainRef}
-        className="min-h-screen bg-gradient-to-b from-primaryLigthBlue to-primaryGreen"
+        className="bg-gradient-to-b from-primaryLigthBlue to-primaryGreen"
       >
-        <Suspense
-          fallback={
-            <Loader
-              size="large"
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-            />
-          }
-        >
-          {children}
-        </Suspense>
+        {children}
       </main>
       <Footer ref={footerRef} />
+      <LoginForm />
     </>
   );
 };
