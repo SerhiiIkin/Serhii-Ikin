@@ -88,15 +88,13 @@ const LoginForm = () => {
   const submitHandler = async (event: FormEvent) => {
     event.preventDefault();
 
-    if (
-      usernameInput.length < 2 ||
-      (!password && usernameInput?.length >= 2) ||
-      (password && usernameInput?.length < 2)
-    )
-      return;
-    if (password)
+    if (usernameInput.length < 2) {
+      setError(errorMessage);
+    } else if (usernameInput.length >= 2) {
+      createUserMutation.mutate(usernameInput);
+    } else if (password) {
       loginAdminMutation.mutate({ username: usernameInput, password });
-    else createUserMutation.mutate(usernameInput);
+    }
   };
 
   const OpenCloseForm = () => {
