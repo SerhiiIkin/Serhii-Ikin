@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 import { useCallback, useEffect, useState } from 'react';
 import type { ChangeEvent, FormEvent } from 'react';
-import { BsSnapchat } from 'react-icons/bs';
 import { FaEye } from 'react-icons/fa';
 import { IoCloseCircleSharp } from 'react-icons/io5';
+import { TbMessage } from 'react-icons/tb';
 import { useNavigate } from 'react-router-dom';
 
 import type { adminDataType } from '@modules/adminDataType';
@@ -87,10 +87,16 @@ const LoginForm = () => {
 
   const submitHandler = async (event: FormEvent) => {
     event.preventDefault();
-    if (usernameInput.length < 2) return setError(errorMessage);
-    !password && usernameInput?.length >= 2
-      ? createUserMutation.mutate(usernameInput)
-      : loginAdminMutation.mutate({ username: usernameInput, password });
+
+    if (
+      usernameInput.length < 2 ||
+      (!password && usernameInput?.length >= 2) ||
+      (password && usernameInput?.length < 2)
+    )
+      return;
+    if (password)
+      loginAdminMutation.mutate({ username: usernameInput, password });
+    else createUserMutation.mutate(usernameInput);
   };
 
   const OpenCloseForm = () => {
@@ -140,20 +146,20 @@ const LoginForm = () => {
     onError: () => setNotification('Error updating token'),
   });
 
-  async function updateToken(localToken: tokenType, currentUser: userType) {
+  const updateToken = async (localToken: tokenType, currentUser: userType) => {
     if (!localToken) return;
 
     if (localToken?.expiry) {
       updateTokenMutatuion.mutate(currentUser?._id ?? '');
     }
-  }
+  };
 
-  function userNameHandler(event: ChangeEvent<HTMLInputElement>) {
+  const userNameHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     if (letters.test(value) || value === '') {
       setUsername(event.target.value);
     }
-  }
+  };
 
   useEffect(() => {
     socketInit();
@@ -164,12 +170,12 @@ const LoginForm = () => {
     <>
       <Notification textNotification={notification} />
       {!isOpenForm && !isOpenChat && token?.role !== 'admin' && (
-        <div
-          className={`fixed bottom-5 right-4 z-20 cursor-pointer rounded bg-blue-400 p-1`}
+        <Button
+          className={`fixed bottom-24 right-4 z-20 rounded-md p-1 sm:bottom-16 md:bottom-12 md:right-6 xl:right-8`}
           onClick={OpenCloseForm}
         >
-          <BsSnapchat />
-        </div>
+          <TbMessage className="h-6 w-6 md:h-8 md:w-8 xl:h-12 xl:w-12" />
+        </Button>
       )}
       {isOpenForm && !user.username && (
         <form
@@ -184,7 +190,7 @@ const LoginForm = () => {
           >
             <IoCloseCircleSharp />
           </Button>
-          <label className="relative pb-4">
+          <label className="relative pb-6">
             <Input
               autoFocus
               value={usernameInput}
@@ -193,7 +199,7 @@ const LoginForm = () => {
               type="text"
               placeholder={placeholderForm}
             />
-            <span className="absolute bottom-0 left-0 text-sm text-red-400">
+            <span className="absolute bottom-1 left-0 text-sm text-secondaryRed">
               {error && errorMessage}
             </span>
           </label>
