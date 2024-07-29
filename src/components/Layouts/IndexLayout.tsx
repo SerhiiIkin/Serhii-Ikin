@@ -31,7 +31,7 @@ const IndexLayout: FC<indexLayoutProps> = ({ children }) => {
       const headerHeight = headerRef.current.clientHeight;
       const footerHeight = footerRef.current.clientHeight;
       const linkHeight = linkRef?.current?.clientHeight || 0;
-      mainRef.current.style.marginTop = `${linkHeight + headerHeight}px`;
+      mainRef.current.style.marginTop = `${linkHeight + headerHeight - 1}px`;
       mainRef.current.style.paddingBottom = `${footerHeight}px`;
       mainRef.current.style.minHeight = `calc(100vh - ${headerHeight}px - ${footerHeight}px)`;
     }
