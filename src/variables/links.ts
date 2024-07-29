@@ -10,8 +10,8 @@ export const Links = () => {
     { children: about, to: '/about' },
     { children: portfolio, to: '/portfolio' },
     {
-      children: isAdmin() && 'Dashboard',
-      to: isAdmin() && '/dashboard',
+      children: isAdmin() ? 'Dashboard' : '',
+      to: isAdmin() ? '/dashboard' : '/',
     },
   ];
 };
