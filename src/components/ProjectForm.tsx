@@ -247,7 +247,7 @@ const ProjectForm = () => {
         <form onSubmit={uploadImages} className="pb-4">
           <input
             ref={inputFileRef}
-            className="mr-2"
+            className="mb-2 mr-2"
             type="file"
             onChange={imageHandler}
             name="images"
@@ -264,7 +264,7 @@ const ProjectForm = () => {
         </form>
         <h3 className="pb-4">Preview images</h3>
         {previewImages.length > 0 && (
-          <div className="flex gap-4 pb-4">
+          <div className="flex flex-wrap gap-4 pb-4">
             {previewImages.map((image, index) => (
               <img key={index} src={image} width={300} height={200} alt={''} />
             ))}

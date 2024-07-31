@@ -14,10 +14,11 @@ import { socket } from '@variables/socket';
 
 import Button from '@components/Button';
 import Input from '@components/Input';
+import Loader from '@components/Loader';
 import Notification from '@components/Notification';
 import UserChat from '@components/UserChat';
 
-import { setUser } from '@store/Slices/userSlice';
+import { resetMessageCount, setUser } from '@store/Slices/userSlice';
 
 import { useAppDispatch, useAppSelector } from '@hooks/redux';
 
@@ -27,6 +28,7 @@ import {
   loginAdminAxios,
   updateTokenAxios,
 } from '@utils/axios';
+import { classes } from '@utils/classes';
 
 const LoginForm = () => {
   const { loginform, placeholderForm, submitForm, errorMessage } =
@@ -45,6 +47,8 @@ const LoginForm = () => {
   const [type, setType] = useState(true);
   const [token, setToken] = useState<tokenType>();
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const [isPending, setIsPending] = useState(false);
   const letters = /^[A-Za-zØøÅåÆæ\s]+$/;
 
   const onRollUpBtnClick = () => {
@@ -63,11 +67,13 @@ const LoginForm = () => {
       const { newUser, message } = data;
       if (message === 'New user created') {
         localStorage.setItem('token', JSON.stringify(newUser.token));
+        setToken(newUser.token);
         setIsOpenChat(true);
         setIsOpenForm(false);
         socket.emit('join_room', newUser);
         dispatch(setUser(newUser));
       }
+      setIsPending(false);
     },
     onError: () => {
       setNotification('Error creating user');
@@ -81,15 +87,21 @@ const LoginForm = () => {
       const { token } = data;
       navigate('/dashboard');
       localStorage.setItem('token', JSON.stringify(token));
+      setIsPending(false);
     },
-    onError: () => setNotification('Error logging in'),
+    onError: () => {
+      setNotification('Error logging in');
+      setIsPending(false);
+    },
   });
 
   const submitHandler = async (event: FormEvent) => {
+    setIsPending(true);
     event.preventDefault();
 
     if (usernameInput.length < 2) {
       setError(errorMessage);
+      setIsPending(false);
     } else if (usernameInput.length >= 2) {
       createUserMutation.mutate(usernameInput);
     } else if (password) {
@@ -99,6 +111,8 @@ const LoginForm = () => {
 
   const OpenCloseForm = () => {
     if (user.username.length >= 2) {
+      socket.emit('get_user', token);
+      dispatch(resetMessageCount());
       if (isFullScreenWindow) {
         setIsFullScreen(true);
       }
@@ -110,12 +124,17 @@ const LoginForm = () => {
 
   const socketInit = useCallback(async () => {
     const localToken: tokenType = JSON.parse(localStorage.getItem('token')!);
-    if (localToken === null) return;
+    if (localToken === null) {
+      setIsLoading(false);
+      return;
+    }
+
     if (
       new Date().getTime() > localToken.expiry &&
       localToken?.role !== 'admin'
     ) {
       localStorage.removeItem('token');
+      setIsLoading(false);
       return;
     }
     setToken(localToken);
@@ -128,6 +147,7 @@ const LoginForm = () => {
       return;
     }
     dispatch(setUser(currentUser));
+    setIsLoading(false);
     await updateToken(localToken, currentUser);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -161,8 +181,14 @@ const LoginForm = () => {
 
   useEffect(() => {
     socketInit();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    socket.on('current_user', (currentUser: userType) => {
+      dispatch(setUser(currentUser));
+    });
+
+    return () => {
+      socket.off('current_user');
+    };
+  }, [dispatch, socketInit]);
 
   return (
     <>
@@ -170,17 +196,30 @@ const LoginForm = () => {
       {!isOpenForm && !isOpenChat && token?.role !== 'admin' && (
         <Button
           aria-label="open chat menu"
-          className={`fixed bottom-24 right-4 z-20 rounded-md p-1 sm:bottom-16 md:bottom-12 md:right-6 xl:right-8`}
+          className={classes([
+            `fixed bottom-24 right-4 z-20 rounded-md p-1 sm:bottom-16 md:bottom-12 md:right-6 xl:right-8`,
+          ])}
           onClick={OpenCloseForm}
         >
+          {user.newMessageCount > 0 && (
+            <div className="absolute -left-6 -top-6 min-h-8 min-w-8 animate-bounce rounded-full bg-primaryDarkBlue p-2 text-sm">
+              {user.newMessageCount}
+            </div>
+          )}
           <TbMessage className="h-6 w-6 md:h-8 md:w-8 xl:h-12 xl:w-12" />
         </Button>
       )}
       {isOpenForm && !user.username && (
         <form
           onSubmit={submitHandler}
-          className="fixed bottom-5 right-4 z-20 flex flex-col rounded bg-white p-2 shadow-sm shadow-slate-500"
+          className={classes([
+            'fixed bottom-5 right-4 z-20 flex flex-col rounded bg-white p-2 shadow-sm shadow-slate-500',
+          ])}
         >
+          {isLoading && (
+            <Loader className="absolute inset-0 z-30 h-full w-full bg-primaryLigth [&_div]:absolute [&_div]:left-1/3 [&_div]:top-1/3" />
+          )}
+
           <h2>{loginform}</h2>
           <Button
             onClick={OpenCloseForm}
@@ -192,9 +231,10 @@ const LoginForm = () => {
           <label className="relative pb-6">
             <Input
               autoFocus
+              disabled={isPending}
               value={usernameInput}
               onChange={userNameHandler}
-              className="p-2 focus-visible:outline-none"
+              className="p-2 focus-visible:outline-none disabled:cursor-not-allowed"
               type="text"
               placeholder={placeholderForm}
             />
@@ -222,9 +262,16 @@ const LoginForm = () => {
           )}
 
           <Button
+            disabled={isPending}
             type="submit"
-            className="rounded bg-blue-400 px-2 py-1 xl:hover:bg-blue-700"
+            className={classes([
+              'relative rounded bg-primaryLigthBlue px-2 py-1 xl:hover:bg-primaryDarkBlue',
+              'disabled:cursor-not-allowed disabled:bg-secondaryRed disabled:text-secondaryGrey disabled:hover:xl:bg-secondaryRed disabled:xl:hover:text-primaryLigth',
+            ])}
           >
+            {isPending && (
+              <Loader size="little" className="absolute -top-5 right-16" />
+            )}
             {submitForm}
           </Button>
         </form>

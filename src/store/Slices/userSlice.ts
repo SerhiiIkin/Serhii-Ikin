@@ -7,7 +7,9 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 const initialState: userType = {
   username: '',
   roomId: '',
+  newMessageCount: 0,
   messages: [],
+
   role: 'user',
   _id: '',
   token: {
@@ -35,8 +37,23 @@ export const userSlice = createSlice({
       ...state,
       messages: [...state.messages, action.payload],
     }),
+
+    setMessageCount: state => ({
+      ...state,
+      newMessageCount: state.newMessageCount + 1,
+    }),
+    resetMessageCount: state => ({
+      ...state,
+      newMessageCount: 0,
+    }),
   },
 });
 
-export const { setUser, setMessages, setToken } = userSlice.actions;
+export const {
+  setUser,
+  setMessages,
+  setToken,
+  setMessageCount,
+  resetMessageCount,
+} = userSlice.actions;
 export default userSlice.reducer;

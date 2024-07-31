@@ -68,7 +68,7 @@ const Header = forwardRef<HTMLElement>((_, ref) => {
   return (
     <header
       ref={ref}
-      className="fixed left-0 top-6 z-20 flex min-h-20 w-full items-center justify-between bg-gradient-to-b from-primaryDarkBlue to-primaryLigthBlue px-2 py-4 text-primaryLigth sm:px-10 md:grid md:grid-cols-3 md:grid-rows-1"
+      className="fixed left-0 top-6 z-50 flex min-h-20 w-full items-center justify-between bg-gradient-to-b from-primaryDarkBlue to-primaryLigthBlue px-2 py-4 text-primaryLigth sm:px-10 md:grid md:grid-cols-3 md:grid-rows-1"
     >
       <Link to="/">
         <img

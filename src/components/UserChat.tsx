@@ -97,8 +97,7 @@ const UserChat = ({
 
   useEffect(() => {
     socket.emit('rejoin_room', user.roomId);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [socket, user.roomId]);
 
   useEffect(() => {
     socket.on('online', () => {
@@ -127,8 +126,8 @@ const UserChat = ({
       socket.off('online');
       socket.off('offline');
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [socket]);
+   
+  }, [dispatch, socket]);
 
   useEffect(() => {
     if (containerRef?.current)
@@ -147,7 +146,7 @@ const UserChat = ({
   return (
     <div
       className={classes([
-        `fixed z-20 flex flex-col rounded bg-white px-4 py-2 shadow shadow-slate-600`,
+        `fixed z-50 flex flex-col rounded bg-white px-4 py-2 shadow shadow-slate-600`,
         resizeClass,
       ])}
     >

@@ -3,12 +3,14 @@ import type { LoaderProps } from '@modules/LoaderProps';
 import { classes } from '@utils/classes';
 
 const Loader = ({ size, className }: LoaderProps) => {
-  const clases =
-    size === 'small'
-      ? 'w-5 h-5 [&_div]:after:top-[22px] [&_div]:after:w-0.5 [&_div]:after:h-3'
-      : size === 'large'
-        ? 'w-10 h-10 [&_div]:after:top-2.5 [&_div]:after:w-1 [&_div]:after:h-5'
-        : 'w-7 h-7 [&_div]:after:top-4 [&_div]:after:w-0.5 [&_div]:after:h-4';
+  const clases = () => {
+    if (size === 'little')
+      return 'w-1 h-1 [&_div]:after:top-[28px] [&_div]:after:w-0.5 [&_div]:after:h-3';
+    if (size === 'small') return 'w-5 h-5';
+    if (size === 'large')
+      return 'w-10 h-10 [&_div]:after:top-2.5 [&_div]:after:w-1 [&_div]:after:h-5';
+    return 'w-7 h-7 [&_div]:after:top-4 [&_div]:after:w-0.5 [&_div]:after:h-4';
+  };
 
   const divsData = [
     {
@@ -67,7 +69,7 @@ const Loader = ({ size, className }: LoaderProps) => {
         'relative mb-10',
         '[&_div]:origin-[40px_40px] [&_div]:animate-lds-spinner',
         "[&_div]:after:absolute [&_div]:after:left-[36.8px] [&_div]:after:animate-lds-spinner [&_div]:after:rounded-2xl [&_div]:after:content-['']",
-        clases,
+        clases(),
         className ?? '',
       ])}
     >

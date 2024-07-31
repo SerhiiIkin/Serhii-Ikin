@@ -16,6 +16,7 @@ const ChatForm = ({
   stopTyping,
   focusTextArea,
   classNameForm,
+  
 }: ChatFormProps) => {
   return (
     <form
@@ -35,7 +36,7 @@ const ChatForm = ({
       />
       <Button
         type="submit"
-        className="absolute bottom-0 right-0 z-10 cursor-pointer bg-transparent p-3 text-primaryOrange xl:hover:bg-transparent xl:hover:text-secondaryRed"
+        className="absolute bottom-0 right-0 z-10 cursor-pointer bg-transparent p-3 text-primaryOrange disabled:cursor-not-allowed xl:hover:bg-transparent xl:hover:text-secondaryRed disabled:xl:text-primaryOrange disabled:xl:hover:bg-transparent"
       >
         <IoIosSend />
       </Button>

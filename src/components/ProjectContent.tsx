@@ -99,7 +99,7 @@ const ProjectContent = ({
         ])}
       >
         <Title
-          typeTitle="h3"
+          typeTitle="h2"
           className={classes([
             'capitalize text-primaryDarkBlue',
             classNameProject?.title ?? '',
@@ -125,6 +125,7 @@ const ProjectContent = ({
         )}
         {isLink && (
           <Link
+            target="_blank"
             to={link}
             className="self-start bg-primaryDarkBlue px-4 py-2 text-primaryLigth xl:hover:bg-primaryLigth xl:hover:text-primaryLigthBlue xl:hover:duration-500"
           >
