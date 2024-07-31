@@ -85,6 +85,7 @@ const ImageSlider = ({
             />
           ))}
           <Button
+            aria-label="next image"
             type="button"
             data-value="btnRigth"
             onClick={onBtnSliderClick}
@@ -97,6 +98,7 @@ const ImageSlider = ({
             <FaArrowAltCircleRight />
           </Button>
           <Button
+            aria-label="previous image"
             type="button"
             data-value="btnLeft"
             onClick={onBtnSliderClick}

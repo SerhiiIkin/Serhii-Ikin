@@ -29,17 +29,21 @@ const IndexLayout: FC<indexLayoutProps> = ({ children }) => {
       footerRef.current
     ) {
       const headerHeight = headerRef.current.clientHeight;
+      console.log('🚀 ~ handleResize ~ headerHeight:', headerHeight);
       const footerHeight = footerRef.current.clientHeight;
       const linkHeight = linkRef?.current?.clientHeight || 0;
+      console.log('🚀 ~ handleResize ~ linkHeight:', linkHeight);
       mainRef.current.style.marginTop = `${linkHeight + headerHeight - 1}px`;
       mainRef.current.style.paddingBottom = `${footerHeight}px`;
-      mainRef.current.style.minHeight = `calc(100vh - ${headerHeight}px - ${footerHeight}px)`;
+      mainRef.current.style.minHeight = `calc(100dvh - ${headerHeight}px - ${footerHeight}px)`;
     }
   };
 
   useEffect(() => {
-    handleResize();
     window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   return (
@@ -54,7 +58,7 @@ const IndexLayout: FC<indexLayoutProps> = ({ children }) => {
       <Header ref={headerRef} />
       <main
         ref={mainRef}
-        className="bg-gradient-to-b from-primaryLigthBlue to-primaryGreen"
+        className="mt-28 bg-gradient-to-b from-primaryLigthBlue to-primaryGreen"
       >
         {children}
       </main>

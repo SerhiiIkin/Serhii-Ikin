@@ -1,12 +1,14 @@
-import { useEffect, useState } from 'react';
+import { lazy, useEffect, useState } from 'react';
 
+import { profileImages } from '@variables/profileImages';
 import { skillsListGoup } from '@variables/skillsList';
 
-import Image from '@components/Image';
 import SectionLayout from '@components/Layouts/SectionLayout';
 import Title from '@components/Title';
 
 import Multilanguage from '@utils/Multilanguage';
+
+const Image = lazy(() => import('@components/Image'));
 
 const Welcome = () => {
   const minLength = 10;
@@ -58,18 +60,18 @@ const Welcome = () => {
         )}
       </Title>
       <Image
-        srcSM="profilePic/profilePic-sm.webp"
-        srcMD="profilePic/profilePic-md.webp"
-        srcXL="profilePic/profilePic.webp"
+        srcSM={profileImages.sm}
+        srcMD={profileImages.md}
+        srcXL={profileImages.xl}
         classNamePicture="relative after:content-[''] after:absolute after:inset-0 after:backdrop-grayscale hover:after:backdrop-grayscale-0 focus-within:after:backdrop-grayscale-0 after:duration-1000"
         classNameImg="rounded-xl shadow-2xl shadow-primaryLigthYellow "
         classNameFigure="flex justify-center md:col-span-3 md:row-start-2 md:col-start-1 xl:col-start-3 xl:row-start-1 "
       />
       {skillsListGoup.map((skill, i) => (
         <ul key={i} className="md:row-start-3">
-          <Title typeTitle="h6" className="text-primaryLigth">
+          <li className="text-md text-primaryLigth md:text-xl xl:text-2xl">
             {skill.title}:
-          </Title>
+          </li>
           {skill.list.map((item, index) => (
             <li
               key={index}

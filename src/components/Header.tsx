@@ -68,13 +68,15 @@ const Header = forwardRef<HTMLElement>((_, ref) => {
   return (
     <header
       ref={ref}
-      className="fixed left-0 top-6 z-20 flex w-full items-center justify-between bg-gradient-to-b from-primaryDarkBlue to-primaryLigthBlue px-2 py-4 text-primaryLigth sm:px-10 md:grid md:grid-cols-3 md:grid-rows-1"
+      className="fixed left-0 top-6 z-20 flex min-h-20 w-full items-center justify-between bg-gradient-to-b from-primaryDarkBlue to-primaryLigthBlue px-2 py-4 text-primaryLigth sm:px-10 md:grid md:grid-cols-3 md:grid-rows-1"
     >
       <Link to="/">
         <img
           className="max-w-20 rounded"
           loading="lazy"
           src={logoLink}
+          width={80}
+          height={80}
           alt="logo"
         />
       </Link>
@@ -108,6 +110,7 @@ const Header = forwardRef<HTMLElement>((_, ref) => {
       <div className="justify-self-end">
         {btnsLanguage().map(btn => (
           <Button
+            aria-label={`Change language to ${btn}`}
             type="button"
             key={btn}
             onClick={onLanguageBtnClick}
@@ -125,6 +128,7 @@ const Header = forwardRef<HTMLElement>((_, ref) => {
 
       <Button
         onClick={onMenuClick}
+        aria-label="Open menu"
         type="button"
         className={classes([
           'relative m-1 block h-8 w-8 bg-transparent md:hidden',

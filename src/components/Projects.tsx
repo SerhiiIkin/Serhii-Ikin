@@ -1,17 +1,19 @@
 import { useQuery } from '@tanstack/react-query';
-import { useContext, useMemo } from 'react';
+import { Suspense, lazy, useContext, useMemo } from 'react';
 
 import type { ProjectType } from '@modules/ProjectType';
 
 import { ProjectContext } from '@components/Context/ProjectContext';
 import FetchDataHandler from '@components/Layouts/FetchDataHandlerLayout';
 import SectionLayout from '@components/Layouts/SectionLayout';
-import ProjectContent from '@components/ProjectContent';
+import Loader from '@components/Loader';
 import Title from '@components/Title';
 
 import Multilanguage from '@utils/Multilanguage';
 import { getProjects } from '@utils/axios';
 import { classes } from '@utils/classes';
+
+const ProjectContent = lazy(() => import('@components/ProjectContent'));
 
 const Projects = () => {
   const { classNameProjects, title, isFavorites } = useContext(ProjectContext);
@@ -54,7 +56,11 @@ const Projects = () => {
         >
           {projects?.length
             ? projects?.map((project: ProjectType) => {
-                return <ProjectContent key={project._id} {...project} />;
+                return (
+                  <Suspense key={project._id} fallback={<Loader />}>
+                    <ProjectContent {...project} />
+                  </Suspense>
+                );
               })
             : favoritesProject}
         </article>

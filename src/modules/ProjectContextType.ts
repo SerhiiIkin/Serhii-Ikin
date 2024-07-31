@@ -7,6 +7,7 @@ export type ProjectContextType = {
   isFavorites?: boolean;
   isMore?: boolean;
   isSlider?: boolean;
+  isLink?: boolean;
 };
 
 type classNameProjectsType = {

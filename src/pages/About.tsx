@@ -91,7 +91,7 @@ Min passion for webudvikling er drevet af et konstant ønske om selvforbedring o
     <>
       <SectionLayout>
         <Title typeTitle="h2"> {resumeTitle} </Title>
-        <p> {resumeText} </p>
+        <p className="text-secondaryDarkGrey"> {resumeText} </p>
       </SectionLayout>
       <SectionLayout>
         <Title typeTitle="h2" className="text-primaryDarkBlue">
@@ -111,7 +111,7 @@ Min passion for webudvikling er drevet af et konstant ønske om selvforbedring o
         </Title>
         <ul className="list-decimal pl-4">
           {worksList.map(w => (
-            <li key={w} className="text-secondaryGrey">
+            <li key={w} className="text-secondaryDarkGrey">
               {w}
             </li>
           ))}

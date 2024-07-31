@@ -169,6 +169,7 @@ const LoginForm = () => {
       <Notification textNotification={notification} />
       {!isOpenForm && !isOpenChat && token?.role !== 'admin' && (
         <Button
+          aria-label="open chat menu"
           className={`fixed bottom-24 right-4 z-20 rounded-md p-1 sm:bottom-16 md:bottom-12 md:right-6 xl:right-8`}
           onClick={OpenCloseForm}
         >

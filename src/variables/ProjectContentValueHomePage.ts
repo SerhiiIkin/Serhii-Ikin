@@ -31,5 +31,6 @@ export const ProjectContentValueHomePage: () => ProjectContextType = () => {
     title: multilanguageTitlte,
     isMore: true,
     isSlider: true,
+    isLink: false,
   };
 };

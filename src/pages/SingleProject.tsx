@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { Suspense, lazy } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { ProjectContentSingleValue } from '@variables/ProjectContentSingleValue';
@@ -6,9 +7,11 @@ import { ProjectContentSingleValue } from '@variables/ProjectContentSingleValue'
 import { ProjectContext } from '@components/Context/ProjectContext';
 import FetchDataHandler from '@components/Layouts/FetchDataHandlerLayout';
 import SectionLayout from '@components/Layouts/SectionLayout';
-import ProjectContent from '@components/ProjectContent';
+import Loader from '@components/Loader';
 
 import { getSingleProjectAxios } from '@utils/axios';
+
+const ProjectContent = lazy(() => import('@components/ProjectContent'));
 
 const SingleProject = () => {
   const { id } = useParams();
@@ -24,7 +27,9 @@ const SingleProject = () => {
         data={{ data, error: error?.message ? error.message : '', isLoading }}
       >
         <ProjectContext.Provider value={ProjectContentSingleValue}>
-          <ProjectContent {...data} />
+          <Suspense fallback={<Loader />}>
+            <ProjectContent {...data} />
+          </Suspense>
         </ProjectContext.Provider>
       </FetchDataHandler>
     </SectionLayout>

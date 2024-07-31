@@ -21,11 +21,17 @@ const ProjectContent = ({
   images,
   title,
   description,
+  link,
 }: ProjectContentProps) => {
-  const { isAdmin, isDescription, classNameProject, isMore, isSlider } =
+  const { isAdmin, isDescription, classNameProject, isMore, isSlider, isLink } =
     useContext(ProjectContext);
 
-  const linkText = Multilanguage({ ukr: 'Більше', eng: 'More', dk: 'Mere' });
+  const moreText = Multilanguage({ ukr: 'Більше', eng: 'More', dk: 'Mere' });
+  const linkText = Multilanguage({
+    ukr: 'Подивитись онлайн / GitHub',
+    eng: 'View online / GitHub',
+    dk: 'Se online / GitHub',
+  });
   const titleMultilanguage = Multilanguage(title);
   const descriptionMultilanguage = Multilanguage(description);
 
@@ -117,6 +123,14 @@ const ProjectContent = ({
             {descriptionMultilanguage}
           </p>
         )}
+        {isLink && (
+          <Link
+            to={link}
+            className="self-start bg-primaryDarkBlue px-4 py-2 text-primaryLigth xl:hover:bg-primaryLigth xl:hover:text-primaryLigthBlue xl:hover:duration-500"
+          >
+            {linkText}
+          </Link>
+        )}
         <div className={'mt-auto flex gap-2 sm:pb-0'}>
           {isMore && (
             <Link
@@ -127,7 +141,7 @@ const ProjectContent = ({
               ])}
               to={`/portfolio/${_id}`}
             >
-              {linkText} <FaArrowRight />
+              {moreText} <FaArrowRight />
             </Link>
           )}
           {isAdmin && (

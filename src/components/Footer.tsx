@@ -11,7 +11,7 @@ const Footer = forwardRef<HTMLElement>((_, ref) => {
       <ul className="flex flex-wrap gap-x-2">
         {footerLinks.map(({ children, href, id, icon }) => (
           <li
-            className="flex items-center gap-x-2 text-primaryOrange xl:hover:text-primaryLigthBlue xl:hover:duration-500"
+            className="flex items-center gap-x-2 text-primaryDark xl:hover:text-primaryOrange xl:hover:duration-500"
             key={id}
           >
             {icon}

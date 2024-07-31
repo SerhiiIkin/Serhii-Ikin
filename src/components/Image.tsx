@@ -1,15 +1,6 @@
-import { classes } from '@utils/classes';
+import type { ImageProps } from '@modules/ImageProps';
 
-type ImageProps = {
-  figcaption?: string;
-  srcSM: string;
-  srcMD: string;
-  srcXL: string;
-  classNameFigure?: string;
-  classNamePicture?: string;
-  classNameImg?: string;
-  classNameFigCaption?: string;
-};
+import { classes } from '@utils/classes';
 
 const Image = ({
   figcaption,
@@ -27,12 +18,25 @@ const Image = ({
         {figcaption}
       </figcaption>
       <picture tabIndex={0} className={classes([classNamePicture ?? ''])}>
-        <source srcSet={srcXL} media="(min-width: 1280px)" />
-        <source srcSet={srcMD} media="(min-width: 640px)" />
+        <source
+          srcSet={srcXL}
+          media="(min-width: 1280px)"
+          width={500}
+          height={756}
+        />
+        <source
+          srcSet={srcMD}
+          media="(min-width: 640px)"
+          width={400}
+          height={605}
+        />
         <img
           className={classes([classNameImg ?? ''])}
           src={srcSM}
           alt="autor photo"
+          loading="lazy"
+          width={300}
+          height={454}
         />
       </picture>
     </figure>

@@ -16,7 +16,9 @@ export default {
         primaryLigth: 'rgb(253, 253, 253,0.9) ',
         primaryDark: 'rgb(5,5,5,0.9) ',
         secondaryGrey: 'rgb(209 213 219)',
+        secondaryDarkGrey: 'rgb(75 85 99)',
         secondaryRed: 'rgb(250,0,0,0.9)',
+        secondaryDarkYellow: 'rgb(250, 204, 21,0.9)',
       },
       animation: {
         'lds-spinner': 'lds-spinner 1.2s linear infinite',

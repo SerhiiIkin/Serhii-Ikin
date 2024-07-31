@@ -11,4 +11,5 @@ export const ProjectContentSingleValue: ProjectContextType = {
     description: 'text-primaryDarkBlue',
     img: 'min-h-[60dvh]',
   },
+  isLink: true,
 };
