@@ -8,7 +8,7 @@ const initialState: userType = {
   roomId: '1',
   messages: [],
   role: 'admin',
-
+  newMessageCount: 0,
   token: {
     value: '',
     expiry: 0,

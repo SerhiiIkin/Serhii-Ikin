@@ -126,7 +126,6 @@ const UserChat = ({
       socket.off('online');
       socket.off('offline');
     };
-   
   }, [dispatch, socket]);
 
   useEffect(() => {
