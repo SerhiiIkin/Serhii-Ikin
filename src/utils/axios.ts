@@ -103,7 +103,7 @@ export const loginAdminAxios = async (data: {
   password: string;
 }) => axiosInstance.post('api/admin', data).then(res => res.data);
 
-export const getUserAxios = async () =>
+export const getUsersAxios = async () =>
   axiosInstance.get('api/user').then(res => res.data);
 
 export const deleteUserAxios = async (id: string) =>

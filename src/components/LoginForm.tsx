@@ -5,6 +5,7 @@ import { FaEye } from 'react-icons/fa';
 import { IoCloseCircleSharp } from 'react-icons/io5';
 import { TbMessage } from 'react-icons/tb';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
 import type { adminDataType } from '@modules/adminDataType';
 import type { tokenType } from '@modules/tokenType';
@@ -15,7 +16,6 @@ import { socket } from '@variables/socket';
 import Button from '@components/Button';
 import Input from '@components/Input';
 import Loader from '@components/Loader';
-import Notification from '@components/Notification';
 import UserChat from '@components/UserChat';
 
 import { resetMessageCount, setUser } from '@store/Slices/userSlice';
@@ -24,7 +24,8 @@ import { useAppDispatch, useAppSelector } from '@hooks/redux';
 
 import {
   createUserAxios,
-  getUserAxios,
+  deleteUserAxios,
+  getUsersAxios,
   loginAdminAxios,
   updateTokenAxios,
 } from '@utils/axios';
@@ -33,7 +34,6 @@ import { classes } from '@utils/classes';
 const LoginForm = () => {
   const { loginform, placeholderForm, submitForm, errorMessage } =
     LoginFormText();
-  const [notification, setNotification] = useState('');
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
   const loginName = import.meta.env.VITE_PUBLIC_MYLOGIN;
@@ -62,6 +62,7 @@ const LoginForm = () => {
   };
 
   const createUserMutation = useMutation({
+    mutationKey: ['users'],
     mutationFn: (usernameInput: string) => createUserAxios(usernameInput),
     onSuccess: data => {
       const { newUser, message } = data;
@@ -76,9 +77,19 @@ const LoginForm = () => {
       setIsPending(false);
     },
     onError: () => {
-      setNotification('Error creating user');
+      toast.error('Error creating user');
       setError('Error creating user');
     },
+  });
+
+  const removeUserMutation = useMutation({
+    mutationKey: ['users'],
+    mutationFn: (_id: string) => deleteUserAxios(_id),
+    onSuccess: () => {
+      localStorage.removeItem('token');
+      setIsLoading(false);
+    },
+    onError: () => toast.error('Error deleting user'),
   });
 
   const loginAdminMutation = useMutation({
@@ -88,9 +99,10 @@ const LoginForm = () => {
       navigate('/dashboard');
       localStorage.setItem('token', JSON.stringify(token));
       setIsPending(false);
+      toast.success('Success logging in');
     },
     onError: () => {
-      setNotification('Error logging in');
+      toast.error('Error logging in');
       setIsPending(false);
     },
   });
@@ -128,27 +140,27 @@ const LoginForm = () => {
       setIsLoading(false);
       return;
     }
+    const users = await getUsersAxios();
+    const currentUser: userType = users?.find(
+      (u: userType) => u.token.value === localToken.value
+    );
 
     if (
       new Date().getTime() > localToken.expiry &&
       localToken?.role !== 'admin'
     ) {
-      localStorage.removeItem('token');
-      setIsLoading(false);
+      removeUserMutation.mutate(currentUser._id ?? '');
       return;
     }
     setToken(localToken);
-    const users = await getUserAxios();
-    const currentUser: userType = users?.find(
-      (u: userType) => u.token.value === localToken.value
-    );
+
     if (!currentUser && localToken?.role !== 'admin') {
       localStorage.removeItem('token');
       return;
     }
     dispatch(setUser(currentUser));
     setIsLoading(false);
-    await updateToken(localToken, currentUser);
+    updateToken(localToken, currentUser);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -161,7 +173,7 @@ const LoginForm = () => {
         localStorage.setItem('token', JSON.stringify(data.updatedUser.token));
       }
     },
-    onError: () => setNotification('Error updating token'),
+    onError: () => toast.error('Error updating token'),
   });
 
   const updateToken = async (localToken: tokenType, currentUser: userType) => {
@@ -192,7 +204,6 @@ const LoginForm = () => {
 
   return (
     <>
-      <Notification textNotification={notification} />
       {!isOpenForm && !isOpenChat && token?.role !== 'admin' && (
         <Button
           aria-label="open chat menu"
@@ -284,6 +295,12 @@ const LoginForm = () => {
           onRollUpBtnClick={onRollUpBtnClick}
         />
       )}
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        closeOnClick
+        pauseOnHover
+      />
     </>
   );
 };

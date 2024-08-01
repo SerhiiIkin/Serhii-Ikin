@@ -3,6 +3,7 @@ import type { ChangeEvent, FormEvent, RefObject } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
 import type { ProjectType } from '@modules/ProjectType';
 
@@ -10,7 +11,6 @@ import Button from '@components/Button';
 import Input from '@components/Input';
 import FetchDataHandler from '@components/Layouts/FetchDataHandlerLayout';
 import SectionLayout from '@components/Layouts/SectionLayout';
-import Notification from '@components/Notification';
 import Textarea from '@components/Textarea';
 
 import {
@@ -28,7 +28,6 @@ const ProjectForm = () => {
 
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [images, setImages] = useState<FileList | null>(null);
-  const [textNotification, setTextNotification] = useState('');
 
   const { id } = useParams();
 
@@ -70,9 +69,12 @@ const ProjectForm = () => {
     onSuccess: () => {
       resetHandler();
 
-      setTextNotification('Проєкт успішно створено');
+      toast.success('Проєкт успішно створено');
 
       queryClient.invalidateQueries({ queryKey: ['projects'] });
+    },
+    onError: () => {
+      toast.error('Помилка при створенні проєкту');
     },
   });
   const updateProjectMutation = useMutation({
@@ -83,10 +85,13 @@ const ProjectForm = () => {
       setData(data);
       setImages(null);
 
-      setTextNotification('Проєкт успішно оновленно');
+      toast.success('Проєкт успішно оновленно');
       setTimeout(() => {
         queryClient.invalidateQueries({ queryKey: ['projects', id] });
       }, 3000);
+    },
+    onError: () => {
+      toast.error('Помилка при оновленні проєкту');
     },
   });
 
@@ -97,9 +102,9 @@ const ProjectForm = () => {
       id
         ? updateProjectMutation.mutate(data)
         : createProjectMutation.mutate(data);
-      setTextNotification('Завантаження  на сервер');
+      toast.info('Завантаження  на сервер');
     } else {
-      setTextNotification('Забув загрузити картинки на сервер');
+      toast.error('Забув загрузити картинки на сервер');
     }
   };
 
@@ -172,7 +177,7 @@ const ProjectForm = () => {
     const formData = new FormData();
 
     if (images?.length === 0) {
-      setTextNotification('Забув загрузити картинки');
+      toast.error('Забув загрузити картинки');
       return;
     }
 
@@ -183,7 +188,7 @@ const ProjectForm = () => {
     }
 
     if (!data.title.eng) {
-      setTextNotification('Забув прописати titleENG');
+      toast.error('Забув прописати titleENG');
       return;
     }
 
@@ -196,7 +201,7 @@ const ProjectForm = () => {
       const response = id
         ? await uploadImagesAxios(formData)
         : await updateImagesAxios(formData);
-      setTextNotification(
+      toast.success(
         id ? 'Картинки оновленно на сервері' : 'Картинки завантажено на сервер'
       );
 
@@ -218,7 +223,7 @@ const ProjectForm = () => {
         message = 'somethink went wrong';
       }
 
-      setTextNotification(message as string);
+      toast.error(message as string);
     }
   };
 
@@ -376,7 +381,12 @@ const ProjectForm = () => {
           </div>
         </form>
       </SectionLayout>
-      <Notification textNotification={textNotification} />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        closeOnClick
+        pauseOnHover
+      />
     </>
   );
 };

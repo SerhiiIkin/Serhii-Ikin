@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { Suspense, lazy, useContext, useMemo } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 
 import type { ProjectType } from '@modules/ProjectType';
 
@@ -37,35 +38,45 @@ const Projects = () => {
   });
 
   return (
-    <SectionLayout className={classes(['', classNameProjects?.section ?? ''])}>
-      <Title typeTitle="h2" className="bg- bg-transparent text-primaryOrange">
-        {title}
-      </Title>
-      <FetchDataHandler
-        data={{
-          data,
-          error: error?.message ? error.message : '',
-          isLoading,
-        }}
+    <>
+      <SectionLayout
+        className={classes(['', classNameProjects?.section ?? ''])}
       >
-        <article
-          className={classes([
-            'grid grid-cols-auto-fit gap-4',
-            classNameProjects?.container ?? '',
-          ])}
+        <Title typeTitle="h2" className="bg- bg-transparent text-primaryOrange">
+          {title}
+        </Title>
+        <FetchDataHandler
+          data={{
+            data,
+            error: error?.message ? error.message : '',
+            isLoading,
+          }}
         >
-          {projects?.length
-            ? projects?.map((project: ProjectType) => {
-                return (
-                  <Suspense key={project._id} fallback={<Loader />}>
-                    <ProjectContent {...project} />
-                  </Suspense>
-                );
-              })
-            : favoritesProject}
-        </article>
-      </FetchDataHandler>
-    </SectionLayout>
+          <article
+            className={classes([
+              'grid grid-cols-auto-fit gap-4',
+              classNameProjects?.container ?? '',
+            ])}
+          >
+            {projects?.length
+              ? projects?.map((project: ProjectType) => {
+                  return (
+                    <Suspense key={project._id} fallback={<Loader />}>
+                      <ProjectContent {...project} toast={toast} />
+                    </Suspense>
+                  );
+                })
+              : favoritesProject}
+          </article>
+        </FetchDataHandler>
+      </SectionLayout>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        closeOnClick
+        pauseOnHover
+      />
+    </>
   );
 };
 

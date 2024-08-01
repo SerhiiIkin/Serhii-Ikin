@@ -8,7 +8,7 @@ export const ErrorBoundary = () => {
 
   return (
     <IndexLayout>
-      <div>{error as string}</div>
+      <div> {error as string} </div>
     </IndexLayout>
   );
 };

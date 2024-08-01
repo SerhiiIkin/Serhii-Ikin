@@ -1,20 +1,19 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useContext, useMemo, useState } from 'react';
+import { useContext, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
 import type { DonutType } from '@modules/DonutType';
 
 import Button from '@components/Button';
 import { DonutContext } from '@components/Context/DonutContext';
 import ImageSlider from '@components/ImageSlider';
-import Notification from '@components/Notification';
 import Title from '@components/Title';
 
 import Multilanguage from '@utils/Multilanguage';
 import { removeDonutAxios, removeImagesAxios } from '@utils/axios';
 
 const DonutContent = ({ title, description, images, _id, link }: DonutType) => {
-  const [textNotification, setTextNotification] = useState('');
   const queryClient = useQueryClient();
   const { isAdmin } = useContext(DonutContext);
   const titleLanguage = Multilanguage(title);
@@ -32,23 +31,23 @@ const DonutContent = ({ title, description, images, _id, link }: DonutType) => {
     mutationFn: removeDonutAxios,
     onSuccess: (data: { message?: string }) => {
       if (data?.message) {
-        setTextNotification(data.message);
+        toast.success(data.message);
       }
       setTimeout(() => {
         queryClient.invalidateQueries({ queryKey: ['donate'] });
       }, 3000);
     },
-    onError: err => setTextNotification(err.message),
+    onError: err => toast.error(err.message),
   });
 
   const removeImages = useMutation({
     mutationFn: removeImagesAxios,
     onSuccess: (data: { message?: string }) => {
       if (data?.message) {
-        setTextNotification(data.message);
+        toast.success(data.message);
       }
     },
-    onError: error => setTextNotification(error.message),
+    onError: error => toast.error(error.message),
   });
 
   const removeDonut = () => {
@@ -81,7 +80,12 @@ const DonutContent = ({ title, description, images, _id, link }: DonutType) => {
           <Button onClick={removeDonut}>Remove</Button>
         </div>
       )}
-      <Notification textNotification={textNotification} />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        closeOnClick
+        pauseOnHover
+      />
     </li>
   );
 };

@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { ChangeEvent, FormEvent, RefObject } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
 import type { DonutType } from '@modules/DonutType';
 
@@ -9,7 +10,6 @@ import Button from '@components/Button';
 import Input from '@components/Input';
 import FetchDataHandler from '@components/Layouts/FetchDataHandlerLayout';
 import SectionLayout from '@components/Layouts/SectionLayout';
-import Notification from '@components/Notification';
 import Textarea from '@components/Textarea';
 
 import {
@@ -27,7 +27,6 @@ const DonutForm = () => {
 
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [images, setImages] = useState<FileList | null>(null);
-  const [textNotification, setTextNotification] = useState('');
 
   const { id } = useParams();
 
@@ -68,9 +67,12 @@ const DonutForm = () => {
     onSuccess: () => {
       resetHandler();
 
-      setTextNotification('Донат успішно створено');
+      toast.success('Донат успішно створено');
 
       queryClient.invalidateQueries({ queryKey: ['donate'] });
+    },
+    onError: () => {
+      toast.error('Помилка при створенні донату');
     },
   });
   const updateDonutMutation = useMutation({
@@ -80,10 +82,13 @@ const DonutForm = () => {
       setData(data);
       setImages(null);
 
-      setTextNotification('Донат успішно оновленно');
+      toast.success('Донат успішно оновленно');
       setTimeout(() => {
         queryClient.invalidateQueries({ queryKey: ['donate', id] });
       }, 3000);
+    },
+    onError: () => {
+      toast.error('Помилка при оновленні донату');
     },
   });
 
@@ -94,9 +99,9 @@ const DonutForm = () => {
       id
         ? updateDonutMutation.mutate({ data, id: id ?? '' })
         : createDonutMutation.mutate(data);
-      setTextNotification('Завантаження  на сервер');
+      toast('Завантаження  на сервер');
     } else {
-      setTextNotification('Забув загрузити картинки на сервер');
+      toast.error('Забув загрузити картинки на сервер');
     }
   };
 
@@ -169,7 +174,7 @@ const DonutForm = () => {
     const formData = new FormData();
 
     if (images?.length === 0) {
-      setTextNotification('Забув загрузити картинки');
+      toast.error('Забув загрузити картинки');
       return;
     }
 
@@ -180,7 +185,7 @@ const DonutForm = () => {
     }
 
     if (!data.title.eng) {
-      setTextNotification('Забув прописати titleENG');
+      toast.error('Забув прописати titleENG');
       return;
     }
 
@@ -193,7 +198,7 @@ const DonutForm = () => {
       const response = await (id
         ? uploadImagesAxios(formData)
         : updateImagesAxios(formData));
-      setTextNotification(
+      toast.success(
         id ? 'Картинки оновленно на сервері' : 'Картинки завантажено на сервер'
       );
 
@@ -215,7 +220,7 @@ const DonutForm = () => {
         message = 'somethink went wrong';
       }
 
-      setTextNotification(message as string);
+      toast.error(message as string);
     }
   };
 
@@ -358,7 +363,12 @@ const DonutForm = () => {
           </div>
         </form>
       </SectionLayout>
-      <Notification textNotification={textNotification} />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        closeOnClick
+        pauseOnHover
+      />
     </>
   );
 };

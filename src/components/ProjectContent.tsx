@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useContext, useMemo, useState } from 'react';
+import { useContext, useMemo } from 'react';
 import { FaArrowRight, FaEdit, FaRegTrashAlt } from 'react-icons/fa';
 import { useInView } from 'react-intersection-observer';
 import { Link } from 'react-router-dom';
@@ -9,7 +9,6 @@ import type { ProjectContentProps } from '@modules/ProjectContentProps';
 import Button from '@components/Button';
 import { ProjectContext } from '@components/Context/ProjectContext';
 import ImageSlider from '@components/ImageSlider';
-import Notification from '@components/Notification';
 import Title from '@components/Title';
 
 import Multilanguage from '@utils/Multilanguage';
@@ -22,6 +21,7 @@ const ProjectContent = ({
   title,
   description,
   link,
+  toast
 }: ProjectContentProps) => {
   const { isAdmin, isDescription, classNameProject, isMore, isSlider, isLink } =
     useContext(ProjectContext);
@@ -37,8 +37,6 @@ const ProjectContent = ({
 
   const queryClient = useQueryClient();
 
-  const [textNotification, setTextNotification] = useState('');
-
   const imagesURL = useMemo(
     () =>
       images != undefined && images?.length > 0
@@ -51,13 +49,10 @@ const ProjectContent = ({
     mutationFn: async (folderName: string) => removeImagesAxios(folderName),
     onSuccess: (data: { message?: string }) => {
       if (data?.message) {
-        setTextNotification('Картинки видалено з серверу');
-        setTimeout(() => {
-          setTextNotification('');
-        }, 2000);
+        toast.success('Картинки видалено з серверу');
       }
     },
-    onError: error => setTextNotification(error.message),
+    onError: error => toast.error(error.message),
   });
 
   const removeProjectMutation = useMutation({
@@ -66,14 +61,14 @@ const ProjectContent = ({
     onSuccess: (data: { message?: string }) => {
       if (data?.message) {
         setTimeout(() => {
-          setTextNotification('Проєкт успішно видалено');
+          toast.success('Проєкт успішно видалено');
         }, 3000);
       }
       setTimeout(() => {
         queryClient.invalidateQueries({ queryKey: ['projects'] });
       }, 6000);
     },
-    onError: err => setTextNotification(err.message),
+    onError: err => toast.error(err.message),
   });
 
   const removeProject = () => {
@@ -163,7 +158,6 @@ const ProjectContent = ({
           )}
         </div>
       </div>
-      <Notification textNotification={textNotification} />
     </>
   );
 };
