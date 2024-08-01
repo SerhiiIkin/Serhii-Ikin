@@ -1,12 +1,12 @@
 import { useMutation } from '@tanstack/react-query';
-import { type MouseEvent, useEffect, useState } from 'react';
+import { type MouseEvent, useContext, useEffect, useState } from 'react';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
 
 import type { userType } from '@modules/userType';
 
 import Button from '@components/Button';
+import { ToastContext } from '@components/Context/ToastContext';
 import Loader from '@components/Loader';
 
 import { setRoomId } from '@store/Slices/adminSlice';
@@ -19,6 +19,7 @@ import { deleteUserAxios } from '@utils/axios';
 
 const SideBar = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const toast = useContext(ToastContext);
 
   const users: userType[] = useAppSelector(
     (state: RootState) => state.users.users
@@ -94,12 +95,6 @@ const SideBar = () => {
             })
           : 'No users'}
       </div>
-      <ToastContainer
-        position="bottom-right"
-        autoClose={5000}
-        closeOnClick
-        pauseOnHover
-      />
     </aside>
   );
 };

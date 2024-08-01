@@ -8,8 +8,4 @@ export type ProjectContentProps = {
   description: MultilanguageType;
   link: string;
   isFavorite: boolean;
-  toast: {
-    success: (message: string) => void;
-    error: (message: string) => void;
-  };
 };

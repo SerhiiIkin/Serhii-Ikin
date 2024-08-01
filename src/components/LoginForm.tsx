@@ -1,11 +1,10 @@
 import { useMutation } from '@tanstack/react-query';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import type { ChangeEvent, FormEvent } from 'react';
 import { FaEye } from 'react-icons/fa';
 import { IoCloseCircleSharp } from 'react-icons/io5';
 import { TbMessage } from 'react-icons/tb';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
 
 import type { adminDataType } from '@modules/adminDataType';
 import type { tokenType } from '@modules/tokenType';
@@ -14,6 +13,7 @@ import { LoginFormText } from '@variables/LoginFormText';
 import { socket } from '@variables/socket';
 
 import Button from '@components/Button';
+import { ToastContext } from '@components/Context/ToastContext';
 import Input from '@components/Input';
 import Loader from '@components/Loader';
 import UserChat from '@components/UserChat';
@@ -38,6 +38,7 @@ const LoginForm = () => {
   const user = useAppSelector(state => state.user);
   const loginName = import.meta.env.VITE_PUBLIC_MYLOGIN;
   const navigate = useNavigate();
+  const toast = useContext(ToastContext);
   const [usernameInput, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isOpenForm, setIsOpenForm] = useState(false);
@@ -295,12 +296,6 @@ const LoginForm = () => {
           onRollUpBtnClick={onRollUpBtnClick}
         />
       )}
-      <ToastContainer
-        position="bottom-right"
-        autoClose={5000}
-        closeOnClick
-        pauseOnHover
-      />
     </>
   );
 };

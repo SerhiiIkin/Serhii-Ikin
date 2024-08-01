@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 import { Suspense, lazy, useContext, useMemo } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
 
 import type { ProjectType } from '@modules/ProjectType';
 
@@ -62,7 +61,7 @@ const Projects = () => {
               ? projects?.map((project: ProjectType) => {
                   return (
                     <Suspense key={project._id} fallback={<Loader />}>
-                      <ProjectContent {...project} toast={toast} />
+                      <ProjectContent {...project} />
                     </Suspense>
                   );
                 })
@@ -70,12 +69,6 @@ const Projects = () => {
           </article>
         </FetchDataHandler>
       </SectionLayout>
-      <ToastContainer
-        position="bottom-right"
-        autoClose={5000}
-        closeOnClick
-        pauseOnHover
-      />
     </>
   );
 };

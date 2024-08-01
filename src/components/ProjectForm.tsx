@@ -1,13 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { ChangeEvent, FormEvent, RefObject } from 'react';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
 
 import type { ProjectType } from '@modules/ProjectType';
 
 import Button from '@components/Button';
+import { ToastContext } from '@components/Context/ToastContext';
 import Input from '@components/Input';
 import FetchDataHandler from '@components/Layouts/FetchDataHandlerLayout';
 import SectionLayout from '@components/Layouts/SectionLayout';
@@ -22,6 +22,7 @@ import {
 } from '@utils/axios';
 
 const ProjectForm = () => {
+  const toast = useContext(ToastContext);
   const queryClient = useQueryClient();
   const inputFileRef: RefObject<HTMLInputElement> =
     useRef<HTMLInputElement>(null);
@@ -381,12 +382,6 @@ const ProjectForm = () => {
           </div>
         </form>
       </SectionLayout>
-      <ToastContainer
-        position="bottom-right"
-        autoClose={5000}
-        closeOnClick
-        pauseOnHover
-      />
     </>
   );
 };

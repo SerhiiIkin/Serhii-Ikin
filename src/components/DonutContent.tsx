@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useContext, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
 
 import type { DonutType } from '@modules/DonutType';
 
 import Button from '@components/Button';
 import { DonutContext } from '@components/Context/DonutContext';
+import { ToastContext } from '@components/Context/ToastContext';
 import ImageSlider from '@components/ImageSlider';
 import Title from '@components/Title';
 
@@ -14,6 +14,7 @@ import Multilanguage from '@utils/Multilanguage';
 import { removeDonutAxios, removeImagesAxios } from '@utils/axios';
 
 const DonutContent = ({ title, description, images, _id, link }: DonutType) => {
+  const toast = useContext(ToastContext);
   const queryClient = useQueryClient();
   const { isAdmin } = useContext(DonutContext);
   const titleLanguage = Multilanguage(title);
@@ -80,12 +81,6 @@ const DonutContent = ({ title, description, images, _id, link }: DonutType) => {
           <Button onClick={removeDonut}>Remove</Button>
         </div>
       )}
-      <ToastContainer
-        position="bottom-right"
-        autoClose={5000}
-        closeOnClick
-        pauseOnHover
-      />
     </li>
   );
 };

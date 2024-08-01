@@ -23,7 +23,6 @@ const ChatDashboard = () => {
   const dispatch = useAppDispatch();
   const socketInit = useCallback(async () => {
     socket.emit('get_users');
-    socket.emit('online');
 
     socket.once('receive_users', (users: userType[]) => {
       if (users.length !== 0) {
@@ -46,6 +45,7 @@ const ChatDashboard = () => {
   }, []);
 
   useEffect(() => {
+    socket.emit('online');
     socket.on('new_user_joined', (user: userType) => {
       const isUser = users.find(u => u.username === user.username);
 
@@ -64,16 +64,11 @@ const ChatDashboard = () => {
       }
     });
 
-    socket.on('leaved_user', (users: userType[]) => {
-      dispatch(setUsers(users));
-    });
-
     socket.on('receive_msg', (messageData: messageType) => {
       dispatch(updateUserMessages(messageData));
     });
 
     return (): void => {
-      socket.off('leaved_user');
       socket.off('receive_users');
       socket.off('new_user_joined');
       socket.off('receive_msg');

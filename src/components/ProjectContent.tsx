@@ -8,6 +8,7 @@ import type { ProjectContentProps } from '@modules/ProjectContentProps';
 
 import Button from '@components/Button';
 import { ProjectContext } from '@components/Context/ProjectContext';
+import { ToastContext } from '@components/Context/ToastContext';
 import ImageSlider from '@components/ImageSlider';
 import Title from '@components/Title';
 
@@ -21,11 +22,10 @@ const ProjectContent = ({
   title,
   description,
   link,
-  toast
 }: ProjectContentProps) => {
   const { isAdmin, isDescription, classNameProject, isMore, isSlider, isLink } =
     useContext(ProjectContext);
-
+  const toast = useContext(ToastContext);
   const moreText = Multilanguage({ ukr: 'Більше', eng: 'More', dk: 'Mere' });
   const linkText = Multilanguage({
     ukr: 'Подивитись онлайн / GitHub',
@@ -60,13 +60,9 @@ const ProjectContent = ({
     mutationFn: async () => deleteProjectAxios(_id ?? ''),
     onSuccess: (data: { message?: string }) => {
       if (data?.message) {
-        setTimeout(() => {
-          toast.success('Проєкт успішно видалено');
-        }, 3000);
+        toast.success('Проєкт успішно видалено');
       }
-      setTimeout(() => {
-        queryClient.invalidateQueries({ queryKey: ['projects'] });
-      }, 6000);
+      queryClient.invalidateQueries({ queryKey: ['projects'] });
     },
     onError: err => toast.error(err.message),
   });

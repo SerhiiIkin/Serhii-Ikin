@@ -13,7 +13,7 @@ import ChatForm from '@components/ChatForm';
 import FourPoints from '@components/FourPoints';
 import MessagesContainer from '@components/MessagesContainer';
 
-import {  setMessages } from '@store/Slices/userSlice';
+import { setMessages } from '@store/Slices/userSlice';
 
 import { useAppDispatch, useAppSelector } from '@hooks/redux';
 
