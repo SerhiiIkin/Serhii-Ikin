@@ -18,25 +18,13 @@ const Image = ({
         {figcaption}
       </figcaption>
       <picture tabIndex={0} className={classes([classNamePicture ?? ''])}>
-        <source
-          srcSet={srcXL}
-          media="(min-width: 1280px)"
-          width={500}
-          height={756}
-        />
-        <source
-          srcSet={srcMD}
-          media="(min-width: 640px)"
-          width={400}
-          height={605}
-        />
+        <source srcSet={srcXL} media="(min-width: 1280px)" />
+        <source srcSet={srcMD} media="(min-width: 640px)" />
         <img
           className={classes([classNameImg ?? ''])}
           src={srcSM}
           alt="autor photo"
           loading="lazy"
-          width={300}
-          height={454}
         />
       </picture>
     </figure>

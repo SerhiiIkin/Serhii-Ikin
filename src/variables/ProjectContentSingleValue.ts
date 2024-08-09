@@ -7,8 +7,8 @@ export const ProjectContentSingleValue: ProjectContextType = {
   isMore: false,
   isSlider: true,
   classNameProject: {
-    title: 'text-primaryOrange text-3xl md:text-4xl xl:text-5xl',
-    description: 'text-primaryDarkBlue',
+    title: ' text-3xl md:text-4xl xl:text-5xl',
+    description: '',
     img: 'md:min-h-[60dvh]',
   },
   isLink: true,

@@ -92,6 +92,11 @@ export const updateDonutAxios = async ({
 export const uploadImagesAxios = async (formData: FormData) =>
   axiosInstance.post('api/images', formData);
 
+export const getImagesAxios = async (folderName: string) =>
+  await axiosInstance
+    .post('api/images/getImages', { folderName })
+    .then(res => res.data);
+
 export const updateImagesAxios = async (formData: FormData) =>
   axiosInstance.put('api/images', formData);
 
@@ -114,4 +119,18 @@ export const updateTokenAxios = async (id: string) =>
     .put(`api/user/token/${id}`, {
       expiry: new Date().getTime() + 24 * 60 * 60 * 1000,
     })
+    .then(res => res.data);
+
+export const updateForsideWelcomeDescription = async (data: {
+  ukr: string;
+  eng: string;
+  dk: string;
+}) =>
+  axiosInstance
+    .put('/api/forside/welcome/description', data)
+    .then(res => res.data);
+
+export const getForsideWelcomeDescription = async () =>
+  await axiosInstance
+    .get('/api/forside/welcome/description')
     .then(res => res.data);

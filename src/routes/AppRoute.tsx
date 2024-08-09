@@ -10,7 +10,7 @@ import IndexLayout from '@components/Layouts/IndexLayout';
 import Loader from '@components/Loader';
 
 const Home = lazy(() => import('@pages/Home'));
-const About = lazy(() => import('@pages/About'));
+const Blog = lazy(() => import('@pages/Blog'));
 const Dashboard = lazy(() => import('@pages/Dashboard'));
 const HelpUkraine = lazy(() => import('@pages/HelpUkraine'));
 const NotFounded = lazy(() => import('@pages/404'));
@@ -20,6 +20,12 @@ const ChatDashboard = lazy(() => import('@components/ChatDashboard'));
 const Donate = lazy(() => import('@components/Donate'));
 const DonutHandler = lazy(() => import('@components/DonutHandler'));
 const ProjectHandler = lazy(() => import('@components/ProjectHandler'));
+const ForsideEditWelcomeDescription = lazy(
+  () => import('@components/ForsideEditWelcomeDescription')
+);
+const ForsideEditWelcomeImage = lazy(
+  () => import('@components/ForsideEditWelcomeImage')
+);
 
 const router = createBrowserRouter([
   {
@@ -36,8 +42,8 @@ const router = createBrowserRouter([
         errorElement: <ErrorBoundary />,
       },
       {
-        path: '/about',
-        element: <About />,
+        path: '/blog',
+        element: <Blog />,
         errorElement: <ErrorBoundary />,
       },
       {
@@ -100,6 +106,16 @@ const router = createBrowserRouter([
           {
             path: '/dashboard/chat/:id',
             element: <ChatDashboard />,
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: '/dashboard/forside/welcome-description',
+            element: <ForsideEditWelcomeDescription />,
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: '/dashboard/forside/welcome-images',
+            element: <ForsideEditWelcomeImage />,
             errorElement: <ErrorBoundary />,
           },
         ],

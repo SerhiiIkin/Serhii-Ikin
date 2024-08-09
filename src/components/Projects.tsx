@@ -22,9 +22,10 @@ const Projects = () => {
     queryFn: getProjects,
   });
 
+
   const projects = useMemo(
     () =>
-      data?.length && isFavorites
+      data?.length > 0 && isFavorites
         ? data?.filter((project: ProjectType) => project.isFavorite)
         : data,
     [data, isFavorites]
@@ -41,7 +42,7 @@ const Projects = () => {
       <SectionLayout
         className={classes(['', classNameProjects?.section ?? ''])}
       >
-        <Title typeTitle="h2" className="bg- bg-transparent text-primaryOrange">
+        <Title typeTitle="h2" className="">
           {title}
         </Title>
         <FetchDataHandler
@@ -53,7 +54,7 @@ const Projects = () => {
         >
           <article
             className={classes([
-              'grid grid-cols-auto-fit gap-4',
+              'grid grid-cols-auto-fit gap-4 md:gap-6 xl:gap-8',
               classNameProjects?.container ?? '',
             ])}
           >

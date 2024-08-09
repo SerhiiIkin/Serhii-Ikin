@@ -1,81 +1,70 @@
-import { lazy, useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { lazy } from 'react';
 
 import { profileImages } from '@variables/profileImages';
 import { skillsListGoup } from '@variables/skillsList';
 
+import FetchDataHandler from '@components/Layouts/FetchDataHandlerLayout';
 import SectionLayout from '@components/Layouts/SectionLayout';
 import Title from '@components/Title';
 
+import { useAppSelector } from '@hooks/redux';
+
 import Multilanguage from '@utils/Multilanguage';
+import { getForsideWelcomeDescription } from '@utils/axios';
 
 const Image = lazy(() => import('@components/Image'));
 
 const Welcome = () => {
-  const minLength = 10;
-  const intervalDuration = 100;
-  const [lengthText, setLengthText] = useState(minLength);
-  let index = lengthText;
+  const { language } = useAppSelector(state => state.language);
 
-  const textAboutMe = Multilanguage({
-    ukr: 'Привіт! Я Сергій Ікін, відданий і пристрасний full-stack розробник з комплексним набором навичок, що охоплює як інтерфейс, так і сервер технології Маючи міцну основу в HTML, CSS/SCSS і JavaScript/TypeScript, я спеціалізуюся на створенні динамічних і адаптивних веб-додатки.',
-    eng: "Hello! I'm Serhii Ikin, a dedicated and passionate full-stack developer with a comprehensive skill set spanning both front-end and back-en technologies. With a strong foundation in HTML, CSS/SCSS, and JavaScript/TypeScript, I specialize in building dynamic and responsiveweb applications.",
-    dk: 'Hej! Jeg er Serhii Ikin, en dedikeret og passioneret fuld stack-udvikler med et omfattende færdighedssæt, der spænder over både front-end og back-en teknologier. Med et stærkt fundament i HTML, CSS/SCSS og JavaScript/TypeScript er jeg specialiseret i at bygge dynamiske og responsive webapplikationer.',
+  const description = useQuery({
+    queryKey: ['forside-welcome-description'],
+    queryFn: getForsideWelcomeDescription,
   });
-
-  useEffect(() => {
-    let timerId: NodeJS.Timeout | null = null;
-    const startTimer = () => {
-      timerId = setInterval(() => {
-        setLengthText(prev => prev + 1);
-        index++;
-        if (index >= textAboutMe.length) {
-          stopTimer();
-        }
-      }, intervalDuration);
-    };
-    const stopTimer = () => {
-      if (timerId) clearInterval(timerId);
-      timerId = null;
-    };
-    startTimer();
-    return () => stopTimer();
-  }, []);
 
   return (
     <SectionLayout
-      className="bg-gradient-to-b from-primaryLigthBlue to-primaryLigthYellow"
-      classNameContainer="grid md:grid-cols-3 h-full gap-2 md:gap-4 xl:gap-6  pt-6"
+      className=""
+      classNameContainer="grid md:grid-cols-3 h-full gap-2 md:gap-4 xl:gap-6  pt-6 md:pt-8 xl:pt-10"
     >
-      <Title
-        typeTitle="h3"
-        className={[
-          'isolate pt-10 text-left backdrop-blur-2xl md:col-span-3 md:row-start-1 xl:col-span-2',
-          'before:absolute before:-left-0 before:-top-4 before:-z-10 before:font-serif before:text-9xl before:font-bold before:text-primaryLigth before:content-[open-quote]',
-        ].join(' ')}
+      <FetchDataHandler
+        data={{
+          data: description.data,
+          error: description.error ? description.error.message : '',
+          isLoading: description.isLoading,
+        }}
       >
-        {textAboutMe.length > lengthText ? (
-          <> {textAboutMe.substring(0, lengthText)} </>
-        ) : (
-          <> {textAboutMe}</>
-        )}
-      </Title>
+        <Title
+          typeTitle="h3"
+          className={[
+            'isolate min-h-[200px] pt-10 text-left text-primaryDark backdrop-blur-2xl',
+            'md:col-span-3 md:row-start-1 md:min-h-0',
+            'xl:col-span-2',
+            'before:absolute before:-left-0 before:-top-4 before:-z-10 before:font-serif before:text-6xl before:font-bold before:content-[open-quote]',
+            language != 'UKR' && 'font-DancingScript',
+          ].join(' ')}
+        >
+          {Multilanguage(description.data)}
+        </Title>
+      </FetchDataHandler>
       <Image
-        srcSM={profileImages.sm}
-        srcMD={profileImages.md}
-        srcXL={profileImages.xl}
-        classNamePicture="relative after:content-[''] after:absolute after:inset-0 after:backdrop-grayscale hover:after:backdrop-grayscale-0 focus-within:after:backdrop-grayscale-0 after:duration-1000"
-        classNameImg="rounded-xl shadow-2xl shadow-primaryLigthYellow "
-        classNameFigure="flex justify-center md:col-span-3 md:row-start-2 md:col-start-1 xl:col-start-3 xl:row-start-1 "
+        srcSM={profileImages().sm}
+        srcMD={profileImages().md}
+        srcXL={profileImages().xl}
+        classNamePicture="relative xl:after:content-[''] xl:after:absolute xl:after:inset-0 xl:after:backdrop-grayscale hover:xl:after:backdrop-grayscale-0 focus-within:xl:after:backdrop-grayscale-0 xl:after:duration-1000"
+        classNameImg="rounded-xl max-h-[40dvh] xl:max-h-[60dvh]"
+        classNameFigure="flex justify-center  md:row-start-1 md:col-start-1 xl:col-start-3 xl:row-start-1 "
       />
       {skillsListGoup.map((skill, i) => (
         <ul key={i} className="md:row-start-3">
-          <li className="text-md text-primaryLigth md:text-xl xl:text-2xl">
+          <li className="text-md text-primaryDarkBlue md:text-xl xl:text-2xl">
             {skill.title}:
           </li>
           {skill.list.map((item, index) => (
             <li
               key={index}
-              className="list-disc pl-4 text-primaryDarkBlue marker:text-primaryLigthBlue"
+              className="list-['*'] pl-4 text-primaryDark marker:text-primaryDarkBlue"
             >
               <b>{item.b}</b> {item.li.join(', ')}
             </li>

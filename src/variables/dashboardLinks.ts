@@ -26,6 +26,19 @@ export const dashboardLinks = [
     ],
   },
   {
+    title: 'Forside',
+    links: [
+      {
+        name: 'Description',
+        to: '/dashboard/forside/welcome-description',
+      },
+      {
+        name: 'Images',
+        to: '/dashboard/forside/welcome-images',
+      },
+    ],
+  },
+  {
     name: 'Chat',
     to: '/dashboard/chat',
   },

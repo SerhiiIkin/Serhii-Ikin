@@ -9,8 +9,8 @@ const NavLink = ({ to, children, className }: NavLinkProps) => {
       to={to}
       className={({ isPending }) =>
         classes([
-          `relative mr-2 text-primaryLigth last:mr-0`,
-          'xl:after:absolute xl:after:bottom-[-2px] xl:after:left-[50%] xl:after:h-[2px] xl:after:w-0 xl:after:bg-gradient-to-r xl:after:from-green-400 xl:after:to-orange-500 xl:after:transition-all xl:after:duration-1000 xl:after:content-[""] xl:hover:text-primaryLigthBlue xl:hover:after:left-0 xl:hover:after:w-full',
+          `relative mr-2 text-primaryLigth last:mr-0 xl:hover:text-primaryOrange`,
+          'xl:after:absolute xl:after:bottom-[-2px] xl:after:left-[50%] xl:after:h-[2px] xl:after:w-0 xl:after:bg-gradient-to-r xl:after:from-primaryLigth xl:after:to-primaryOrange xl:after:transition-all xl:after:duration-1000 xl:after:content-[""] xl:hover:after:left-0 xl:hover:after:w-full',
           className ? (className as string) : '',
           isPending ? 'opacity-50' : '',
         ])

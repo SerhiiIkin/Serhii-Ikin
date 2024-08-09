@@ -8,7 +8,7 @@ const Title = ({ typeTitle, className, children }: TitleProps) => {
       return (
         <h1
           className={classes([
-            'md:text4xl pb-4 text-center text-3xl font-bold text-primaryGreen xl:text-5xl',
+            'md:text4xl pb-4 text-center text-3xl font-bold text-primaryDarkBlue xl:text-5xl',
             className ?? '',
           ])}
         >
@@ -19,7 +19,7 @@ const Title = ({ typeTitle, className, children }: TitleProps) => {
       return (
         <h2
           className={classes([
-            'pb-4 text-center text-2xl font-bold text-primaryGreen md:text-3xl xl:text-4xl',
+            'pb-4 text-center text-2xl font-bold text-primaryDarkBlue md:text-3xl xl:text-4xl',
             className ?? '',
           ])}
         >
@@ -30,7 +30,7 @@ const Title = ({ typeTitle, className, children }: TitleProps) => {
       return (
         <h3
           className={classes([
-            'pb-4 text-center text-xl font-bold text-primaryGreen md:text-2xl xl:text-3xl',
+            'pb-4 text-center text-xl font-bold text-primaryDarkBlue md:text-2xl xl:text-3xl',
             className ?? '',
           ])}
         >
@@ -41,7 +41,7 @@ const Title = ({ typeTitle, className, children }: TitleProps) => {
       return (
         <h4
           className={classes([
-            'pb-4 text-center text-lg font-bold text-primaryGreen md:text-xl xl:text-2xl',
+            'pb-4 text-center text-lg font-bold text-primaryDarkBlue md:text-xl xl:text-2xl',
             className ?? '',
           ])}
         >
@@ -52,7 +52,7 @@ const Title = ({ typeTitle, className, children }: TitleProps) => {
       return (
         <h5
           className={classes([
-            'pb-4 text-center text-lg font-bold text-primaryGreen md:text-xl',
+            'pb-4 text-center text-lg font-bold text-primaryDarkBlue md:text-xl',
             className ?? '',
           ])}
         >
@@ -63,7 +63,7 @@ const Title = ({ typeTitle, className, children }: TitleProps) => {
       return (
         <h6
           className={classes([
-            'pb-4 text-center text-lg font-bold text-primaryGreen',
+            'pb-4 text-center text-lg font-bold text-primaryDarkBlue',
             className ?? '',
           ])}
         >
@@ -75,7 +75,7 @@ const Title = ({ typeTitle, className, children }: TitleProps) => {
       return (
         <h1
           className={classes([
-            'pb-4 text-center text-5xl font-bold text-primaryGreen',
+            'pb-4 text-center text-5xl font-bold text-primaryDarkBlue',
             className ?? '',
           ])}
         >

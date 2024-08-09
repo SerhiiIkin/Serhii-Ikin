@@ -1,9 +1,12 @@
+import { lazy } from 'react';
+
 import { ProjectContentValueHomePage } from '@variables/ProjectContentValueHomePage';
 
 import { ProjectContext } from '@components/Context/ProjectContext';
-import Projects from '@components/Projects';
 import Title from '@components/Title';
 import Welcome from '@components/Welcome';
+
+const Projects = lazy(() => import('@components/Projects'));
 
 const Home = () => {
   return (

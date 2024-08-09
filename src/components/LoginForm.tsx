@@ -115,7 +115,7 @@ const LoginForm = () => {
     if (usernameInput.length < 2) {
       setError(errorMessage);
       setIsPending(false);
-    } else if (usernameInput.length >= 2) {
+    } else if (usernameInput.length >= 2 && !password) {
       createUserMutation.mutate(usernameInput);
     } else if (password) {
       loginAdminMutation.mutate({ username: usernameInput, password });

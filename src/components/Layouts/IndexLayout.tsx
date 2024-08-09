@@ -127,11 +127,12 @@ const IndexLayout: FC<indexLayoutProps> = ({ children }) => {
 
   useEffect(() => {
     isAdmin() &&
-      users.forEach(user => {
+      users?.length > 0 &&
+      users?.forEach(user => {
         socket.emit('join_room', user);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [users]);
+  }, []);
 
   useEffect(() => {
     !isAdmin() && socketInit();
@@ -163,14 +164,14 @@ const IndexLayout: FC<indexLayoutProps> = ({ children }) => {
         <Link
           ref={linkRef}
           to="/HelpUkraine"
-          className="fixed left-0 top-0 z-10 w-full bg-gradient-to-b from-primaryLigthYellow to-primaryDarkBlue text-center text-primaryLigth xl:hover:text-primaryDarkBlue xl:hover:shadow-md xl:hover:shadow-primaryDarkBlue xl:hover:duration-500"
+          className="fixed left-0 top-0 z-10 w-full bg-gradient-to-b from-secondaryDarkYellow to-primaryDarkBlue text-center text-primaryLigth xl:hover:text-primaryOrange xl:hover:shadow-md xl:hover:shadow-primaryDarkBlue xl:hover:duration-500"
         >
           {helpUkraine}
         </Link>
         <Header ref={headerRef} />
         <main
           ref={mainRef}
-          className="mt-32 min-h-dvh bg-gradient-to-b from-primaryLigthBlue to-primaryGreen pb-24 md:pb-6"
+          className="mt-32 min-h-dvh bg-secondaryGrey pb-24 md:pb-6"
         >
           {children}
         </main>

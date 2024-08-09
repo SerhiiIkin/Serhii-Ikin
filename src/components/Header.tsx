@@ -68,11 +68,11 @@ const Header = forwardRef<HTMLElement>((_, ref) => {
   return (
     <header
       ref={ref}
-      className="fixed left-0 top-6 z-50 flex min-h-20 w-full items-center justify-between bg-gradient-to-b from-primaryDarkBlue to-primaryLigthBlue px-2 py-4 text-primaryLigth sm:px-10 md:grid md:grid-cols-3 md:grid-rows-1"
+      className="fixed left-0 top-6 z-50 flex min-h-20 w-full items-center justify-between bg-gradient-to-b from-primaryDarkBlue to-secondaryGrey px-2 py-4 text-primaryLigth sm:px-10 md:grid md:grid-cols-3 md:grid-rows-1"
     >
       <Link to="/">
         <img
-          className="max-w-20 rounded"
+          className="max-h-20 max-w-20 rounded"
           loading="lazy"
           src={logoLink}
           width={80}
@@ -97,11 +97,11 @@ const Header = forwardRef<HTMLElement>((_, ref) => {
             <span
               key={index}
               className={classes([
-                'relative mr-2 text-primaryLigthBlue last:mr-0',
-                'after:absolute after:bottom-[-10px] after:left-0 after:h-[2px] after:w-full after:bg-gradient-to-r after:from-primaryGreen after:to-primaryOrange after:content-[""] after:md:bottom-[-2px]',
+                'relative mr-2 text-primaryOrange last:mr-0',
+                'after:absolute after:bottom-[-10px] after:left-0 after:h-[2px] after:w-full after:bg-gradient-to-r after:from-primaryLigth after:to-primaryOrange after:content-[""] after:md:bottom-[-2px]',
               ])}
             >
-              {children as string}
+              {children}
             </span>
           );
         })}
@@ -117,7 +117,7 @@ const Header = forwardRef<HTMLElement>((_, ref) => {
             data-lang={btn}
             disabled={language === btn}
             className={classes([
-              'mr-2 rounded-2xl bg-transparent p-2 text-primaryLigth last:mr-0 xl:hover:bg-primaryOrange xl:hover:text-primaryLigth xl:hover:duration-500',
+              'mr-2 rounded-2xl bg-transparent p-2 last:mr-0',
               language === btn ? 'bg-primaryOrange' : '',
             ])}
           >

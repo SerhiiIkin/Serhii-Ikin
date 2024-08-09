@@ -7,21 +7,21 @@ const HeaderText = () => {
     dk: 'Serhii Ikin',
   });
   const home = Multilanguage({ ukr: 'Домашня', eng: 'Home', dk: 'Hjem' });
-  const about = Multilanguage({
-    ukr: 'Про мене',
-    eng: 'About me',
-    dk: 'Om mig',
+  const blog = Multilanguage({
+    ukr: 'Блог',
+    eng: 'Blog',
+    dk: 'Blog',
   });
   const portfolio = Multilanguage({
-    ukr: 'Портфоліо',
-    eng: 'Portfolio',
-    dk: 'Portefølje',
+    ukr: 'Проекти',
+    eng: 'Projects',
+    dk: 'Projekter',
   });
 
   return {
     fullName,
     home,
-    about,
+    blog,
     portfolio,
   };
 };

@@ -7,10 +7,12 @@ export default {
         'auto-fit':
           'repeat(auto-fit, minmax(min(var(--gridMinWidth), 100%), 1fr))',
       },
+      fontFamily: {
+        DancingScript: ['Dancing Script'],
+      },
       colors: {
-        primaryGreen: 'rgb(74, 222, 128)',
-        primaryDarkBlue: 'rgb(30, 58, 138)',
-        primaryLigthBlue: '#60a5fa',
+        primaryGreen: 'rgb(18, 105, 37)',
+        primaryDarkBlue: '#0056b3',
         primaryLigthYellow: 'rgb(250, 204, 21)',
         primaryOrange: 'rgb(249, 115, 22)',
         primaryLigth: 'rgb(253, 253, 253,0.9) ',
@@ -18,7 +20,7 @@ export default {
         secondaryGrey: 'rgb(209 213 219)',
         secondaryDarkGrey: 'rgb(75 85 99)',
         secondaryRed: 'rgb(250,0,0,0.9)',
-        secondaryDarkYellow: 'rgb(250, 204, 21,0.9)',
+        secondaryDarkYellow: 'rgb(250, 204, 21)',
       },
       animation: {
         'lds-spinner': 'lds-spinner 1.2s linear infinite',

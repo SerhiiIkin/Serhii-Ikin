@@ -44,6 +44,7 @@ const ImageSlider = ({
   }, [intervalTime, startInterval]);
 
   const onBtnSliderClick = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
     const btn =
       event.target instanceof HTMLButtonElement
         ? (event.target as HTMLButtonElement)

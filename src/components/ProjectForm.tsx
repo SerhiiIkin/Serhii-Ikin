@@ -96,10 +96,16 @@ const ProjectForm = () => {
     },
   });
 
-  const submitHander = (event: FormEvent<HTMLFormElement>) => {
+  const submitHander = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const uploadedFiles = await uploadImages();
+    setData(prevData => ({
+      ...prevData,
+      images: uploadedFiles,
+    }));
+    data.images = uploadedFiles;
 
-    if (Array.isArray(data.images) && data.images.length > 0) {
+    if (uploadedFiles?.length > 0 && data.images.length > 0) {
       id
         ? updateProjectMutation.mutate(data)
         : createProjectMutation.mutate(data);
@@ -173,8 +179,7 @@ const ProjectForm = () => {
     });
   };
 
-  const uploadImages = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const uploadImages = async () => {
     const formData = new FormData();
 
     if (images?.length === 0) {
@@ -194,7 +199,8 @@ const ProjectForm = () => {
     }
 
     formData.append('title', data.title.eng);
-    handleImages(formData);
+    const uploadedFiles = await handleImages(formData);
+    return uploadedFiles;
   };
 
   const handleImages = async (formData: FormData) => {
@@ -210,6 +216,7 @@ const ProjectForm = () => {
         ...prevData,
         images: response.data.uploadedFiles,
       }));
+      return response.data.uploadedFiles;
     } catch (error) {
       console.error(error);
       let message;
@@ -250,7 +257,7 @@ const ProjectForm = () => {
   return (
     <>
       <SectionLayout>
-        <form onSubmit={uploadImages} className="pb-4">
+        <form className="pb-4">
           <input
             ref={inputFileRef}
             className="mb-2 mr-2"
@@ -259,7 +266,9 @@ const ProjectForm = () => {
             name="images"
             multiple
           />
-          <Button type="submit">Upload image</Button>
+          <Button type="button" onClick={uploadImages}>
+            Upload image
+          </Button>
           <Button
             type="reset"
             onClick={resetHandler}
@@ -303,17 +312,16 @@ const ProjectForm = () => {
           <Input
             type="text"
             name="ukr"
-            className=""
+            className="flex-1"
             placeholder="title ukr"
-            value={data?.title?.ukr || ''}
+            value={data?.title?.ukr ?? ''}
             onChange={dataHandler}
           />
-
           <Input
             type="text"
             required
             name="eng"
-            className=""
+            className="flex-1"
             placeholder="title eng"
             value={data?.title?.eng || ''}
             onChange={dataHandler}
@@ -321,7 +329,7 @@ const ProjectForm = () => {
           <Input
             type="text"
             name="dk"
-            className=""
+            className="flex-1"
             placeholder="title dk"
             value={data?.title?.dk || ''}
             onChange={dataHandler}

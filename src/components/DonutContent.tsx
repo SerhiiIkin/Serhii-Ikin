@@ -62,7 +62,7 @@ const DonutContent = ({ title, description, images, _id, link }: DonutType) => {
       <a href={link} target="_blank" className="mb-4">
         <Title
           typeTitle="h2"
-          className="rounded bg-primaryDarkBlue p-2 text-left xl:hover:bg-primaryLigthBlue xl:hover:text-primaryLigth xl:hover:duration-500"
+          className="rounded bg-primaryDarkBlue p-2 text-left text-primaryDark duration-500 xl:hover:bg-primaryOrange xl:hover:text-primaryLigth"
         >
           {titleLanguage}
         </Title>
