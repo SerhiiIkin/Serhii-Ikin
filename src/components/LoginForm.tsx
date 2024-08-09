@@ -277,7 +277,7 @@ const LoginForm = () => {
             disabled={isPending}
             type="submit"
             className={classes([
-              'relative rounded bg-primaryLigthBlue px-2 py-1 xl:hover:bg-primaryDarkBlue',
+              'relative rounded px-2 py-1 xl:hover:bg-primaryDarkBlue',
               'disabled:cursor-not-allowed disabled:bg-secondaryRed disabled:text-secondaryGrey disabled:hover:xl:bg-secondaryRed disabled:xl:hover:text-primaryLigth',
             ])}
           >
