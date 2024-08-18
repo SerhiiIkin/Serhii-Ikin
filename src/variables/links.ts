@@ -1,6 +1,6 @@
-import HeaderText from '@variables/HeaderText';
-
 import { isAdmin } from '@utils/auth';
+
+import HeaderText from '@variables/HeaderText';
 
 export const Links = () => {
   const { home, blog, portfolio } = HeaderText();

@@ -1,39 +1,35 @@
-import { useQuery } from '@tanstack/react-query';
 import { lazy } from 'react';
 
-import { profileImages } from '@variables/profileImages';
-import { skillsListGoup } from '@variables/skillsList';
+import FetchDataHandler from '@layouts/FetchDataHandler';
+import SectionLayout from '@layouts/SectionLayout';
 
-import FetchDataHandler from '@components/Layouts/FetchDataHandlerLayout';
-import SectionLayout from '@components/Layouts/SectionLayout';
+import SkillsSection from '@components/SkillsSection';
 import Title from '@components/Title';
 
 import { useAppSelector } from '@hooks/redux';
+import { useGetImages } from '@hooks/useGetImages';
+import { useSectionTilteDescriptionHook } from '@hooks/useSectionTilteDescriptionHook';
 
-import Multilanguage from '@utils/Multilanguage';
-import { getForsideWelcomeDescription } from '@utils/axios';
+import { folderNames } from '@variables/folderNames';
 
 const Image = lazy(() => import('@components/Image'));
 
 const Welcome = () => {
   const { language } = useAppSelector(state => state.language);
 
-  const description = useQuery({
-    queryKey: ['forside-welcome-description'],
-    queryFn: getForsideWelcomeDescription,
-  });
+  const { description, isLoading, error } =
+    useSectionTilteDescriptionHook('about');
+  const profileImages = useGetImages(folderNames.forsideWelcome);
 
   return (
-    <SectionLayout
-      className=""
-      classNameContainer="grid md:grid-cols-3 h-full gap-2 md:gap-4 xl:gap-6  pt-6 md:pt-8 xl:pt-10"
-    >
+    <SectionLayout classNameContainer="grid md:grid-cols-3 h-full gap-2 md:gap-4 xl:gap-6  pt-6 md:pt-8 xl:pt-10">
       <FetchDataHandler
         data={{
-          data: description.data,
-          error: description.error ? description.error.message : '',
-          isLoading: description.isLoading,
+          data: description,
+          isLoading,
+          error: error?.message ?? '',
         }}
+        containerClassNameSkeleton="md:col-span-3 md:row-start-1 md:min-h-0 xl:col-span-2"
       >
         <Title
           typeTitle="h3"
@@ -45,32 +41,29 @@ const Welcome = () => {
             language != 'UKR' && 'font-DancingScript',
           ].join(' ')}
         >
-          {Multilanguage(description.data)}
+          {description}
         </Title>
       </FetchDataHandler>
-      <Image
-        srcSM={profileImages().sm}
-        srcMD={profileImages().md}
-        srcXL={profileImages().xl}
-        classNamePicture="relative xl:after:content-[''] xl:after:absolute xl:after:inset-0 xl:after:backdrop-grayscale hover:xl:after:backdrop-grayscale-0 focus-within:xl:after:backdrop-grayscale-0 xl:after:duration-1000"
-        classNameImg="rounded-xl max-h-[40dvh] xl:max-h-[60dvh]"
-        classNameFigure="flex justify-center  md:row-start-1 md:col-start-1 xl:col-start-3 xl:row-start-1 "
-      />
-      {skillsListGoup.map((skill, i) => (
-        <ul key={i} className="md:row-start-3">
-          <li className="text-md text-primaryDarkBlue md:text-xl xl:text-2xl">
-            {skill.title}:
-          </li>
-          {skill.list.map((item, index) => (
-            <li
-              key={index}
-              className="list-['*'] pl-4 text-primaryDark marker:text-primaryDarkBlue"
-            >
-              <b>{item.b}</b> {item.li.join(', ')}
-            </li>
-          ))}
-        </ul>
-      ))}
+
+      <FetchDataHandler
+        data={{
+          data: profileImages.images.sm,
+          isLoading: profileImages.isLoading,
+          error: profileImages.error?.message ?? '',
+        }}
+        containerClassNameSkeleton="md:row-start-1 md:col-start-1 xl:col-start-3 xl:row-start-1"
+        SkeletonCount={15}
+      >
+        <Image
+          srcSM={profileImages.images.sm}
+          srcMD={profileImages.images.md}
+          srcXL={profileImages.images.xl}
+          classNamePicture="relative xl:after:content-[''] xl:after:absolute xl:after:inset-0 xl:after:backdrop-grayscale hover:xl:after:backdrop-grayscale-0 focus-within:xl:after:backdrop-grayscale-0 xl:after:duration-1000"
+          classNameImg="rounded-xl "
+          classNameFigure="flex justify-center  md:row-start-1 md:col-start-1 xl:col-start-3 xl:row-start-1 "
+        />
+      </FetchDataHandler>
+      <SkillsSection isEdit={false} />
     </SectionLayout>
   );
 };

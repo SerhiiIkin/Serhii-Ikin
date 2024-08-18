@@ -2,16 +2,17 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useContext, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
-import type { DonutType } from '@modules/DonutType';
+import { DonutContext } from '@context/DonutContext';
+import { ToastContext } from '@context/ToastContext';
 
 import Button from '@components/Button';
-import { DonutContext } from '@components/Context/DonutContext';
-import { ToastContext } from '@components/Context/ToastContext';
 import ImageSlider from '@components/ImageSlider';
 import Title from '@components/Title';
 
 import Multilanguage from '@utils/Multilanguage';
 import { removeDonutAxios, removeImagesAxios } from '@utils/axios';
+
+import type { DonutType } from '@modules/DonutType';
 
 const DonutContent = ({ title, description, images, _id, link }: DonutType) => {
   const toast = useContext(ToastContext);

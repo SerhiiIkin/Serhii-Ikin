@@ -1,14 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
 
-import type { DonutType } from '@modules/DonutType';
-import { DonutContextValueDashboard } from '@variables/DonutContextValueDashboard';
+import FetchDataHandlerLayout from '@layouts/FetchDataHandler';
+import SectionLayout from '@layouts/SectionLayout';
 
-import { DonutContext } from '@components/Context/DonutContext';
+import { DonutContext } from '@context/DonutContext';
+
 import DonutContent from '@components/DonutContent';
-import FetchDataHandlerLayout from '@components/Layouts/FetchDataHandlerLayout';
-import SectionLayout from '@components/Layouts/SectionLayout';
 
 import { getDonuts } from '@utils/axios';
+
+import { DonutContextValueDashboard } from '@variables/DonutContextValueDashboard';
+
+import type { DonutType } from '@modules/DonutType';
 
 const Donate = () => {
   const { data, error, isLoading } = useQuery({

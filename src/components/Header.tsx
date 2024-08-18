@@ -2,10 +2,6 @@ import type { MouseEvent } from 'react';
 import { forwardRef, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-import { btnsLanguage } from '@variables/btnsLanguage';
-import { Links } from '@variables/links';
-import { logoLink } from '@variables/logoLink';
-
 import Button from '@components/Button';
 import NavLink from '@components/NavLink';
 
@@ -14,6 +10,10 @@ import { dk, eng, ukr } from '@store/Slices/languageSlice';
 import { useAppDispatch, useAppSelector } from '@hooks/redux.ts';
 
 import { classes } from '@utils/classes';
+
+import { btnsLanguage } from '@variables/btnsLanguage';
+import { Links } from '@variables/links';
+import { logoLink } from '@variables/logoLink';
 
 const Header = forwardRef<HTMLElement>((_, ref) => {
   const dispatch = useAppDispatch();
@@ -68,7 +68,7 @@ const Header = forwardRef<HTMLElement>((_, ref) => {
   return (
     <header
       ref={ref}
-      className="fixed left-0 top-6 z-50 flex min-h-20 w-full items-center justify-between bg-gradient-to-b from-primaryDarkBlue to-secondaryGrey px-2 py-4 text-primaryLigth sm:px-10 md:grid md:grid-cols-3 md:grid-rows-1"
+      className="fixed left-0 top-[23px] z-50 flex min-h-20 w-full items-center justify-between bg-gradient-to-b from-primaryDarkBlue to-secondaryGrey px-2 py-4 text-primaryLigth sm:px-10 md:grid md:grid-cols-3 md:grid-rows-1"
     >
       <Link to="/">
         <img

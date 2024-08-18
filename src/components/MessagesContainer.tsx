@@ -1,10 +1,10 @@
 import { forwardRef, useEffect } from 'react';
 import type { MutableRefObject } from 'react';
 
+import Message from '@components/Message';
+
 import type { messageType } from '@modules/messageType';
 import type { userType } from '@modules/userType';
-
-import Message from '@components/Message';
 
 const MessagesContainer = forwardRef<HTMLDivElement, { user: userType }>(
   ({ user }, ref) => {
@@ -17,8 +17,8 @@ const MessagesContainer = forwardRef<HTMLDivElement, { user: userType }>(
 
     return (
       <div ref={ref} className="overflow-y-auto">
-        {user?.messages.map((msg: messageType) => (
-          <Message key={msg.id} msg={msg} />
+        {user?.messages.map((msg: messageType, i) => (
+          <Message key={i} msg={msg} />
         ))}
       </div>
     );

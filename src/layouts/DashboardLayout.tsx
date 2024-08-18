@@ -1,8 +1,9 @@
-import type { DashboardLayoutProps } from '@modules/DashboardLayoutProps';
-import { dashboardLinks } from '@variables/dashboardLinks';
-
 import DropDown from '@components/DropDown';
 import NavLink from '@components/NavLink';
+
+import { dashboardLinks } from '@variables/dashboardLinks';
+
+import type { DashboardLayoutProps } from '@modules/DashboardLayoutProps';
 
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   return (

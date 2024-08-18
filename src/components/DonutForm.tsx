@@ -3,13 +3,13 @@ import type { ChangeEvent, FormEvent, RefObject } from 'react';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import type { DonutType } from '@modules/DonutType';
+import FetchDataHandler from '@layouts/FetchDataHandler';
+import SectionLayout from '@layouts/SectionLayout';
+
+import { ToastContext } from '@context/ToastContext';
 
 import Button from '@components/Button';
-import { ToastContext } from '@components/Context/ToastContext';
 import Input from '@components/Input';
-import FetchDataHandler from '@components/Layouts/FetchDataHandlerLayout';
-import SectionLayout from '@components/Layouts/SectionLayout';
 import Textarea from '@components/Textarea';
 
 import {
@@ -19,6 +19,8 @@ import {
   updateImagesAxios,
   uploadImagesAxios,
 } from '@utils/axios';
+
+import type { DonutType } from '@modules/DonutType';
 
 const DonutForm = () => {
   const toast = useContext(ToastContext);

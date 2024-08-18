@@ -29,14 +29,27 @@ export const dashboardLinks = [
     title: 'Forside',
     links: [
       {
-        name: 'Description',
-        to: '/dashboard/forside/welcome-description',
-      },
-      {
         name: 'Images',
         to: '/dashboard/forside/welcome-images',
       },
+      {
+        name: 'Skills',
+        to: '/dashboard/forside/welcome-skills',
+      },
     ],
+  },
+  {
+    title: 'Blog',
+    links: [
+      {
+        name: 'Work',
+        to: '/dashboard/blog/work',
+      },
+    ],
+  },
+  {
+    name: 'Section Title Description',
+    to: '/dashboard/section-title-description',
   },
   {
     name: 'Chat',

@@ -1,7 +1,11 @@
+import axios from 'axios';
+
 import type { DonutType } from '@modules/DonutType';
+import type { JobType } from '@modules/JobType';
 import type { ProjectType } from '@modules/ProjectType';
 import type { messageType } from '@modules/messageType';
-import axios from 'axios';
+import type { skillsListGroupType } from '@modules/skillsListGroupType';
+import type { SectionTitleDesciptionType } from '@modules/textType';
 
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_PUBLIC_SERVER,
@@ -94,7 +98,7 @@ export const uploadImagesAxios = async (formData: FormData) =>
 
 export const getImagesAxios = async (folderName: string) =>
   await axiosInstance
-    .post('api/images/getImages', { folderName })
+    .get('api/images/getImages', { params: { id: folderName } })
     .then(res => res.data);
 
 export const updateImagesAxios = async (formData: FormData) =>
@@ -134,3 +138,42 @@ export const getForsideWelcomeDescription = async () =>
   await axiosInstance
     .get('/api/forside/welcome/description')
     .then(res => res.data);
+
+export const createSkillAxios = async (data: skillsListGroupType) =>
+  axiosInstance.post('api/forside/welcome/skill', data);
+
+export const getSkillsAxios = async () =>
+  await axiosInstance.get('/api/forside/welcome/skill').then(res => res.data);
+
+export const updageSkillAxios = async (data: skillsListGroupType) => {
+  return axiosInstance
+    .put(`/api/forside/welcome/skill/`, data)
+    .then(res => res.data);
+};
+
+export const createSectionTitleTextAxios = async (
+  data: SectionTitleDesciptionType
+) => axiosInstance.post('/api/sectionTitleText', data).then(res => res.data);
+
+export const getAllSectionTitleDescription = async () =>
+  await axiosInstance.get('/api/sectionTitleText').then(res => res.data);
+
+export const getSectionTitleDescription = async (key: string) =>
+  await axiosInstance.get(`/api/sectionTitleText/${key}`).then(res => res.data);
+
+export const updateSectionTitleTextAxios = async (
+  data: SectionTitleDesciptionType
+) =>
+  await axiosInstance.put(`/api/sectionTitleText`, data).then(res => res.data);
+
+export const createJobAxios = async (data: JobType) =>
+  axiosInstance.post('api/blog/job', data).then(res => res.data);
+
+export const getJobsAxios = async () =>
+  await axiosInstance.get('api/blog/job').then(res => res.data);
+
+export const removeJobAxios = async (id: string) =>
+  await axiosInstance.delete(`api/blog/job/${id}`).then(res => res.data);
+
+export const updateJobAxios = async (data: JobType) =>
+  await axiosInstance.put('api/blog/job', data).then(res => res.data);

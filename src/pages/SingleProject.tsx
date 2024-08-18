@@ -2,14 +2,16 @@ import { useQuery } from '@tanstack/react-query';
 import { Suspense, lazy } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { ProjectContentSingleValue } from '@variables/ProjectContentSingleValue';
+import FetchDataHandler from '@layouts/FetchDataHandler';
+import SectionLayout from '@layouts/SectionLayout';
 
-import { ProjectContext } from '@components/Context/ProjectContext';
-import FetchDataHandler from '@components/Layouts/FetchDataHandlerLayout';
-import SectionLayout from '@components/Layouts/SectionLayout';
+import { ProjectContext } from '@context/ProjectContext';
+
 import Loader from '@components/Loader';
 
 import { getSingleProjectAxios } from '@utils/axios';
+
+import { ProjectContentSingleValue } from '@variables/ProjectContentSingleValue';
 
 const ProjectContent = lazy(() => import('@components/ProjectContent'));
 

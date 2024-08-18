@@ -1,6 +1,6 @@
-import type { TitleProps } from '@modules/TitleProps';
-
 import { classes } from '@utils/classes';
+
+import type { TitleProps } from '@modules/TitleProps';
 
 const Title = ({ typeTitle, className, children }: TitleProps) => {
   switch (typeTitle) {

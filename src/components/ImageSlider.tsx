@@ -2,11 +2,11 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { MouseEvent } from 'react';
 import { FaArrowAltCircleRight } from 'react-icons/fa';
 
-import type { ImageSliderTypes } from '@modules/ImageSliderTypes';
-
 import Button from '@components/Button';
 
 import { classes } from '@utils/classes';
+
+import type { ImageSliderTypes } from '@modules/ImageSliderTypes';
 
 const ImageSlider = ({
   images,

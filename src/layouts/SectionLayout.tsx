@@ -1,6 +1,6 @@
-import type { SectionLayoutProps } from '@modules/SectionLayoutProps';
-
 import { classes } from '@utils/classes';
+
+import type { SectionLayoutProps } from '@modules/SectionLayoutProps';
 
 const SectionLayout = ({
   children,

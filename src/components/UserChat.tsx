@@ -3,10 +3,6 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import type { FormEvent, KeyboardEvent } from 'react';
 import { MdAspectRatio } from 'react-icons/md';
 
-import type { UserChatProps } from '@modules/UserChatProps';
-import type { messageType } from '@modules/messageType';
-import { userChatText } from '@variables/UserChatText';
-import { userLogoChat } from '@variables/userLogoChat';
 import { v4 as uuidv4 } from 'uuid';
 
 import ChatForm from '@components/ChatForm';
@@ -19,6 +15,12 @@ import { useAppDispatch, useAppSelector } from '@hooks/redux';
 
 import { updateUserMessagesAxios } from '@utils/axios';
 import { classes } from '@utils/classes';
+
+import { userChatText } from '@variables/UserChatText';
+import { userLogoChat } from '@variables/userLogoChat';
+
+import type { UserChatProps } from '@modules/UserChatProps';
+import type { messageType } from '@modules/messageType';
 
 const UserChat = ({
   onRollUpBtnClick,

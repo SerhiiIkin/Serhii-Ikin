@@ -1,6 +1,6 @@
-import type { InputProps } from '@modules/InputProps';
-
 import { classes } from '@utils/classes';
+
+import type { InputProps } from '@modules/InputProps';
 
 const Input = ({ className, ...rest }: InputProps) => {
   return (

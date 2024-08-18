@@ -1,6 +1,6 @@
-import type { LoaderProps } from '@modules/LoaderProps';
-
 import { classes } from '@utils/classes';
+
+import type { LoaderProps } from '@modules/LoaderProps';
 
 const Loader = ({ size, className }: LoaderProps) => {
   const clases = () => {

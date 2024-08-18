@@ -6,14 +6,9 @@ import { IoCloseCircleSharp } from 'react-icons/io5';
 import { TbMessage } from 'react-icons/tb';
 import { useNavigate } from 'react-router-dom';
 
-import type { adminDataType } from '@modules/adminDataType';
-import type { tokenType } from '@modules/tokenType';
-import type { userType } from '@modules/userType';
-import { LoginFormText } from '@variables/LoginFormText';
-import { socket } from '@variables/socket';
+import { ToastContext } from '@context/ToastContext';
 
 import Button from '@components/Button';
-import { ToastContext } from '@components/Context/ToastContext';
 import Input from '@components/Input';
 import Loader from '@components/Loader';
 import UserChat from '@components/UserChat';
@@ -30,6 +25,13 @@ import {
   updateTokenAxios,
 } from '@utils/axios';
 import { classes } from '@utils/classes';
+
+import { LoginFormText } from '@variables/LoginFormText';
+import { socket } from '@variables/socket';
+
+import type { adminDataType } from '@modules/adminDataType';
+import type { tokenType } from '@modules/tokenType';
+import type { userType } from '@modules/userType';
 
 const LoginForm = () => {
   const { loginform, placeholderForm, submitForm, errorMessage } =
@@ -209,7 +211,7 @@ const LoginForm = () => {
         <Button
           aria-label="open chat menu"
           className={classes([
-            `fixed bottom-24 right-4 z-20 rounded-md p-1 sm:bottom-16 md:bottom-12 md:right-6 xl:right-8`,
+            `fixed bottom-32 right-4 z-20 rounded-md p-1 md:bottom-12 md:right-6 xl:right-8`,
           ])}
           onClick={OpenCloseForm}
         >

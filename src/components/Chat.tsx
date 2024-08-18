@@ -3,15 +3,14 @@ import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import type { FormEvent, KeyboardEvent } from 'react';
 import { useParams } from 'react-router-dom';
 
-import type { messageType } from '@modules/messageType';
-import type { userType } from '@modules/userType';
-import { myLogoChat } from '@variables/myLogoChat';
 import { v4 as uuidv4 } from 'uuid';
 
+import SectionLayout from '@layouts/SectionLayout';
+
+import { ChatContext } from '@context/ChatContext';
+
 import ChatForm from '@components/ChatForm';
-import { ChatContext } from '@components/Context/ChatContext';
 import FourPoints from '@components/FourPoints';
-import SectionLayout from '@components/Layouts/SectionLayout';
 import MessagesContainer from '@components/MessagesContainer';
 import Title from '@components/Title';
 
@@ -21,6 +20,12 @@ import type { RootState } from '@store/store';
 import { useAppDispatch, useAppSelector } from '@hooks/redux';
 
 import { updateUserMessagesAxios } from '@utils/axios';
+
+import { myLogoChat } from '@variables/myLogoChat';
+
+import type { ChatContextType } from '@modules/ChatContextType';
+import type { messageType } from '@modules/messageType';
+import type { userType } from '@modules/userType';
 
 const Chat = () => {
   const { id } = useParams();
@@ -33,7 +38,7 @@ const Chat = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isTyping, setIsTyping] = useState(false);
   const [isCurrentUser, setIsCurrentUser] = useState(false);
-  const { socket } = useContext(ChatContext);
+  const { socket } = useContext<ChatContextType>(ChatContext);
 
   const [textarea, setTextarea] = useState('');
 
@@ -114,9 +119,7 @@ const Chat = () => {
       className="col-span-5 sm:row-start-1"
     >
       {currentUser?.username ? (
-        <Title typeTitle="h2" className="text-center text-primaryLigthYellow">
-          Chat with {currentUser.username}
-        </Title>
+        <Title typeTitle="h2">Chat with {currentUser.username}</Title>
       ) : (
         <Title typeTitle="h2" className="text-center">
           Choose user
@@ -135,7 +138,7 @@ const Chat = () => {
       </p>
       {currentUser && (
         <ChatForm
-          classNameForm="fixed container  xl:bottom-7 bottom-20 z-10  w-[calc(100dvw-20px)] sm:w-4/5"
+          classNameForm="fixed container  xl:bottom-9 bottom-20 z-10  w-[calc(100dvw-20px)] sm:w-4/5"
           stopTyping={stopTyping}
           typing={typing}
           onSendMessage={onSendMessage}

@@ -1,12 +1,15 @@
 @import 'react-toastify/dist/ReactToastify.css';
+@import 'react-loading-skeleton/dist/skeleton.css';
 @import url(https://fonts.googleapis.com/css?family=Montserrat:regular,700);
 @import url(https://fonts.googleapis.com/css?family=Dancing+Script:regular,700);
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 @layer reset {
-  html,body {
+  html,
+  body {
     font-family: Montserrat, sans-serif;
+    scroll-behavior: smooth;
   }
 
   :root {

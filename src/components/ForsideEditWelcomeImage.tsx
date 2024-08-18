@@ -1,28 +1,28 @@
-import { useMutation } from '@tanstack/react-query';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useContext, useRef, useState } from 'react';
 import type { ChangeEvent, RefObject } from 'react';
 
+import SectionLayout from '@layouts/SectionLayout';
+
+import { ToastContext } from '@context/ToastContext';
+
 import Button from '@components/Button';
-import { ToastContext } from '@components/Context/ToastContext';
-import SectionLayout from '@components/Layouts/SectionLayout';
 import Title from '@components/Title';
 
 import { getImagesAxios, updateImagesAxios } from '@utils/axios';
+
+import { folderNames } from '@variables/folderNames';
 
 const ForsideEditWelcomeImage = () => {
   const toast = useContext(ToastContext);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [images, setImages] = useState<FileList | null>(null);
-  const [imagesBucket, setImagesBucket] = useState<string[]>([]);
   const inputFileRef: RefObject<HTMLInputElement> =
     useRef<HTMLInputElement>(null);
-  const folderName = 'welcome-images';
 
-  const getImagesWelcomeMutation = useMutation({
-    mutationFn: (folderName: string) => getImagesAxios(folderName),
-    onSuccess: data => {
-      setImagesBucket(data);
-    },
+  const getImagesWelcome = useQuery({
+    queryKey: [folderNames.forsideWelcome],
+    queryFn: () => getImagesAxios(folderNames.forsideWelcome),
   });
 
   const imageHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -68,7 +68,7 @@ const ForsideEditWelcomeImage = () => {
       }
     }
 
-    formData.append('title', folderName);
+    formData.append('title', folderNames.forsideWelcome);
     const uploadedFiles = await handleImages(formData);
     return uploadedFiles;
   };
@@ -104,10 +104,6 @@ const ForsideEditWelcomeImage = () => {
       inputFileRef.current.value = '';
     }
   };
-
-  useEffect(() => {
-    getImagesWelcomeMutation.mutate(folderName);
-  }, [getImagesWelcomeMutation]);
 
   return (
     <SectionLayout>
@@ -158,12 +154,14 @@ const ForsideEditWelcomeImage = () => {
             </tr>
           )}
           <tr>
-            <Title typeTitle="h3"> Bucket images </Title>
+            <td>
+              <Title typeTitle="h3"> Bucket images </Title>
+            </td>
           </tr>
 
-          {imagesBucket.length > 0 && (
+          {getImagesWelcome?.data?.length > 0 && (
             <tr>
-              {imagesBucket.map((image, index) => (
+              {getImagesWelcome.data.map((image: string, index: number) => (
                 <td key={index} className="p-2">
                   <img
                     key={index}

@@ -1,7 +1,8 @@
-import { ProjectContentValue } from '@variables/ProjectContentValueDashboard';
+import { ProjectContext } from '@context/ProjectContext';
 
-import { ProjectContext } from '@components/Context/ProjectContext';
 import Projects from '@components/Projects';
+
+import { ProjectContentValue } from '@variables/ProjectContentValueDashboard';
 
 const Dashboard = () => {
   return (

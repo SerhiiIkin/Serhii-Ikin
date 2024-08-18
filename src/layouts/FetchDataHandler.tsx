@@ -1,14 +1,16 @@
-import type { FetchDataHandlerLayoutProps } from '@modules/FetchDataHandlerLayout';
-
-import Loader from '@components/Loader';
+import Skeleton from 'react-loading-skeleton';
 
 import { classes } from '@utils/classes';
+
+import type { FetchDataHandlerProps } from '@modules/FetchDataHandlerProps';
 
 const FetchDataHandler = ({
   data,
   children,
   className,
-}: FetchDataHandlerLayoutProps) => {
+  SkeletonCount = 5,
+  containerClassNameSkeleton,
+}: FetchDataHandlerProps) => {
   if (data.error) {
     return (
       <div className={classes(['mb-5 text-secondaryRed', className ?? ''])}>
@@ -22,9 +24,10 @@ const FetchDataHandler = ({
 
   if (data.isLoading) {
     return (
-      <div className={classes(['mb-5', className ?? ''])}>
-        <Loader size="medium" />
-      </div>
+      <Skeleton
+        containerClassName={containerClassNameSkeleton}
+        count={SkeletonCount}
+      />
     );
   }
 

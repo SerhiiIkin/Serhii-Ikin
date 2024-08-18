@@ -1,7 +1,8 @@
-import type { messageType } from '@modules/messageType';
-import type { userType } from '@modules/userType';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
+
+import type { messageType } from '@modules/messageType';
+import type { userType } from '@modules/userType';
 
 const initialState: { users: userType[] } = {
   users: [],

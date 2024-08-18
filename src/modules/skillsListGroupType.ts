@@ -1,9 +1,10 @@
 export type skillsListGroupType = {
   title: string;
   list: listDetailsType[];
+  _id?: string;
 };
 
 type listDetailsType = {
-  b: string;
-  li: string[];
+  subtitle: string;
+  skills: string[];
 };

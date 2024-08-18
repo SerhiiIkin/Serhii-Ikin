@@ -1,7 +1,8 @@
-import { ProjectContentValue } from '@variables/ProjectContentValuePortfolio';
+import { ProjectContext } from '@context/ProjectContext';
 
-import { ProjectContext } from '@components/Context/ProjectContext';
 import Projects from '@components/Projects';
+
+import { ProjectContentValue } from '@variables/ProjectContentValuePortfolio';
 
 const Portfolio = () => {
   return (

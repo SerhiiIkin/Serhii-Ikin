@@ -1,6 +1,6 @@
-import type { ProjectContextType } from '@modules/ProjectContextType';
-
 import Multilanguage from '@utils/Multilanguage';
+
+import type { ProjectContextType } from '@modules/ProjectContextType';
 
 export const ProjectContentValueHomePage: () => ProjectContextType = () => {
   const multilanguageTitlte = Multilanguage({

@@ -1,6 +1,6 @@
-import type { ButtonProps } from '@modules/ButtonProps';
-
 import { classes } from '@utils/classes';
+
+import type { ButtonProps } from '@modules/ButtonProps';
 
 const Button = ({ children, className, ...rest }: ButtonProps) => {
   return (

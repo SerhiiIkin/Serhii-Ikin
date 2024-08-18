@@ -1,13 +1,14 @@
 import { lazy } from 'react';
 import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 
+import DashboardLayout from '@layouts/DashboardLayout';
+import IndexLayout from '@layouts/IndexLayout';
+
 import { ErrorBoundary } from '@pages/ErrorBoundary';
 
-import ProtectedRoute from '@routes/ProtectedRoute';
-
-import DashboardLayout from '@components/Layouts/DashboardLayout';
-import IndexLayout from '@components/Layouts/IndexLayout';
 import Loader from '@components/Loader';
+
+import ProtectedRoute from '@routes/ProtectedRoute';
 
 const Home = lazy(() => import('@pages/Home'));
 const Blog = lazy(() => import('@pages/Blog'));
@@ -20,12 +21,15 @@ const ChatDashboard = lazy(() => import('@components/ChatDashboard'));
 const Donate = lazy(() => import('@components/Donate'));
 const DonutHandler = lazy(() => import('@components/DonutHandler'));
 const ProjectHandler = lazy(() => import('@components/ProjectHandler'));
-const ForsideEditWelcomeDescription = lazy(
-  () => import('@components/ForsideEditWelcomeDescription')
-);
 const ForsideEditWelcomeImage = lazy(
   () => import('@components/ForsideEditWelcomeImage')
 );
+const EditForsideSkills = lazy(() => import('@components/EditForsideSkills'));
+const ListSectionTitleText = lazy(
+  () => import('@components/ListSectionTitleText')
+);
+
+const EditBlogWork = lazy(() => import('@components/EditBlogWork'));
 
 const router = createBrowserRouter([
   {
@@ -109,13 +113,24 @@ const router = createBrowserRouter([
             errorElement: <ErrorBoundary />,
           },
           {
-            path: '/dashboard/forside/welcome-description',
-            element: <ForsideEditWelcomeDescription />,
+            path: '/dashboard/forside/welcome-images',
+            element: <ForsideEditWelcomeImage />,
             errorElement: <ErrorBoundary />,
           },
           {
-            path: '/dashboard/forside/welcome-images',
-            element: <ForsideEditWelcomeImage />,
+            path: '/dashboard/forside/welcome-skills',
+            element: <EditForsideSkills />,
+            errorElement: <ErrorBoundary />,
+          },
+
+          {
+            path: '/dashboard/section-title-description',
+            element: <ListSectionTitleText />,
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: '/dashboard/blog/work',
+            element: <EditBlogWork />,
             errorElement: <ErrorBoundary />,
           },
         ],

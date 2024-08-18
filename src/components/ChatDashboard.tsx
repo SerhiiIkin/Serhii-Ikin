@@ -1,11 +1,8 @@
 import { useCallback, useEffect } from 'react';
 
-import type { messageType } from '@modules/messageType';
-import type { userType } from '@modules/userType';
-import { socket } from '@variables/socket';
+import { ChatContext } from '@context/ChatContext';
 
 import Chat from '@components/Chat';
-import { ChatContext } from '@components/Context/ChatContext';
 import SideBar from '@components/SideBar';
 import Title from '@components/Title';
 
@@ -17,6 +14,11 @@ import {
 import type { RootState } from '@store/store';
 
 import { useAppDispatch, useAppSelector } from '@hooks/redux';
+
+import { socket } from '@variables/socket';
+
+import type { messageType } from '@modules/messageType';
+import type { userType } from '@modules/userType';
 
 const ChatDashboard = () => {
   const users = useAppSelector((state: RootState) => state.users.users);

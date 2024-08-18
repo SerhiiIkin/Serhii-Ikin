@@ -4,13 +4,13 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
 
-import type { ProjectType } from '@modules/ProjectType';
+import FetchDataHandler from '@layouts/FetchDataHandler';
+import SectionLayout from '@layouts/SectionLayout';
+
+import { ToastContext } from '@context/ToastContext';
 
 import Button from '@components/Button';
-import { ToastContext } from '@components/Context/ToastContext';
 import Input from '@components/Input';
-import FetchDataHandler from '@components/Layouts/FetchDataHandlerLayout';
-import SectionLayout from '@components/Layouts/SectionLayout';
 import Textarea from '@components/Textarea';
 
 import {
@@ -20,6 +20,8 @@ import {
   updateProjectAxios,
   uploadImagesAxios,
 } from '@utils/axios';
+
+import type { ProjectType } from '@modules/ProjectType';
 
 const ProjectForm = () => {
   const toast = useContext(ToastContext);

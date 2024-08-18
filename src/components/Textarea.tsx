@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
 
-import type { TextareaProps } from '@modules/TextareaProps';
-
 import { classes } from '@utils/classes';
+
+import type { TextareaProps } from '@modules/TextareaProps';
 
 const Textarea = ({ className, stopTyping, ...rest }: TextareaProps) => {
   const textAriaRef = useRef<HTMLTextAreaElement>(null);

@@ -3,10 +3,9 @@ import { type MouseEvent, useContext, useEffect, useState } from 'react';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
-import type { userType } from '@modules/userType';
+import { ToastContext } from '@context/ToastContext';
 
 import Button from '@components/Button';
-import { ToastContext } from '@components/Context/ToastContext';
 import Loader from '@components/Loader';
 
 import { setRoomId } from '@store/Slices/adminSlice';
@@ -16,6 +15,8 @@ import type { RootState } from '@store/store';
 import { useAppDispatch, useAppSelector } from '@hooks/redux';
 
 import { deleteUserAxios } from '@utils/axios';
+
+import type { userType } from '@modules/userType';
 
 const SideBar = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -53,17 +54,17 @@ const SideBar = () => {
         {isLoading && <Loader />}
         {users.length > 0 && !isLoading
           ? users.map((user: userType) => {
-              const { messages, _id, username } = user;
+              const { messages, _id, username, roomId } = user;
               return (
                 <Link
                   to={`/dashboard/chat/${_id}`}
                   onClick={event => setUserAndAdmin(event, user)}
-                  key={_id}
+                  key={roomId}
                   className="group relative grid gap-2 rounded bg-primaryOrange p-2 pt-2 sm:w-full sm:px-5 sm:py-4 lg:grid-cols-2 xl:hover:bg-primaryLigth xl:hover:text-primaryOrange xl:hover:duration-500"
                 >
                   <Button
                     onClick={() => removeUserMutation.mutate(_id as string)}
-                    className="absolute right-1 top-1 z-10 bg-transparent p-0 text-primaryLigth xl:hover:bg-transparent xl:hover:text-primaryLigthBlue group-hover:xl:text-primaryOrange"
+                    className="xl:hover:text-primaryLigthBlue absolute right-1 top-1 z-10 bg-transparent p-0 text-primaryLigth xl:hover:bg-transparent group-hover:xl:text-primaryOrange"
                   >
                     <FaRegTrashAlt />
                   </Button>

@@ -1,17 +1,19 @@
 import { useQuery } from '@tanstack/react-query';
 import { Suspense, lazy, useContext, useMemo } from 'react';
 
-import type { ProjectType } from '@modules/ProjectType';
+import FetchDataHandler from '@layouts/FetchDataHandler';
+import SectionLayout from '@layouts/SectionLayout';
 
-import { ProjectContext } from '@components/Context/ProjectContext';
-import FetchDataHandler from '@components/Layouts/FetchDataHandlerLayout';
-import SectionLayout from '@components/Layouts/SectionLayout';
+import { ProjectContext } from '@context/ProjectContext';
+
 import Loader from '@components/Loader';
 import Title from '@components/Title';
 
 import Multilanguage from '@utils/Multilanguage';
 import { getProjects } from '@utils/axios';
 import { classes } from '@utils/classes';
+
+import type { ProjectType } from '@modules/ProjectType';
 
 const ProjectContent = lazy(() => import('@components/ProjectContent'));
 
@@ -21,7 +23,6 @@ const Projects = () => {
     queryKey: ['projects'],
     queryFn: getProjects,
   });
-
 
   const projects = useMemo(
     () =>

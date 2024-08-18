@@ -1,8 +1,8 @@
-import type { DropDownProps } from '@modules/DropDownProps';
-
 import NavLink from '@components/NavLink';
 
 import { classes } from '@utils/classes';
+
+import type { DropDownProps } from '@modules/DropDownProps';
 
 const DropDown = ({ links, title }: DropDownProps) => {
   return (

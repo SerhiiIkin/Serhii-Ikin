@@ -1,17 +1,20 @@
 import { useQuery } from '@tanstack/react-query';
 
-import type { DonutType } from '@modules/DonutType';
-import { DonutContextValueHelpUkraine } from '@variables/DonutContextValueHelpUkraine';
-import HelpUkraineText from '@variables/HelpUkraineText';
+import FetchDataHandler from '@layouts/FetchDataHandler';
+import SectionLayout from '@layouts/SectionLayout';
 
-import { DonutContext } from '@components/Context/DonutContext';
+import { DonutContext } from '@context/DonutContext';
+
 import Converter from '@components/Converter';
 import DonutContent from '@components/DonutContent';
-import FetchDataHandler from '@components/Layouts/FetchDataHandlerLayout';
-import SectionLayout from '@components/Layouts/SectionLayout';
 import Title from '@components/Title';
 
 import { getDonuts } from '@utils/axios';
+
+import { DonutContextValueHelpUkraine } from '@variables/DonutContextValueHelpUkraine';
+import HelpUkraineText from '@variables/HelpUkraineText';
+
+import type { DonutType } from '@modules/DonutType';
 
 const HelpUkraine = () => {
   const { convertorTitle, convertorText, title } = HelpUkraineText();

@@ -2,16 +2,19 @@ import { useQuery } from '@tanstack/react-query';
 import type { ChangeEvent, SyntheticEvent } from 'react';
 import { useMemo, useState } from 'react';
 
-import type { BankDataType } from '@modules/bankDataType';
-import { UKR } from '@variables/UkrData';
-import { convertorRegex } from '@variables/convertorRegex';
 import axios from 'axios';
 
+import FetchDataHandlerLayout from '@layouts/FetchDataHandler';
+
 import Input from '@components/Input';
-import FetchDataHandlerLayout from '@components/Layouts/FetchDataHandlerLayout';
 import Select from '@components/Select';
 
 import Multilanguage from '@utils/Multilanguage';
+
+import { UKR } from '@variables/UkrData';
+import { convertorRegex } from '@variables/convertorRegex';
+
+import type { BankDataType } from '@modules/bankDataType';
 
 const Converter = () => {
   const { isPending, data, error } = useQuery({
@@ -26,7 +29,6 @@ const Converter = () => {
   const [selectTwo, setSelectTwo] = useState('1');
   const [isCheckedSelectOne, setIsCheckedSelectOne] = useState(false);
   const [isCheckedSelectTwo, setIsCheckedSelectTwo] = useState(false);
-
 
   const errorMessage = Multilanguage({
     ukr: 'Помилка завантаження даних з банку!',

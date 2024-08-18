@@ -1,6 +1,7 @@
-import type { LanguageState } from '@modules/languageState';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
+
+import type { LanguageState } from '@modules/languageState';
 
 const initialState: LanguageState = {
   language: 'DK',

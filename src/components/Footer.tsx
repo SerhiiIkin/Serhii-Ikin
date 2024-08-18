@@ -6,7 +6,7 @@ const Footer = forwardRef<HTMLElement>((_, ref) => {
   return (
     <footer
       ref={ref}
-      className="fixed bottom-0 left-0 right-0 bg-primaryDarkBlue p-2 pb-6 md:p-2"
+      className="fixed bottom-0 left-0 right-0 z-10 bg-primaryDarkBlue p-2 pb-6 md:p-2"
     >
       <ul className="flex flex-wrap gap-x-2">
         {footerLinks.map(({ children, href, id, icon }) => (

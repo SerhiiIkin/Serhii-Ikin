@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 
-import type { SelectProps } from '@modules/SelectProps';
-
 import { classes } from '@utils/classes';
+
+import type { SelectProps } from '@modules/SelectProps';
 
 const Select = ({
   filteredValuta,
@@ -27,7 +27,7 @@ const Select = ({
       onBlur={onBlur}
       tabIndex={0}
       className={classes([
-        'bg-primaryLigthYellow relative mr-2 cursor-pointer rounded-xl px-2 py-1',
+        'relative mr-2 cursor-pointer rounded-xl bg-primaryLigthYellow px-2 py-1',
         className ?? '',
       ])}
     >
@@ -35,14 +35,14 @@ const Select = ({
 
       <ul
         className={classes([
-          'bg-primaryLigthYellow absolute left-0 top-full z-10 hidden w-full rounded-xl p-1',
+          'absolute left-0 top-full z-10 hidden w-full rounded-xl bg-primaryLigthYellow p-1',
           isChecked ? 'block' : '',
         ])}
       >
         {filteredValuta.map(v => (
           <li
             onClick={onClickOption}
-            className="xl:hover:bg-primaryDarkBlue xl:hover:text-primaryLigth block w-full rounded-xl p-1 text-start xl:hover:duration-500"
+            className="block w-full rounded-xl p-1 text-start xl:hover:bg-primaryDarkBlue xl:hover:text-primaryLigth xl:hover:duration-500"
             key={v.rate}
             data-value={v.rate}
           >

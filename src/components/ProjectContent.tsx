@@ -2,67 +2,23 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { lazy, useContext, useMemo } from 'react';
 import type { MouseEvent } from 'react';
 import { FaEdit, FaRegTrashAlt } from 'react-icons/fa';
-import { useInView } from 'react-intersection-observer';
 import { Link, useNavigate } from 'react-router-dom';
 
-import type { ProjectContentProps } from '@modules/ProjectContentProps';
-import type { ProjectContextType } from '@modules/ProjectContextType';
+import ProjectLayout from '@layouts/ProjectLayout';
+
+import { ProjectContext } from '@context/ProjectContext';
+import { ToastContext } from '@context/ToastContext';
 
 import Button from '@components/Button';
-import { ProjectContext } from '@components/Context/ProjectContext';
-import { ToastContext } from '@components/Context/ToastContext';
 import Title from '@components/Title';
 
 import Multilanguage from '@utils/Multilanguage';
 import { deleteProjectAxios, removeImagesAxios } from '@utils/axios';
 import { classes } from '@utils/classes';
 
-const ImageSlider = lazy(() => import('@components/ImageSlider'));
+import type { ProjectContentProps } from '@modules/ProjectContentProps';
 
-const ProjectLayout = ({
-  children,
-  isMore,
-  id,
-  classNameProject,
-}: {
-  children: JSX.Element;
-  isMore: boolean;
-  id: string;
-  classNameProject?: ProjectContextType['classNameProject'];
-}) => {
-  const [inViewRef, inView] = useInView({
-    threshold: 0.5,
-  });
-  return isMore ? (
-    <Link
-      to={`/portfolio/${id}`}
-      ref={inViewRef}
-      className={classes([
-        'group flex flex-col gap-2 rounded p-2 shadow-2xl shadow-primaryDarkBlue duration-1000',
-        'xl:hover:bg-primaryOrange xl:hover:shadow-2xl xl:hover:shadow-primaryOrange',
-        inView
-          ? 'md:translate-x-0 md:opacity-100 md:duration-1000'
-          : 'even:-translate-x-6 md:translate-x-6 md:opacity-0 md:duration-1000 md:motion-reduce:translate-x-0',
-        classNameProject?.content ?? '',
-      ])}
-    >
-      {children}
-    </Link>
-  ) : (
-    <div
-      ref={inViewRef}
-      className={classes([
-        'flex flex-col gap-2',
-        inView
-          ? 'md:translate-x-0 md:opacity-100 md:duration-1000'
-          : 'even:-translate-x-6 md:translate-x-6 md:opacity-0 md:duration-1000 md:motion-reduce:translate-x-0',
-        classNameProject?.content ?? '',
-      ])}
-    >
-      {children}
-    </div>
-  );
-};
+const ImageSlider = lazy(() => import('@components/ImageSlider'));
 
 const ProjectContent = ({
   _id,

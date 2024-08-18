@@ -1,8 +1,9 @@
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+
 import type { messageType } from '@modules/messageType';
 import type { tokenType } from '@modules/tokenType';
 import type { userType } from '@modules/userType';
-import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: userType = {
   username: '',

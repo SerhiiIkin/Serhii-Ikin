@@ -1,11 +1,11 @@
 import { IoIosSend } from 'react-icons/io';
 
-import type { ChatFormProps } from '@modules/ChatFormProps';
-
 import Button from '@components/Button';
 import Textarea from '@components/Textarea';
 
 import { classes } from '@utils/classes';
+
+import type { ChatFormProps } from '@modules/ChatFormProps';
 
 const ChatForm = ({
   onSendMessage,
@@ -16,7 +16,6 @@ const ChatForm = ({
   stopTyping,
   focusTextArea,
   classNameForm,
-  
 }: ChatFormProps) => {
   return (
     <form

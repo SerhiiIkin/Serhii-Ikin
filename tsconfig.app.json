@@ -2,7 +2,6 @@
   "compilerOptions": {
     "baseUrl": "./src/",
     "paths": {
-      "@/*": ["./src/*"],
       "@components/*": ["components/*"],
       "@modules/*": ["modules/*"],
       "@pages/*": ["pages/*"],
@@ -12,8 +11,9 @@
       "@variables/*": ["variables/*"],
       "@utils/*": ["utils/*"],
       "@store/*": ["store/*"],
-      "@hooks/*": ["hooks/*"],
-      "@MultilanguageText/*": ["MultilanguageText/*"]
+      "@layouts/*": ["layouts/*"],
+      "@context/*": ["context/*"],
+      "@hooks/*": ["hooks/*"]
     },
     "composite": true,
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
