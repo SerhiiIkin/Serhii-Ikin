@@ -91,9 +91,9 @@ const ImageSlider = ({
             data-value="btnRigth"
             onClick={onBtnSliderClick}
             className={classes([
-              'absolute right-2 top-1/2 -translate-y-1/2 translate-x-1/2',
+              'absolute right-6 top-1/2 -translate-y-1/2 translate-x-1/2 xl:right-2',
               'xl:opacity-0 xl:duration-1000',
-              'group-hover:translate-x-0 group-hover:opacity-100',
+              'xl:group-hover:translate-x-0 xl:group-hover:opacity-100',
             ])}
           >
             <FaArrowAltCircleRight />
@@ -104,9 +104,9 @@ const ImageSlider = ({
             data-value="btnLeft"
             onClick={onBtnSliderClick}
             className={classes([
-              'absolute left-2 top-1/2 -translate-x-1/2 -translate-y-1/2 rotate-180',
+              'absolute left-6 top-1/2 -translate-x-1/2 -translate-y-1/2 rotate-180 xl:left-2',
               'xl:opacity-0 xl:duration-1000',
-              'group-hover:translate-x-0 group-hover:opacity-100',
+              'xl:group-hover:translate-x-0 xl:group-hover:opacity-100',
             ])}
           >
             <FaArrowAltCircleRight />
