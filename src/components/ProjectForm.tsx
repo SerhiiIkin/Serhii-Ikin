@@ -100,14 +100,17 @@ const ProjectForm = () => {
 
   const submitHander = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const uploadedFiles = await uploadImages();
-    setData(prevData => ({
-      ...prevData,
-      images: uploadedFiles,
-    }));
-    data.images = uploadedFiles;
 
-    if (uploadedFiles?.length > 0 && data.images.length > 0) {
+    if (previewImages.length > 0) {
+      const uploadedFiles = await uploadImages();
+      setData(prevData => ({
+        ...prevData,
+        images: uploadedFiles,
+      }));
+      data.images = uploadedFiles;
+    }
+
+    if (data.images.length > 0) {
       id
         ? updateProjectMutation.mutate(data)
         : createProjectMutation.mutate(data);
@@ -184,15 +187,13 @@ const ProjectForm = () => {
   const uploadImages = async () => {
     const formData = new FormData();
 
-    if (images?.length === 0) {
+    if (images?.length === 0 || images?.length === undefined) {
       toast.error('Забув загрузити картинки');
       return;
     }
 
-    if (images) {
-      for (let i = 0; i < images?.length; i++) {
-        formData.append('images', images[i]);
-      }
+    for (let i = 0; i < images?.length; i++) {
+      formData.append('images', images[i]);
     }
 
     if (!data.title.eng) {
