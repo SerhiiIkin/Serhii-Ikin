@@ -101,7 +101,7 @@ export const useSocketInit = () => {
       socketInit();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [users]);
+  }, []);
 
   useEffect(() => {
     socket.on('newMessage', (messageData: messageType) => {

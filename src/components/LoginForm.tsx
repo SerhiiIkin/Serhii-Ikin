@@ -119,7 +119,7 @@ const LoginForm = () => {
       setIsPending(false);
     } else if (usernameInput.length >= 2 && !password) {
       createUserMutation.mutate(usernameInput);
-    } else if (password) {
+    } else if (usernameInput.length >= 2 && password) {
       loginAdminMutation.mutate({ username: usernameInput, password });
     }
   };
@@ -203,7 +203,8 @@ const LoginForm = () => {
     return () => {
       socket.off('current_user');
     };
-  }, [dispatch, socketInit]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
