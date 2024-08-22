@@ -7,7 +7,7 @@ import { ToastContext } from '@context/ToastContext';
 import ButtonScrollToTop from '@components/ButtonScrollToTop';
 import Footer from '@components/Footer';
 import Header from '@components/Header';
-import LoginForm from '@components/LoginForm';
+import LoginForm from '@components/AuthSection';
 
 import { useHandleResize } from '@hooks/useHandleResize';
 import { useSocketInit } from '@hooks/useSocketInit';

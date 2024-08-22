@@ -27,20 +27,22 @@ import {
 import { classes } from '@utils/classes';
 
 import { LoginFormText } from '@variables/LoginFormText';
+import { RegExpLetters } from '@variables/RegExpLetters';
+import { loginName } from '@variables/loginName';
 import { socket } from '@variables/socket';
 
 import type { adminDataType } from '@modules/adminDataType';
 import type { tokenType } from '@modules/tokenType';
 import type { userType } from '@modules/userType';
 
-const LoginForm = () => {
+const AuthSection = () => {
   const { loginform, placeholderForm, submitForm, errorMessage } =
     LoginFormText();
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
-  const loginName = import.meta.env.VITE_PUBLIC_MYLOGIN;
   const navigate = useNavigate();
   const toast = useContext(ToastContext);
+
   const [usernameInput, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isOpenForm, setIsOpenForm] = useState(false);
@@ -52,7 +54,6 @@ const LoginForm = () => {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isPending, setIsPending] = useState(false);
-  const letters = /^[A-Za-zØøÅåÆæ\s]+$/;
 
   const onRollUpBtnClick = () => {
     setIsFullScreen(false);
@@ -189,7 +190,7 @@ const LoginForm = () => {
 
   const userNameHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    if (letters.test(value) || value === '') {
+    if (RegExpLetters.test(value) || value === '') {
       setUsername(event.target.value);
     }
   };
@@ -303,4 +304,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default AuthSection;
