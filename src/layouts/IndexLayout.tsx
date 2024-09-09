@@ -4,10 +4,10 @@ import { ToastContainer, toast } from 'react-toastify';
 
 import { ToastContext } from '@context/ToastContext';
 
+import AuthSection from '@components/AuthSection';
 import ButtonScrollToTop from '@components/ButtonScrollToTop';
 import Footer from '@components/Footer';
 import Header from '@components/Header';
-import LoginForm from '@components/AuthSection';
 
 import { useHandleResize } from '@hooks/useHandleResize';
 import { useSocketInit } from '@hooks/useSocketInit';
@@ -45,7 +45,7 @@ const IndexLayout: FC<indexLayoutProps> = ({ children }) => {
           {children}
         </main>
         <Footer ref={footerRef} />
-        {!isAdmin() && <LoginForm />}
+        {!isAdmin() && <AuthSection />}
       </ToastContext.Provider>
       <ToastContainer
         position="bottom-right"

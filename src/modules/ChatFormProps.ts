@@ -1,17 +1,12 @@
-import type {
-  ComponentPropsWithoutRef,
-  Dispatch,
-  FormEvent,
-  KeyboardEvent,
-} from 'react';
+import type { ComponentPropsWithoutRef } from 'react';
+
+
+import type { userType } from '@modules/userType';
 
 export interface ChatFormProps extends ComponentPropsWithoutRef<'form'> {
-  submitHandler: (event: FormEvent<HTMLFormElement>) => void;
-  onSendMessage: (event: KeyboardEvent<HTMLFormElement>) => void;
-  textarea: string;
-  setTextarea: Dispatch<React.SetStateAction<string>>;
-  focusTextArea?: () => void;
-  typing: () => void;
-  stopTyping: () => void;
   classNameForm?: string;
+  user: userType;
+  username: string;
+  img: string;
+  focusTextArea?: () => void;
 }

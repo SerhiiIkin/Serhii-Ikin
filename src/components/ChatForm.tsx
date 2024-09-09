@@ -3,20 +3,28 @@ import { IoIosSend } from 'react-icons/io';
 import Button from '@components/Button';
 import Textarea from '@components/Textarea';
 
+import { useChatForm } from '@hooks/useChatForm';
+
 import { classes } from '@utils/classes';
 
 import type { ChatFormProps } from '@modules/ChatFormProps';
 
 const ChatForm = ({
-  onSendMessage,
-  submitHandler,
-  textarea,
-  setTextarea,
-  typing,
-  stopTyping,
-  focusTextArea,
   classNameForm,
+  user,
+  username,
+  img,
+  focusTextArea,
 }: ChatFormProps) => {
+  const {
+    onSendMessage,
+    submitHandler,
+    textarea,
+    setTextarea,
+    typing,
+    stopTyping,
+  } = useChatForm({ user, username, img });
+
   return (
     <form
       onSubmit={submitHandler}
