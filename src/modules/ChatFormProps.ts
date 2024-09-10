@@ -9,4 +9,5 @@ export interface ChatFormProps extends ComponentPropsWithoutRef<'form'> {
   username: string;
   img: string;
   focusTextArea?: () => void;
+  blurTextArea?: () => void;
 }

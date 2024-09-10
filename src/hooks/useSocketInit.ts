@@ -2,6 +2,8 @@ import { useMutation } from '@tanstack/react-query';
 import { useCallback, useEffect } from 'react';
 import { toast } from 'react-toastify';
 
+import { showToastMessage } from '@components/showToastMessage';
+
 import { setMessageCount, setToken, setUser } from '@store/Slices/userSlice';
 import { setUsers } from '@store/Slices/usersSlice';
 
@@ -17,17 +19,8 @@ import type { tokenType } from '@modules/tokenType';
 import type { userType } from '@modules/userType';
 
 export const useSocketInit = () => {
-  const dispatch = useAppDispatch();
   const users = useAppSelector(state => state.users.users);
-
-  const removeUserMutation = useMutation({
-    mutationKey: ['users'],
-    mutationFn: (_id: string) => deleteUserAxios(_id),
-    onSuccess: () => {
-      localStorage.removeItem('token');
-    },
-    onError: () => toast.error('Error deleting user'),
-  });
+  const dispatch = useAppDispatch();
 
   const socketInit = useCallback(async () => {
     const localToken: tokenType = JSON.parse(localStorage.getItem('token')!);
@@ -62,6 +55,15 @@ export const useSocketInit = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const removeUserMutation = useMutation({
+    mutationKey: ['users'],
+    mutationFn: (_id: string) => deleteUserAxios(_id),
+    onSuccess: () => {
+      localStorage.removeItem('token');
+    },
+    onError: () => toast.error('Error deleting user'),
+  });
 
   const updateTokenMutatuion = useMutation({
     mutationFn: (id: string) => updateTokenAxios(id),
@@ -106,9 +108,7 @@ export const useSocketInit = () => {
   useEffect(() => {
     socket.on('newMessage', (messageData: messageType) => {
       !isAdmin() && dispatch(setMessageCount());
-
-      isAdmin() &&
-        toast.success(`${messageData.username}: ${messageData.message}`);
+      isAdmin() && toast.success(showToastMessage(messageData));
     });
 
     return (): void => {

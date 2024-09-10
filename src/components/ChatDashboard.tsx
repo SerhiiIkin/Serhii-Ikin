@@ -7,13 +7,13 @@ import { useChatDashboard } from '@hooks/useChatDashboard';
 const ChatDashboard = () => {
   useChatDashboard();
   return (
-    <>
+    <section className="min-h-[70dvh]">
       <Title typeTitle="h1"> Chat dashboard </Title>
-      <div className="grid grid-cols-1 sm:grid-cols-6">
+      <div className="flex max-h-[calc(50dvh)] flex-col gap-2 sm:flex-row">
         <SideBar />
         <Chat />
       </div>
-    </>
+    </section>
   );
 };
 

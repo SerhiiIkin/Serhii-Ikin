@@ -29,7 +29,7 @@ const ButtonScrollToTop = () => {
   return (
     <Button
       className={classes([
-        'fixed bottom-20 right-2 translate-x-0 duration-500 md:bottom-2',
+        'fixed bottom-28 right-2 translate-x-0 duration-500',
         !isScrollBtn ? 'right-0 translate-x-full' : '',
       ])}
       type="button"

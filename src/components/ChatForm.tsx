@@ -15,6 +15,7 @@ const ChatForm = ({
   username,
   img,
   focusTextArea,
+  blurTextArea,
 }: ChatFormProps) => {
   const {
     onSendMessage,
@@ -34,6 +35,7 @@ const ChatForm = ({
       <Textarea
         title="Ctrl + Enter for send message"
         autoFocus
+        onBlur={blurTextArea}
         onFocus={focusTextArea}
         onKeyDown={typing}
         stopTyping={stopTyping}

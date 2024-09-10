@@ -4,6 +4,8 @@ import ChatForm from '@components/ChatForm';
 import FourPoints from '@components/FourPoints';
 import MessagesContainer from '@components/MessagesContainer';
 
+import { resetMessageCount } from '@store/Slices/userSlice';
+
 import { useUserChat } from '@hooks/useUserChat';
 
 import { classes } from '@utils/classes';
@@ -20,13 +22,22 @@ const UserChat = ({
   isOpenChat,
 }: UserChatProps) => {
   const { hello, welcome, chatTime } = userChatText();
-  const { resizeClass, user, containerRef, isTyping, focusTextArea, status } =
-    useUserChat(isFullScreen);
+  const {
+    user,
+    containerRef,
+    isTyping,
+    focusTextArea,
+    status,
+    dispatch,
+    blurTextArea,
+    resizeClass,
+  } = useUserChat(isFullScreen);
 
   return (
     <>
       {isOpenChat && (
         <div
+          onPointerEnter={() => dispatch(resetMessageCount())}
           className={classes([
             `fixed z-50 flex flex-col rounded bg-white px-4 py-2 shadow shadow-slate-600`,
             resizeClass,
@@ -67,6 +78,7 @@ const UserChat = ({
             username={user.username}
             img={userLogoChat}
             focusTextArea={focusTextArea}
+            blurTextArea={blurTextArea}
           />
         </div>
       )}

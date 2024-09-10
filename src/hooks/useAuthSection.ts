@@ -128,6 +128,7 @@ export const useAuthSection = () => {
   };
 
   const socketInit = useCallback(async () => {
+    setIsLoading(false);
     const localToken: tokenType = JSON.parse(localStorage.getItem('token')!);
     if (localToken === null) {
       setIsLoading(false);

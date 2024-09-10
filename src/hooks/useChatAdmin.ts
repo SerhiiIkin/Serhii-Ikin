@@ -11,10 +11,11 @@ import type { userType } from '@modules/userType';
 
 export const useChatAdmin = () => {
   const { id } = useParams();
+
   const users = useAppSelector((state: RootState) => state.users.users);
   const admin = useAppSelector(state => state.admin);
   const currentUser = useMemo(() => {
-    return users.find(user => user._id === id);
+    return users.find(user => user.roomId === id);
   }, [id, users]);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isTyping, setIsTyping] = useState(false);

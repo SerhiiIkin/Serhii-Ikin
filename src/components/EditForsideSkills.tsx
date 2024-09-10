@@ -110,7 +110,7 @@ const EditForsideSkills = () => {
           placeholder="title"
         />
         {data.list.map((item, index) => (
-          <div key={index} className="flex gap-2">
+          <div key={index} className="flex flex-wrap gap-2">
             <Input
               onChange={event => dataHandler(index, event)}
               type="text"

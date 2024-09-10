@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { lazy } from 'react';
+import { lazy, useMemo } from 'react';
 
 import FetchDataHandler from '@layouts/FetchDataHandler';
 import SectionLayout from '@layouts/SectionLayout';
@@ -30,6 +30,13 @@ const Blog = () => {
     queryKey: ['jobs'],
     queryFn: getJobsAxios,
   });
+
+  const sortedJobs: JobType[] = useMemo(
+    () =>
+      jobs?.data &&
+      jobs.data?.sort((a: JobType, b: JobType) => +b.date - +a.date),
+    [jobs.data]
+  );
 
   const languageTitle = Multilanguage({
     ukr: 'Мови',
@@ -107,11 +114,12 @@ const Blog = () => {
         >
           <ul
             className={classes([
-              'relative grid gap-x-4 gap-y-10 py-4 pl-4 md:gap-y-16 md:py-6 xl:gap-y-20 xl:py-8',
-              'before:absolute before:left-[calc(50%+10px)] before:top-0 before:h-full before:w-4 before:-translate-x-1/2 before:rounded before:bg-primaryDark before:content-[""]',
+              'relative grid auto-rows-fr gap-x-4 gap-y-14 pb-10 pt-2 md:gap-y-16 md:py-8 xl:gap-y-20 xl:py-8',
+              'before:absolute before:left-auto before:right-4 before:top-0 before:h-full before:w-4 before:-translate-x-1/2 before:rounded before:bg-primaryDark before:content-[""]',
+              'sm:before:left-1/2',
             ])}
           >
-            {jobs.data?.map((job: JobType) => <Job key={job._id} {...job} />)}
+            {sortedJobs?.map(job => <Job key={job._id} {...job} />)}
           </ul>
         </FetchDataHandler>
       </SectionLayout>

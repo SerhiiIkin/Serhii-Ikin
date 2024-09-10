@@ -19,7 +19,7 @@ const AuthButton = ({
         <Button
           aria-label="open chat menu"
           className={classes([
-            `fixed bottom-32 right-4 z-20 rounded-md p-1 md:bottom-12 md:right-6 xl:right-8`,
+            `fixed bottom-40 right-4 z-20 rounded-md p-1 md:bottom-12 md:right-6 xl:right-8`,
           ])}
           onClick={OpenCloseForm}
         >

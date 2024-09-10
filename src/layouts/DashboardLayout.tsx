@@ -8,7 +8,7 @@ import type { DashboardLayoutProps } from '@modules/DashboardLayoutProps';
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   return (
     <>
-      <nav className="flex justify-center gap-2 py-2">
+      <nav className="flex flex-wrap justify-center gap-2 py-2">
         {dashboardLinks.map((link, index) => {
           if (link?.title) {
             return (

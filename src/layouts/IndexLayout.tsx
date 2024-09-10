@@ -40,7 +40,7 @@ const IndexLayout: FC<indexLayoutProps> = ({ children }) => {
         <Header ref={headerRef} />
         <main
           ref={mainRef}
-          className="mt-32 min-h-dvh bg-secondaryGrey pb-24 md:pb-6"
+          className="mt-32 min-h-[calc(100dvh-8rem)] bg-secondaryGrey pb-28 sm:pb-24"
         >
           {children}
         </main>
@@ -49,9 +49,8 @@ const IndexLayout: FC<indexLayoutProps> = ({ children }) => {
       </ToastContext.Provider>
       <ToastContainer
         position="bottom-right"
-        autoClose={5000}
+        autoClose={10000}
         hideProgressBar={false}
-        closeOnClick
         rtl={false}
         pauseOnHover
         theme="dark"

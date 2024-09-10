@@ -48,22 +48,28 @@ const SideBar = () => {
     }
   }, [users.length]);
 
+  const removeUserById = (event: MouseEvent, _id: string) => {
+    event.stopPropagation();
+    event.preventDefault();
+    removeUserMutation.mutate(_id);
+  };
+
   return (
-    <aside className="col-span-1 sm:row-start-1 xl:overflow-y-auto">
-      <div className="grid grid-flow-col gap-2 p-2 sm:grid-flow-dense">
+    <aside className="basis-1/3 sm:w-56 sm:basis-auto sm:overflow-y-auto">
+      <div className="grid grid-cols-3 gap-2 p-2 sm:grid-cols-1">
         {isLoading && <Loader />}
         {users.length > 0 && !isLoading
           ? users.map((user: userType) => {
               const { messages, _id, username, roomId } = user;
               return (
                 <Link
-                  to={`/dashboard/chat/${_id}`}
+                  to={`/dashboard/chat/${roomId}`}
                   onClick={event => setUserAndAdmin(event, user)}
                   key={roomId}
-                  className="group relative grid gap-2 rounded bg-primaryOrange p-2 pt-2 sm:w-full sm:px-5 sm:py-4 lg:grid-cols-2 xl:hover:bg-primaryLigth xl:hover:text-primaryOrange xl:hover:duration-500"
+                  className="group relative grid gap-1 rounded bg-primaryOrange p-1 sm:w-full sm:px-5 sm:py-4 lg:grid-cols-2 xl:hover:bg-primaryLigth xl:hover:text-primaryOrange xl:hover:duration-500"
                 >
                   <Button
-                    onClick={() => removeUserMutation.mutate(_id as string)}
+                    onClick={event => removeUserById(event, _id as string)}
                     className="xl:hover:text-primaryLigthBlue absolute right-1 top-1 z-10 bg-transparent p-0 text-primaryLigth xl:hover:bg-transparent group-hover:xl:text-primaryOrange"
                   >
                     <FaRegTrashAlt />
@@ -72,7 +78,7 @@ const SideBar = () => {
                   messages[messages?.length - 1]?.img ? (
                     <div className="mx-auto aspect-square w-8">
                       <img
-                        className="aspect-square w-8 rounded-full"
+                        className="aspect-square w-6 rounded-full"
                         src={messages[messages?.length - 1]?.img}
                         alt={messages[messages?.length - 1]?.imgAlt}
                       />
@@ -85,7 +91,7 @@ const SideBar = () => {
 
                   <p>{username}</p>
 
-                  <p className="truncate text-left lg:col-span-2">
+                  <p className="truncate break-words text-left lg:col-span-2">
                     {messages?.length > 0 &&
                     messages[messages.length - 1]?.message
                       ? messages[messages.length - 1].message

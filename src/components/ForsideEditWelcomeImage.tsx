@@ -128,54 +128,38 @@ const ForsideEditWelcomeImage = () => {
         </Button>
       </form>
       <Title typeTitle="h3"> Prewiview images </Title>
-      <table>
-        <thead>
-          <tr>
-            {images &&
-              Array.from(images).map((image, index) => (
-                <th key={index}> {image.name} </th>
-              ))}
-          </tr>
-        </thead>
-        <tbody>
-          {previewImages.length > 0 && (
-            <tr>
-              {previewImages.map((image, index) => (
-                <td key={index} className="p-2">
-                  <img
-                    key={index}
-                    src={image}
-                    width={200}
-                    height={100}
-                    alt={''}
-                  />
-                </td>
-              ))}
-            </tr>
-          )}
-          <tr>
-            <td>
-              <Title typeTitle="h3"> Bucket images </Title>
-            </td>
-          </tr>
-
-          {getImagesWelcome?.data?.length > 0 && (
-            <tr>
-              {getImagesWelcome.data.map((image: string, index: number) => (
-                <td key={index} className="p-2">
-                  <img
-                    key={index}
-                    src={image}
-                    width={200}
-                    height={100}
-                    alt={''}
-                  />
-                </td>
-              ))}
-            </tr>
-          )}
-        </tbody>
-      </table>
+      <article className="flex flex-wrap">
+        {images &&
+          Array.from(images).map((image, index) => (
+            <div key={index}> {image.name} </div>
+          ))}
+      </article>
+      <article className="flex flex-wrap">
+        {previewImages.length > 0 && (
+          <>
+            {previewImages.map((image, index) => (
+              <div key={index} className="p-2">
+                <img
+                  key={index}
+                  src={image}
+                  width={200}
+                  height={100}
+                  alt={''}
+                />
+              </div>
+            ))}
+          </>
+        )}
+      </article>
+      <Title typeTitle="h3"> Bucket images </Title>
+      <article className="flex flex-wrap">
+        {getImagesWelcome.data?.map((image: string, index: number) => (
+          <div key={index} className="p-2">
+            <img key={index} src={image} width={200} height={100} alt={''} />
+          </div>
+        ))}
+      </article>
+      
     </SectionLayout>
   );
 };

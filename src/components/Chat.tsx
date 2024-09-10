@@ -15,8 +15,8 @@ const Chat = () => {
 
   return (
     <SectionLayout
-      classNameContainer="flex flex-col gap-y-2 h-[calc(100dvh-500px)]  sm:h-[calc(100dvh-350px)]"
-      className="col-span-5 sm:row-start-1"
+      classNameContainer="flex flex-col gap-y-2"
+      className="basis-2/3 sm:basis-full"
     >
       {currentUser?.username ? (
         <Title typeTitle="h2">Chat with {currentUser.username}</Title>
@@ -26,7 +26,11 @@ const Chat = () => {
         </Title>
       )}
       {currentUser && (
-        <MessagesContainer user={currentUser} ref={containerRef} />
+        <MessagesContainer
+          containerClasses="max-h-[25dvh] sm:max-h-[40dvh]"
+          user={currentUser}
+          ref={containerRef}
+        />
       )}
       <p className="animation-typing mt-auto min-h-6">
         {isTyping && isCurrentUser && (
@@ -38,7 +42,7 @@ const Chat = () => {
       </p>
       {currentUser && (
         <ChatForm
-          classNameForm="fixed container  xl:bottom-9 bottom-20 z-10  w-[calc(100dvw-20px)] sm:w-4/5"
+          classNameForm="fixed sm:bottom-20 bottom-28 z-20 left-2  w-[calc(100dvw-20px)]"
           user={currentUser}
           username={admin.username}
           img={myLogoChat}

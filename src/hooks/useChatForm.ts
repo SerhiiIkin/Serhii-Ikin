@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { FormEvent, KeyboardEvent } from 'react';
 
 import { v4 as uuidv4 } from 'uuid';
@@ -29,7 +29,7 @@ export const useChatForm = ({
   const [isTyping, setIsTyping] = useState(false);
   const [status, setStatus] = useState(false);
   const dispatch = useAppDispatch();
-  const containerRef = useRef<HTMLDivElement>(null);
+
   const [isFocusTextArea, setIsFocusTextArea] = useState(false);
 
   const functionUpdateMessages = (message: messageType) => {
@@ -127,12 +127,6 @@ export const useChatForm = ({
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, socket]);
-
-  useEffect(() => {
-    if (containerRef?.current)
-      containerRef.current.scrollTop =
-        containerRef.current.scrollHeight - containerRef.current.offsetHeight;
-  }, [user.messages]);
 
   return {
     typing,
