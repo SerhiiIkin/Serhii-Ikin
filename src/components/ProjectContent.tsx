@@ -1,93 +1,41 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { lazy, useContext, useMemo } from 'react';
-import type { MouseEvent } from 'react';
+import { lazy, useContext } from 'react';
 import { FaEdit, FaRegTrashAlt } from 'react-icons/fa';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import ProjectLayout from '@layouts/ProjectLayout';
 
 import { ProjectContext } from '@context/ProjectContext';
-import { ToastContext } from '@context/ToastContext';
 
 import Button from '@components/Button';
 import Title from '@components/Title';
 
-import Multilanguage from '@utils/Multilanguage';
-import { deleteProjectAxios, removeImagesAxios } from '@utils/axios';
+import { useProjectContent } from '@hooks/useProjectContent';
+
 import { classes } from '@utils/classes';
 
 import type { ProjectContentProps } from '@modules/ProjectContentProps';
 
-const ImageSlider = lazy(() => import('@components/ImageSlider'));
+const Carousel = lazy(() => import('@components/Carousel'));
 
-const ProjectContent = ({
-  _id,
-  images,
-  title,
-  description,
-  link,
-}: ProjectContentProps) => {
-  const { isAdmin, isDescription, classNameProject, isSlider, isLink, isMore } =
+const ProjectContent = (props: ProjectContentProps) => {
+  const { _id, link } = props;
+  const { isAdmin, isDescription, classNameProject, isLink, isMore } =
     useContext(ProjectContext);
-  const toast = useContext(ToastContext);
-  const navigate = useNavigate();
-  const linkText = Multilanguage({
-    ukr: 'Подивитись онлайн / GitHub',
-    eng: 'View online / GitHub',
-    dk: 'Se online / GitHub',
-  });
-  const titleMultilanguage = Multilanguage(title);
-  const descriptionMultilanguage = Multilanguage(description);
 
-  const queryClient = useQueryClient();
-
-  const imagesURL = useMemo(
-    () =>
-      images != undefined && images?.length > 0
-        ? images?.map(image => image.fileUrl)
-        : [],
-    [images]
-  );
-
-  const removeImages = useMutation({
-    mutationFn: async (folderName: string) => removeImagesAxios(folderName),
-    onSuccess: (data: { message?: string }) => {
-      if (data?.message) {
-        toast.success('Картинки видалено з серверу');
-      }
-    },
-    onError: error => toast.error(error.message),
-  });
-
-  const removeProjectMutation = useMutation({
-    mutationKey: ['projects'],
-    mutationFn: async () => deleteProjectAxios(_id ?? ''),
-    onSuccess: (data: { message?: string }) => {
-      if (data?.message) {
-        toast.success('Проєкт успішно видалено');
-      }
-      queryClient.invalidateQueries({ queryKey: ['projects'] });
-    },
-    onError: err => toast.error(err.message),
-  });
-
-  const removeProject = (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    const folderName = images[0]?.fileName.split('/')[0];
-    removeProjectMutation.mutate();
-    removeImages.mutate(folderName);
-  };
-
-  const navigateToEdit = (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    navigate(`editProject/${_id}`);
-  };
+  const {
+    linkText,
+    titleMultilanguage,
+    descriptionMultilanguage,
+    config,
+    navigateToEdit,
+    removeProject,
+  } = useProjectContent({ ...props });
 
   return (
     <ProjectLayout
       isMore={isMore ?? false}
       id={_id ?? ''}
-      classNameProject={classNameProject}
+      classNameProject={classNameProject ?? {}}
     >
       <>
         <Title
@@ -99,11 +47,7 @@ const ProjectContent = ({
         >
           {titleMultilanguage}
         </Title>
-        <ImageSlider
-          images={imagesURL}
-          imageClasses={classNameProject?.img}
-          isSlider={isSlider ?? false}
-        />
+        <Carousel {...config} />
 
         {isDescription && (
           <p

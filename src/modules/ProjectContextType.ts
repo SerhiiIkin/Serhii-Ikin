@@ -10,12 +10,12 @@ export type ProjectContextType = {
   isLink?: boolean;
 };
 
-type classNameProjectsType = {
+export type classNameProjectsType = {
   container?: string;
   section?: string;
 };
 
-type classNameProjectType = {
+export type classNameProjectType = {
   content?: string;
   img?: string;
   imgContainer?: string;

@@ -1,28 +1,20 @@
+import type { LegacyRef } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { Link } from 'react-router-dom';
 
 import { classes } from '@utils/classes';
 
-import type { ProjectContextType } from '@modules/ProjectContextType';
+import type { ProjectLayoutProps } from '@modules/ProjectLayoutProps';
 
-const ProjectLayout = ({
-  children,
-  isMore,
-  id,
-  classNameProject,
-}: {
-  children: JSX.Element;
-  isMore: boolean;
-  id: string;
-  classNameProject?: ProjectContextType['classNameProject'];
-}) => {
+const ProjectLayout = (props: ProjectLayoutProps) => {
+  const { children, isMore, id, classNameProject } = props;
   const [inViewRef, inView] = useInView({
-    threshold: 0,
+    threshold: 0.4,
   });
   return isMore ? (
     <Link
       to={`/portfolio/${id}`}
-      ref={inViewRef}
+      ref={inViewRef as LegacyRef<HTMLAnchorElement>}
       className={classes([
         'group flex flex-col gap-2 rounded p-2 shadow-2xl shadow-primaryDarkBlue duration-1000',
         'xl:hover:bg-primaryOrange xl:hover:shadow-2xl xl:hover:shadow-primaryOrange',
@@ -36,7 +28,7 @@ const ProjectLayout = ({
     </Link>
   ) : (
     <div
-      ref={inViewRef}
+      ref={inViewRef as LegacyRef<HTMLDivElement>}
       className={classes([
         'flex flex-col gap-2',
         inView
@@ -49,5 +41,4 @@ const ProjectLayout = ({
     </div>
   );
 };
-
 export default ProjectLayout;
