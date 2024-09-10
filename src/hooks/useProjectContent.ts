@@ -74,6 +74,7 @@ export const useProjectContent = (props: ProjectContentProps) => {
     interval: 0,
     duration: 1000,
   };
+
   return {
     config,
     linkText,

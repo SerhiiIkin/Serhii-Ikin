@@ -6,12 +6,13 @@ import { DonutContext } from '@context/DonutContext';
 import { ToastContext } from '@context/ToastContext';
 
 import Button from '@components/Button';
-import ImageSlider from '@components/ImageSlider';
+import Carousel from '@components/Carousel';
 import Title from '@components/Title';
 
 import Multilanguage from '@utils/Multilanguage';
 import { removeDonutAxios, removeImagesAxios } from '@utils/axios';
 
+import type { CarouselProps } from '@modules/CarouselProps';
 import type { DonutType } from '@modules/DonutType';
 
 const DonutContent = ({ title, description, images, _id, link }: DonutType) => {
@@ -58,6 +59,14 @@ const DonutContent = ({ title, description, images, _id, link }: DonutType) => {
     removeDonutMutation.mutate({ id: _id ?? '' });
   };
 
+  const config: CarouselProps = {
+    data: imagesURL,
+    spaceBetween: 120,
+    draggable: true,
+    interval: 0,
+    duration: 1000,
+  };
+
   return (
     <li>
       <a href={link} target="_blank" className="mb-4">
@@ -70,7 +79,7 @@ const DonutContent = ({ title, description, images, _id, link }: DonutType) => {
       </a>
       <p className="pb-4">{descriptionLanguage}</p>
 
-      <ImageSlider images={imagesURL} isSlider />
+      <Carousel {...config} />
       {isAdmin && (
         <div className="flex gap-2 pt-4">
           <Link
