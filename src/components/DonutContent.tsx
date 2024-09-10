@@ -65,6 +65,7 @@ const DonutContent = ({ title, description, images, _id, link }: DonutType) => {
     draggable: true,
     interval: 0,
     duration: 1000,
+    classNameProject: {},
   };
 
   return (

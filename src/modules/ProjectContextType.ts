@@ -23,4 +23,5 @@ export type classNameProjectType = {
   description?: string;
   title?: string;
   link?: string;
+  container?: string;
 };

@@ -3,6 +3,7 @@ import { useContext, useMemo } from 'react';
 import type { MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { ProjectContext } from '@context/ProjectContext';
 import { ToastContext } from '@context/ToastContext';
 
 import Multilanguage from '@utils/Multilanguage';
@@ -12,6 +13,7 @@ import type { CarouselProps } from '@modules/CarouselProps';
 import type { ProjectContentProps } from '@modules/ProjectContentProps';
 
 export const useProjectContent = (props: ProjectContentProps) => {
+  const { classNameProject } = useContext(ProjectContext);
   const { _id, title, description, images } = props;
   const toast = useContext(ToastContext);
   const navigate = useNavigate();
@@ -73,6 +75,7 @@ export const useProjectContent = (props: ProjectContentProps) => {
     draggable: true,
     interval: 0,
     duration: 1000,
+    classNameProject: classNameProject ?? {},
   };
 
   return {
