@@ -10,7 +10,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "format": "prettier --write .",
-    "start:client": "cd D:/WEB/My_projekts/Serhii-Ikin && npm run dev",
+    "start:client": "cd D:/WEB/My_projekts/Serhii-Ikin && npm run dev:host",
     "start:server": "cd D:/WEB/My_projekts/mypage-server && npm run dev",
     "start:all": "concurrently -n \"CLIENT,SERVER\" -c \"bgBlue.bold,bgGreen.bold\" \"npm run start:client\" \"npm run start:server\""
   },

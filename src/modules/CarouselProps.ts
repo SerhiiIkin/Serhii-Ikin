@@ -7,4 +7,5 @@ export type CarouselProps = {
   draggable: boolean;
   interval: number;
   classNameProject: classNameProjectType;
+  containerHeight?: string;
 };

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { MouseEvent, TouchEvent } from 'react';
 
 import type { CarouselProps } from '@modules/CarouselProps';
@@ -10,17 +10,33 @@ export const useCarousel = ({
   interval,
   draggable,
 }: CarouselProps) => {
+  const lastToFirst = useMemo(
+    () =>
+      data.length > 0 ? [data[data?.length - 1], ...data.slice(0, -1)] : [],
+    [data]
+  );
   const wrapperRef = useRef<HTMLDivElement>(null);
   const slideRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const SInterval = useRef<NodeJS.Timeout | undefined>(undefined);
 
-  const [currentData, setCurrentData] = useState<string[]>(data);
-  const [currentTransformX, setCurrentTransformX] = useState(0);
+  const [currentData, setCurrentData] = useState<string[]>(lastToFirst);
   const [translate, setTranslate] = useState(0);
   const [transition, setTransition] = useState(0);
   const [startX, setStartX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+
+  const [containerHeight, setContainerHeight] = useState(0);
+
+  useLayoutEffect(() => {
+    const slideOffsetHeight = slideRef?.current?.offsetHeight ?? 0;
+    setContainerHeight(slideOffsetHeight);
+  }, [slideRef]);
+
+  const currentTransformX = useMemo(() => {
+    const slideOffetWidth = slideRef?.current?.offsetWidth ?? 0;
+    return slideOffetWidth ? -slideOffetWidth - spaceBetween : 0;
+  }, [spaceBetween, slideRef]);
 
   const changeSlide = (diraction: string, e?: MouseEvent) => {
     e?.preventDefault();
@@ -70,7 +86,9 @@ export const useCarousel = ({
   };
 
   const startDrag = (e: MouseEvent | TouchEvent<HTMLDivElement>) => {
-    e.preventDefault();
+    if (e.type !== 'touchstart') {
+      e.preventDefault();
+    }
     if (!draggable) return;
     clearIntervalSlide();
     setIsDragging(true);
@@ -82,7 +100,9 @@ export const useCarousel = ({
   };
 
   const drag = (e: Event | TouchEvent | MouseEvent) => {
-    e.preventDefault();
+    if (e.type !== 'touchmove') {
+      e.preventDefault();
+    }
     if (!isDragging) return;
     const x = e.type.startsWith('touch')
       ? (e as TouchEvent).touches[0].clientX
@@ -92,7 +112,6 @@ export const useCarousel = ({
   };
 
   const stopDrag = (e: Event | TouchEvent | MouseEvent) => {
-    e.preventDefault();
     if (!isDragging) return;
     setIsDragging(false);
     const endX = e.type.startsWith('touch')
@@ -112,8 +131,7 @@ export const useCarousel = ({
   };
 
   const init = () => {
-    const containerOffetWidth = containerRef.current?.offsetWidth ?? 0;
-    setCurrentTransformX(-containerOffetWidth - spaceBetween);
+    // setCurrentTransformX(-containerOffetWidth - spaceBetween);
     if (interval) checkInterval();
   };
 
@@ -122,12 +140,6 @@ export const useCarousel = ({
     return () => clearIntervalSlide();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    const lastToFirst =
-      data.length > 0 ? [data[data?.length - 1], ...data.slice(0, -1)] : [];
-    setCurrentData(lastToFirst);
-  }, [data]);
 
   return {
     startDrag,
@@ -141,5 +153,6 @@ export const useCarousel = ({
     transition,
     currentData,
     changeSlide,
+    containerHeight,
   };
 };

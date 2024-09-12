@@ -10,7 +10,7 @@ export const ProjectContentSingleValue: ProjectContextType = {
     title: ' text-3xl md:text-4xl xl:text-5xl',
     description: '',
     img: 'md:min-h-[60dvh]',
-    container: 'min-h-[60dvh]',
+    container: '',
   },
   isLink: true,
 };

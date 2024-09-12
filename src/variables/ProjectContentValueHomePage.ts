@@ -24,7 +24,7 @@ export const ProjectContentValueHomePage: () => ProjectContextType = () => {
       title: 'md:col-start-2 text-left xl:group-hover:text-initial',
       link: '',
       description: 'line-clamp-3 xl:group-hover:text-initial',
-      container: 'min-h-[30dvh]',
+      container: '',
     },
     classNameProjects: {
       section: '',

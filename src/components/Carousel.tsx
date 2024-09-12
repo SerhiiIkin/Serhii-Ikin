@@ -21,6 +21,7 @@ const Carousel = (props: CarouselProps) => {
     transition,
     currentData,
     changeSlide,
+    containerHeight
   } = useCarousel({ ...props });
 
   const { spaceBetween, draggable, classNameProject } = props;
@@ -37,7 +38,7 @@ const Carousel = (props: CarouselProps) => {
           }}
         >
           <img
-            className="mx-auto w-full max-w-md"
+            className="mx-auto h-full w-full"
             src={currentData[0]}
             alt="image"
             loading="lazy"
@@ -58,16 +59,19 @@ const Carousel = (props: CarouselProps) => {
             ref={containerRef}
             aria-label="container"
             className={classes([
-              'group container relative mx-auto min-h-[20dvh] overflow-hidden',
+              'group container relative mx-auto overflow-hidden',
               draggable ? 'cursor-grab' : '',
               classNameProject?.container ?? '',
             ])}
+            style={{
+              minHeight: containerHeight,
+            }}
           >
             <div
               ref={wrapperRef}
               aria-label="wrapper"
               className={classes([
-                'perspective-1200 transform-style absolute left-0 top-0 flex w-full',
+                'perspective-1200 transform-style absolute left-0 top-0 flex h-full w-full',
                 draggable ? 'pointer-events-none' : '',
               ])}
               style={{
@@ -82,7 +86,7 @@ const Carousel = (props: CarouselProps) => {
                     data-index={i}
                     ref={slideRef}
                     aria-label="slide"
-                    className="flex-shrink-0 basis-full"
+                    className="my-auto flex-shrink-0 basis-full"
                     style={{
                       marginRight: `${spaceBetween}px`,
                     }}
