@@ -19,7 +19,7 @@ const SingleProject = () => {
   const { id } = useParams();
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ['projects'],
+    queryKey: ['project'],
     queryFn: () => getSingleProjectAxios(id ?? ''),
   });
 
@@ -30,7 +30,7 @@ const SingleProject = () => {
       >
         <ProjectContext.Provider value={ProjectContentSingleValue}>
           <Suspense fallback={<Loader />}>
-            <ProjectContent {...data} />
+            {data && <ProjectContent {...data} />}
           </Suspense>
         </ProjectContext.Provider>
       </FetchDataHandler>
