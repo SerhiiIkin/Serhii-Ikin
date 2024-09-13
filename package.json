@@ -11,7 +11,7 @@
     "preview": "vite preview",
     "format": "prettier --write .",
     "start:client": "cd D:/WEB/My_projekts/Serhii-Ikin && npm run dev:host",
-    "start:server": "cd D:/WEB/My_projekts/mypage-server && npm run dev",
+    "start:server": "cd D:/WEB/My_projekts/mypage-server && npm run dev --host ",
     "start:all": "concurrently -n \"CLIENT,SERVER\" -c \"bgBlue.bold,bgGreen.bold\" \"npm run start:client\" \"npm run start:server\""
   },
   "dependencies": {
