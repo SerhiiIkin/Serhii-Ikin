@@ -196,6 +196,31 @@ export const deleteCommentAxios = async ({
     .delete(`api/projects/comment/${id}?idComment=${idComment}`)
     .then(res => res.data);
 
+export const updateCommentAxios = async ({
+ 
+  data,
+}: {
+ 
+  data: CommentType;
+}) => {
+  axiosInstance
+    .put(`api/projects/comment`, data)
+    .then(res => res.data);
+};
+
+export const updateReplyAxios = async ({
+  data,
+}: {
+  data: CommentType;
+}) => {
+  axiosInstance
+    .put(
+      `api/projects/reply`,
+      data
+    )
+    .then(res => res.data);
+};
+
 export const deleteReplyAxios = async ({
   idComment,
   idReply,

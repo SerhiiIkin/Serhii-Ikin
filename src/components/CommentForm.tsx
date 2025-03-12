@@ -6,7 +6,7 @@ import { useCommentForm } from '@hooks/useCommentForm';
 
 import { classes } from '@utils/classes';
 
-const CommentForm = () => {
+const CommentForm = ({ closeReplyForm } : { closeReplyForm?: () => void }) => {
   const {
     createCommentMutation,
     textarea,
@@ -15,7 +15,7 @@ const CommentForm = () => {
     handleChange,
     idTextarea,
     placeholderTextarea,
-  } = useCommentForm();
+  } = useCommentForm(closeReplyForm || (() => {}));
 
   return (
     <form onSubmit={handleSubmit} className="mx-auto grid max-w-xs gap-2">

@@ -1,11 +1,9 @@
 import {
-  QueryClient,
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query';
 import { useContext, useId, useState } from 'react';
 import type { ChangeEventHandler, FormEvent } from 'react';
-import { toast } from 'react-toastify';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -21,7 +19,7 @@ import { userLogoChat } from '@variables/userLogoChat';
 
 import type { CommentType } from '@modules/CommentType';
 
-export const useCommentForm = () => {
+export const useCommentForm = (closeReplyForm: () => void) => {
   const queryClient = useQueryClient();
   const user = useAppSelector(state => state.user);
   const [textarea, setTextarea] = useState('');
@@ -39,8 +37,7 @@ export const useCommentForm = () => {
   const createCommentMutation = useMutation({
     mutationKey: ['createComment'],
     mutationFn: createCommentAxios,
-    onSuccess: data => {
-      toast.success(data.message);
+    onSuccess: () => {
       setTextarea('');
       queryClient.invalidateQueries({ queryKey: ['project'] });
     },
@@ -48,9 +45,9 @@ export const useCommentForm = () => {
   const createReplyMutation = useMutation({
     mutationKey: ['createComment'],
     mutationFn: createReplyAxios,
-    onSuccess: data => {
-      toast.success(data.message);
+    onSuccess: () => {
       setTextarea('');
+      closeReplyForm();
       queryClient.invalidateQueries({ queryKey: ['project'] });
     },
   });

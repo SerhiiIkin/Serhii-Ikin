@@ -1,15 +1,15 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 export const usePopUpReplyForm = () => {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
-  const openReplyForm = useCallback(() => {
+  const openReplyForm = () => {
     dialogRef.current?.show();
-  }, []);
+  };
 
-  const closeReplyForm = useCallback(() => {
+  const closeReplyForm = () => {
     dialogRef.current?.close();
-  }, []);
+  };
 
   useEffect(() => {
     const keyDownHandler = (event: KeyboardEvent) => {
@@ -18,9 +18,10 @@ export const usePopUpReplyForm = () => {
       }
     };
 
-    window.addEventListener('keydown', keyDownHandler);
+    dialogRef.current?.addEventListener('keydown', keyDownHandler);
 
-    return () => window.removeEventListener('keydown', keyDownHandler);
+    return () =>
+      dialogRef.current?.removeEventListener('keydown', keyDownHandler);
   }, []);
 
   return {

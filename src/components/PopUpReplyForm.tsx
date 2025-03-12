@@ -34,7 +34,7 @@ const PopUpReplyForm = () => {
             >
               <SlClose className="xl:hover:text-primaryOrange" />
             </button>
-            <CommentForm />
+            <CommentForm closeReplyForm={closeReplyForm} />
           </div>
         </dialog>
       </div>
