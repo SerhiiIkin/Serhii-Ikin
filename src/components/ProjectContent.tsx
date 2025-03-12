@@ -63,7 +63,7 @@ const ProjectContent = (props: ProjectContentProps) => {
           <Link
             target="_blank"
             to={link}
-            className="self-start bg-primaryDarkBlue px-4 py-2 text-primaryLigth duration-500 xl:hover:bg-primaryOrange"
+            className="bg-custom-radial-o-w self-start rounded-3xl px-4 py-2 text-primaryLigth xl:hover:text-primaryOrange"
           >
             {linkText}
           </Link>

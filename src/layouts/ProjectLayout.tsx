@@ -30,7 +30,7 @@ const ProjectLayout = (props: ProjectLayoutProps) => {
     <div
       ref={inViewRef as LegacyRef<HTMLDivElement>}
       className={classes([
-        'flex flex-col gap-2',
+        'mb-4 flex flex-col gap-2 sm:mb-6',
         inView
           ? 'md:translate-x-0 md:opacity-100 md:duration-1000'
           : 'even:-translate-x-6 md:translate-x-6 md:opacity-0 md:duration-1000 md:motion-reduce:translate-x-0',

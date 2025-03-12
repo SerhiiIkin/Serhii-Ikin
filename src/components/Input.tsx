@@ -5,6 +5,7 @@ import type { InputProps } from '@modules/InputProps';
 const Input = ({ className, ...rest }: InputProps) => {
   return (
     <input
+      type="text"
       {...rest}
       className={classes([
         'rounded border border-secondaryGrey px-4 py-2',

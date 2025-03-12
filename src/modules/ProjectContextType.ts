@@ -8,6 +8,8 @@ export type ProjectContextType = {
   isMore?: boolean;
   isSlider?: boolean;
   isLink?: boolean;
+  isComments?: boolean;
+  idProject?: string;
 };
 
 export type classNameProjectsType = {

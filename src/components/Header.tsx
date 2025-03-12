@@ -107,7 +107,7 @@ const Header = forwardRef<HTMLElement>((_, ref) => {
         })}
       </nav>
 
-      <div className="justify-self-end">
+      <div className="grid grid-flow-col gap-0.5 justify-self-end sm:gap-2">
         {btnsLanguage().map(btn => (
           <Button
             aria-label={`Change language to ${btn}`}
@@ -117,7 +117,8 @@ const Header = forwardRef<HTMLElement>((_, ref) => {
             data-lang={btn}
             disabled={language === btn}
             className={classes([
-              'mr-2 rounded-2xl bg-transparent p-2 last:mr-0',
+              'bg-custom-radial-t-o text-xs md:text-base',
+              'hover:duration-500 hover:xl:text-primaryLigth',
               language === btn ? 'bg-primaryOrange' : '',
             ])}
           >
@@ -126,7 +127,7 @@ const Header = forwardRef<HTMLElement>((_, ref) => {
         ))}
       </div>
 
-      <Button
+      <button
         onClick={onMenuClick}
         aria-label="Open menu"
         type="button"
@@ -145,7 +146,7 @@ const Header = forwardRef<HTMLElement>((_, ref) => {
             active ? 'left-[-13%] top-[22px] w-[70%] rotate-[45deg]' : '',
           ])}
         ></span>
-      </Button>
+      </button>
     </header>
   );
 });

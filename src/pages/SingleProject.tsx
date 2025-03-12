@@ -7,6 +7,8 @@ import SectionLayout from '@layouts/SectionLayout';
 
 import { ProjectContext } from '@context/ProjectContext';
 
+import CommentForm from '@components/CommentForm';
+import { Comments } from '@components/Comments';
 import Loader from '@components/Loader';
 
 import { getSingleProjectAxios } from '@utils/axios';
@@ -28,10 +30,21 @@ const SingleProject = () => {
       <FetchDataHandler
         data={{ data, error: error?.message ? error.message : '', isLoading }}
       >
-        <ProjectContext.Provider value={ProjectContentSingleValue}>
+        <ProjectContext.Provider
+          value={{
+            ...ProjectContentSingleValue,
+            idProject: data?._id ? data._id : '',
+          }}
+        >
           <Suspense fallback={<Loader />}>
             {data && <ProjectContent {...data} />}
           </Suspense>
+          {ProjectContentSingleValue.isComments && (
+            <>
+              <CommentForm />
+              <Comments comments={data?.comments} />
+            </>
+          )}
         </ProjectContext.Provider>
       </FetchDataHandler>
     </SectionLayout>

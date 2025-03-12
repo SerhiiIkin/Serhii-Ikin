@@ -1,0 +1,107 @@
+import {
+  QueryClient,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
+import { useContext, useId, useState } from 'react';
+import type { ChangeEventHandler, FormEvent } from 'react';
+import { toast } from 'react-toastify';
+
+import { v4 as uuidv4 } from 'uuid';
+
+import { CommentContext } from '@context/CommentContext';
+import { ProjectContext } from '@context/ProjectContext';
+
+import { useAppSelector } from '@hooks/redux';
+
+import Multilanguage from '@utils/Multilanguage';
+import { createCommentAxios, createReplyAxios } from '@utils/axios';
+
+import { userLogoChat } from '@variables/userLogoChat';
+
+import type { CommentType } from '@modules/CommentType';
+
+export const useCommentForm = () => {
+  const queryClient = useQueryClient();
+  const user = useAppSelector(state => state.user);
+  const [textarea, setTextarea] = useState('');
+  const [textareaError, setTextareaError] = useState(false);
+  const idUser = useId();
+  const idTextarea = useId();
+  const { idComment } = useContext(CommentContext);
+  const { idProject } = useContext(ProjectContext);
+  const placeholderTextarea = Multilanguage({
+    ukr: 'Ваш коментар',
+    eng: 'Your comment',
+    dk: 'Din kommentar',
+  });
+
+  const createCommentMutation = useMutation({
+    mutationKey: ['createComment'],
+    mutationFn: createCommentAxios,
+    onSuccess: data => {
+      toast.success(data.message);
+      setTextarea('');
+      queryClient.invalidateQueries({ queryKey: ['project'] });
+    },
+  });
+  const createReplyMutation = useMutation({
+    mutationKey: ['createComment'],
+    mutationFn: createReplyAxios,
+    onSuccess: data => {
+      toast.success(data.message);
+      setTextarea('');
+      queryClient.invalidateQueries({ queryKey: ['project'] });
+    },
+  });
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if (!textarea) {
+      setTextareaError(true);
+      return;
+    }
+    const id = uuidv4();
+    setTextareaError(false);
+    const newComment: CommentType = {
+      _id: id,
+      description: textarea,
+      date: `${new Date().toLocaleTimeString('en-GB')} ${new Date().toLocaleDateString('en-GB')}`,
+      likes: 0,
+      logo: userLogoChat,
+      name: user.username || `User ${idUser}`,
+      replies: [],
+      isReply: false,
+      idComment: id,
+      idProject: idProject !== '' ? idProject : '',
+    };
+
+    const newReply: CommentType = {
+      ...newComment,
+      idComment,
+      isReply: true,
+    };
+    delete newReply.replies;
+
+    idComment
+      ? createReplyMutation.mutate(newReply)
+      : createCommentMutation.mutate(newComment);
+  };
+
+  const handleChange: ChangeEventHandler<HTMLTextAreaElement> = e => {
+    const value = e.target.value;
+    setTextarea(value);
+    value.length > 0 ? setTextareaError(false) : setTextareaError(true);
+  };
+
+  return {
+    textarea,
+    setTextarea,
+    handleSubmit,
+    createCommentMutation,
+    textareaError,
+    handleChange,
+    idTextarea,
+    placeholderTextarea,
+  };
+};

@@ -4,6 +4,7 @@ import { IoCloseCircleSharp } from 'react-icons/io5';
 import Button from '@components/Button';
 import Input from '@components/Input';
 import Loader from '@components/Loader';
+import Title from '@components/Title';
 
 import { classes } from '@utils/classes';
 
@@ -35,32 +36,40 @@ const AuthUserForm = ({
         <form
           onSubmit={submitHandler}
           className={classes([
-            'fixed bottom-5 right-4 z-20 flex flex-col rounded bg-white p-2 shadow-sm shadow-slate-500',
+            'fixed bottom-5 right-4 z-20 flex flex-col rounded bg-white p-2 pr-4 pt-4 shadow-sm shadow-slate-500',
           ])}
         >
           {isLoading && (
             <Loader className="absolute inset-0 z-30 h-full w-full bg-primaryLigth [&_div]:absolute [&_div]:left-1/3 [&_div]:top-1/3" />
           )}
 
-          <h2>{loginform}</h2>
+          <Title typeTitle="h6" className="pb-2">
+            {loginform}
+          </Title>
           <Button
             onClick={OpenCloseForm}
             type="button"
-            className="absolute right-2 top-2 bg-transparent p-0 text-primaryDarkBlue hover:text-red-400"
+            className="absolute right-2 top-2 p-0"
           >
-            <IoCloseCircleSharp />
+            <IoCloseCircleSharp className="h-6 w-6" />
           </Button>
-          <label className="relative pb-6">
+          <label className="relative mb-6">
             <Input
               autoFocus
               disabled={isPending}
               value={usernameInput}
               onChange={userNameHandler}
-              className="p-2 focus-visible:outline-none disabled:cursor-not-allowed"
-              type="text"
-              placeholder={placeholderForm}
+              className="peer p-2 focus-visible:outline-none disabled:cursor-not-allowed"
             />
-            <span className="absolute bottom-1 left-0 text-sm text-secondaryRed">
+            <span
+              className={classes([
+                'absolute left-2 top-1/2 -translate-y-1/2 text-secondaryDarkGrey duration-700',
+                'peer-focus:top-0 peer-focus:bg-white peer-focus:text-xs',
+              ])}
+            >
+              {placeholderForm}
+            </span>
+            <span className="absolute -bottom-5 left-0 text-sm text-secondaryRed">
               {error && errorMessage}
             </span>
           </label>

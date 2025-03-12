@@ -13,4 +13,6 @@ export const ProjectContentSingleValue: ProjectContextType = {
     container: '',
   },
   isLink: true,
+  isComments: true,
+  idProject: '',
 };

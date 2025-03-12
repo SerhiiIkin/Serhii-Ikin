@@ -6,7 +6,8 @@ const Loader = ({ size, className }: LoaderProps) => {
   const clases = () => {
     if (size === 'little')
       return 'w-1 h-1 [&_div]:after:top-[28px] [&_div]:after:w-0.5 [&_div]:after:h-3';
-    if (size === 'small') return 'w-5 h-5';
+    if (size === 'small')
+      return 'w-5 h-5 [&_div]:after:top-5 [&_div]:after:w-0.5 [&_div]:after:h-4';
     if (size === 'large')
       return 'w-10 h-10 [&_div]:after:top-2.5 [&_div]:after:w-1 [&_div]:after:h-5';
     return 'w-7 h-7 [&_div]:after:top-4 [&_div]:after:w-0.5 [&_div]:after:h-4';
@@ -15,51 +16,51 @@ const Loader = ({ size, className }: LoaderProps) => {
   const divsData = [
     {
       style: { animationDelay: '-1.1s' },
-      className: 'rotate-0 after:bg-green-500',
+      className: 'rotate-0 after:bg-green-900',
     },
     {
       style: { animationDelay: '-1s' },
-      className: 'rotate-[30deg] after:bg-red-500',
+      className: 'rotate-[30deg] after:bg-red-900',
     },
     {
       style: { animationDelay: '-0.9s' },
-      className: 'rotate-[60deg] after:bg-blue-500',
+      className: 'rotate-[60deg] after:bg-blue-900',
     },
     {
       style: { animationDelay: '-0.8s' },
-      className: 'rotate-[90deg] after:bg-orange-500',
+      className: 'rotate-[90deg] after:bg-orange-900',
     },
     {
       style: { animationDelay: '-0.7s' },
-      className: 'rotate-[120deg] after:bg-purple-500',
+      className: 'rotate-[120deg] after:bg-purple-900',
     },
     {
       style: { animationDelay: '-0.6s' },
-      className: 'rotate-[150deg] after:bg-yellow-500',
+      className: 'rotate-[150deg] after:bg-yellow-900',
     },
     {
       style: { animationDelay: '-0.5s' },
-      className: 'rotate-[180deg] after:bg-pink-500',
+      className: 'rotate-[180deg] after:bg-pink-900',
     },
     {
       style: { animationDelay: '-0.4s' },
-      className: 'rotate-[210deg] after:bg-brown-500',
+      className: 'rotate-[210deg] after:bg-brown-900',
     },
     {
       style: { animationDelay: '-0.3s' },
-      className: 'rotate-[240deg] after:bg-green-500',
+      className: 'rotate-[240deg] after:bg-green-900',
     },
     {
       style: { animationDelay: '-0.2s' },
-      className: 'rotate-[270deg] after:bg-red-500',
+      className: 'rotate-[270deg] after:bg-red-900',
     },
     {
       style: { animationDelay: '-0.1s' },
-      className: 'rotate-[300deg] after:bg-blue-500',
+      className: 'rotate-[300deg] after:bg-blue-900',
     },
     {
       style: { animationDelay: '0s' },
-      className: 'rotate-[330deg] after:bg-orange-500',
+      className: 'rotate-[330deg] after:bg-orange-900',
     },
   ];
 

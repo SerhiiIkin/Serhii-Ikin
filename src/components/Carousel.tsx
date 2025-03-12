@@ -2,8 +2,6 @@ import { FaArrowAltCircleRight } from 'react-icons/fa';
 
 import { useCarousel } from '../hooks/useCarousel';
 
-import Button from '@components/Button';
-
 import { classes } from '@utils/classes';
 
 import type { CarouselProps } from '@modules/CarouselProps';
@@ -21,7 +19,7 @@ const Carousel = (props: CarouselProps) => {
     transition,
     currentData,
     changeSlide,
-    containerHeight
+    containerHeight,
   } = useCarousel({ ...props });
 
   const { spaceBetween, draggable, classNameProject } = props;
@@ -103,30 +101,30 @@ const Carousel = (props: CarouselProps) => {
               })}
             </div>
 
-            <Button
+            <button
               onClick={e => changeSlide('left', e)}
               type="button"
               aria-label="left"
               className={classes([
                 'absolute left-6 top-1/2 -translate-x-1/2 -translate-y-1/2 rotate-180 bg-transparent xl:left-2',
                 'xl:opacity-0 xl:duration-1000',
-                'xl:hover:bg-transparent xl:group-hover:translate-x-0 xl:group-hover:opacity-100',
+                'xl:hover:duration-1000 xl:group-hover:translate-x-0 xl:group-hover:opacity-100',
               ])}
             >
-              <FaArrowAltCircleRight className="h-10 w-10 fill-primaryOrange xl:hover:fill-primaryDarkBlue" />
-            </Button>
-            <Button
+              <FaArrowAltCircleRight className="h-10 w-10 fill-primaryLigth hover:xl:fill-primaryOrange" />
+            </button>
+            <button
               onClick={e => changeSlide('right', e)}
               type="button"
               aria-label="right"
               className={classes([
                 'absolute right-6 top-1/2 -translate-y-1/2 translate-x-1/2 bg-transparent xl:right-2',
                 'xl:opacity-0 xl:duration-1000',
-                'xl:hover:bg-transparent xl:group-hover:translate-x-0 xl:group-hover:opacity-100',
+                'xl:hover:duration-1000 xl:group-hover:translate-x-0 xl:group-hover:opacity-100',
               ])}
             >
-              <FaArrowAltCircleRight className="h-10 w-10 fill-primaryOrange xl:hover:fill-primaryDarkBlue" />
-            </Button>
+              <FaArrowAltCircleRight className="h-10 w-10 fill-primaryLigth hover:xl:fill-primaryOrange" />
+            </button>
           </div>
         </div>
       )}

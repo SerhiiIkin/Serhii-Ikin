@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+import type { CommentType } from '@modules/CommentType';
 import type { DonutType } from '@modules/DonutType';
 import type { JobType } from '@modules/JobType';
 import type { ProjectType } from '@modules/ProjectType';
@@ -177,3 +178,35 @@ export const removeJobAxios = async (id: string) =>
 
 export const updateJobAxios = async (data: JobType) =>
   await axiosInstance.put('api/blog/job', data).then(res => res.data);
+
+export const createCommentAxios = async (data: CommentType) =>
+  axiosInstance.post('api/projects/comment', data).then(res => res.data);
+
+export const createReplyAxios = async (data: CommentType) =>
+  axiosInstance.post('api/projects/reply', data).then(res => res.data);
+
+export const deleteCommentAxios = async ({
+  idComment,
+  id,
+}: {
+  idComment: string;
+  id: string;
+}) =>
+  axiosInstance
+    .delete(`api/projects/comment/${id}?idComment=${idComment}`)
+    .then(res => res.data);
+
+export const deleteReplyAxios = async ({
+  idComment,
+  idReply,
+  id,
+}: {
+  idComment: string;
+  id: string;
+  idReply: string;
+}) =>
+  axiosInstance
+    .delete(
+      `api/projects/reply/${id}?idComment=${idComment}&idReply=${idReply}`
+    )
+    .then(res => res.data);

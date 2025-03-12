@@ -21,14 +21,13 @@ const Textarea = ({ className, stopTyping, ...rest }: TextareaProps) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => changeTextArea(), [textAriaRef.current?.scrollHeight]);
 
-  const focusTextAria = () => changeTextArea();
   return (
     <textarea
-      onBlur={focusTextAria}
+      onBlur={changeTextArea}
       ref={textAriaRef}
-      rows={2}
+      rows={1}
       className={classes([
-        'resize-none rounded p-2 outline outline-1 outline-primaryDarkBlue',
+        'min-h-full resize-none rounded-3xl pl-3 pt-1 outline outline-1 outline-primaryDarkBlue',
         className ?? '',
       ])}
       {...rest}

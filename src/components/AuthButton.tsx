@@ -20,6 +20,7 @@ const AuthButton = ({
           aria-label="open chat menu"
           className={classes([
             `fixed bottom-40 right-4 z-20 rounded-md p-1 md:bottom-12 md:right-6 xl:right-8`,
+            'hover:duration-500 hover:xl:text-primaryOrange',
           ])}
           onClick={OpenCloseForm}
         >

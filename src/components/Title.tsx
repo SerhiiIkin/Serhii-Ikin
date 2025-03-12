@@ -8,7 +8,7 @@ const Title = ({ typeTitle, className, children }: TitleProps) => {
       return (
         <h1
           className={classes([
-            'md:text4xl pb-4 text-center text-3xl font-bold text-primaryDarkBlue xl:text-5xl',
+            'pb-4 text-center text-3xl font-bold text-primaryDarkBlue md:text-4xl xl:text-5xl',
             className ?? '',
           ])}
         >
