@@ -6,7 +6,6 @@ import SectionLayout from '@layouts/SectionLayout';
 import SkillsSection from '@components/SkillsSection';
 import Title from '@components/Title';
 
-import { useAppSelector } from '@hooks/redux';
 import { useGetImages } from '@hooks/useGetImages';
 import { useSectionTilteDescriptionHook } from '@hooks/useSectionTilteDescriptionHook';
 
@@ -15,7 +14,6 @@ import { folderNames } from '@variables/folderNames';
 const Image = lazy(() => import('@components/Image'));
 
 const Welcome = () => {
-  const { language } = useAppSelector(state => state.language);
 
   const { description, isLoading, error } =
     useSectionTilteDescriptionHook('about');
