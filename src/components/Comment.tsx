@@ -1,9 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useId, useState } from 'react';
+import { ChangeEvent, useEffect, useId, useState } from 'react';
 import { FaRegEdit } from 'react-icons/fa';
 import { FcLike } from 'react-icons/fc';
 import { MdDelete, MdDone } from 'react-icons/md';
 import { TiCancel } from 'react-icons/ti';
+
+import { useLocalStorage } from '@uidotdev/usehooks';
+import { v4 as uuidv4 } from 'uuid';
 
 import { CommentContext } from '@context/CommentContext';
 
@@ -29,16 +32,28 @@ export const Comment = (comment: CommentType) => {
     name,
     description,
     date,
-    likes,
+    likes: commentLikes,
     replies,
     isReply,
     idComment,
     idProject,
+    userId: commentUserId,
   } = comment;
+
   const id = useId();
+  const idUser = uuidv4();
   const queryClient = useQueryClient();
+  const [userId, saveUserId] = useLocalStorage(
+    'userId',
+    commentUserId || idUser
+  );
+
   const [editMode, setEditMode] = useState(false);
   const [descriptionTextArea, setDescriptionTextArea] = useState(description);
+  const [likes, setLikes] = useState(commentLikes);
+  const [checkboxLike, setCheckboxLike] = useState(
+    commentLikes.includes(userId) || false
+  );
 
   const removeCommentMutation = useMutation({
     mutationKey: ['comment'],
@@ -99,6 +114,36 @@ export const Comment = (comment: CommentType) => {
         });
   };
 
+  const handleLikeChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { checked } = event.target;
+    const currentUserId = userId ? userId : idUser;
+
+    setCheckboxLike(event.target.checked);
+    saveUserId(currentUserId);
+    setLikes(
+      checked
+        ? [...likes, currentUserId]
+        : likes.filter(like => like !== userId)
+    );
+    isReply
+      ? updateReplyMutation.mutate({
+          data: {
+            ...comment,
+            likes: checked
+              ? [...likes, currentUserId]
+              : likes.filter(like => like !== userId),
+          },
+        })
+      : updateCommentMutation.mutate({
+          data: {
+            ...comment,
+            likes: checked
+              ? [...likes, currentUserId]
+              : likes.filter(like => like !== userId),
+          },
+        });
+  };
+
   return (
     <CommentContext.Provider
       value={{ isReply, idComment, idProject: idProject ?? '' }}
@@ -114,19 +159,22 @@ export const Comment = (comment: CommentType) => {
               alt={name}
               className="row-start-1 h-10 w-10 rounded-full"
             />
-            <label className="relative col-span-2 grow">
-              <Textarea
-                value={descriptionTextArea}
-                onChange={event => setDescriptionTextArea(event.target.value)}
-                disabled={!editMode}
-                className={classes([
-                  'w-full',
-                  editMode ? '' : 'bg-transparent outline-0',
-                ])}
-              />
+            <label className={classes(['relative col-span-2 grow'])}>
+              {editMode ? (
+                <Textarea
+                  value={descriptionTextArea}
+                  onChange={event => setDescriptionTextArea(event.target.value)}
+                  className={classes([
+                    'w-full',
+                    editMode ? '' : 'bg-transparent outline-0',
+                  ])}
+                />
+              ) : (
+                <span className="inline-block py-3">{descriptionTextArea}</span>
+              )}
 
               {editMode && (
-                <div className="absolute right-5 top-1/2 flex -translate-y-1/2 gap-2">
+                <div className="absolute right-5 top-1/2 flex -translate-y-1/2 gap-5">
                   <Button onClick={updateComment}>
                     <MdDone />
                   </Button>
@@ -138,24 +186,34 @@ export const Comment = (comment: CommentType) => {
             </label>
             <p className="row-start-1 justify-self-end">{date}</p>
           </div>
-          <div>
-            <Button onClick={editComment} className="mr-2">
-              <FaRegEdit />
-            </Button>
-            <Button onClick={removeComment}>
-              <MdDelete />
-            </Button>
-          </div>
+          {commentUserId == userId && (
+            <div className="flex gap-5">
+              <Button onClick={editComment}>
+                <FaRegEdit />
+              </Button>
+              <Button onClick={removeComment}>
+                <MdDelete />
+              </Button>
+            </div>
+          )}
         </div>
-        <label
-          htmlFor={id}
-          className="group mr-2 inline-flex cursor-pointer items-center gap-2"
-        >
-          <input id={id} className="peer hidden" type="checkbox" />
-          {likes}
-          <FcLike className="[&_path]:fill-white [&_path]:duration-500 peer-checked:[&_path]:fill-secondaryRed group-hover:[&_path]:xl:fill-primaryOrange" />
-        </label>
-        <PopUpReplyForm />
+        <div className="flex gap-5">
+          <label
+            htmlFor={id}
+            className="group inline-flex cursor-pointer items-center gap-2"
+          >
+            <input
+              checked={checkboxLike}
+              onChange={handleLikeChange}
+              id={id}
+              className="peer hidden"
+              type="checkbox"
+            />
+            {likes.length}
+            <FcLike className="h-8 w-8 group-hover:xl:animate-pulse [&_path]:fill-white [&_path]:duration-500 peer-checked:[&_path]:fill-secondaryRed group-hover:[&_path]:xl:fill-primaryOrange" />
+          </label>
+          <PopUpReplyForm />
+        </div>
         {replies &&
           replies.length > 0 &&
           replies?.map(reply => <Comment key={reply._id} {...reply} />)}

@@ -26,7 +26,7 @@ const SingleProject = () => {
   });
 
   return (
-    <SectionLayout>
+    <SectionLayout >
       <FetchDataHandler
         data={{ data, error: error?.message ? error.message : '', isLoading }}
       >

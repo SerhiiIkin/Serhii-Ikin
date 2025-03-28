@@ -27,7 +27,7 @@ const Textarea = ({ className, stopTyping, ...rest }: TextareaProps) => {
       ref={textAriaRef}
       rows={1}
       className={classes([
-        'min-h-full resize-none rounded-3xl pl-3 pt-1 outline outline-1 outline-primaryDarkBlue',
+        'min-h-full resize-none rounded-3xl pl-3 py-2 outline outline-1 outline-primaryDarkBlue',
         className ?? '',
       ])}
       {...rest}

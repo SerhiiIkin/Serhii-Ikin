@@ -68,7 +68,7 @@ const Header = forwardRef<HTMLElement>((_, ref) => {
   return (
     <header
       ref={ref}
-      className="fixed left-0 top-[23px] z-50 flex min-h-20 w-full items-center justify-between bg-gradient-to-b from-primaryDarkBlue to-secondaryGrey px-2 py-4 text-primaryLigth sm:px-10 md:grid md:grid-cols-3 md:grid-rows-1"
+      className="fixed left-0 top-[23px] z-50 flex min-h-20 w-full items-center justify-between bg-gradient-to-b from-primaryDarkBlue to-secondaryGrey px-2 py-4 text-primaryLigth sm:px-10 md:flex md:grid-rows-1 md:gap-2"
     >
       <Link to="/">
         <img
@@ -85,7 +85,7 @@ const Header = forwardRef<HTMLElement>((_, ref) => {
         className={classes([
           active
             ? 'fixed left-0 top-0 grid h-full w-full place-items-center overflow-y-auto bg-slate-400 text-4xl transition-all duration-700'
-            : 'fixed left-[-100vw] top-[-100vh] min-w-max md:static md:flex md:justify-self-center',
+            : 'fixed left-[-100vw] top-[-100vh] min-w-max md:static md:flex md:gap-3 md:justify-self-center',
         ])}
       >
         {Links().map(({ to, children }, index) => {

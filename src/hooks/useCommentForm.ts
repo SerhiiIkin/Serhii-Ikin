@@ -1,10 +1,8 @@
-import {
-  useMutation,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useContext, useId, useState } from 'react';
 import type { ChangeEventHandler, FormEvent } from 'react';
 
+import { useLocalStorage } from '@uidotdev/usehooks';
 import { v4 as uuidv4 } from 'uuid';
 
 import { CommentContext } from '@context/CommentContext';
@@ -21,13 +19,18 @@ import type { CommentType } from '@modules/CommentType';
 
 export const useCommentForm = (closeReplyForm: () => void) => {
   const queryClient = useQueryClient();
+  const [userId, saveUserId] = useLocalStorage('userId', '');
+
   const user = useAppSelector(state => state.user);
+
   const [textarea, setTextarea] = useState('');
   const [textareaError, setTextareaError] = useState(false);
-  const idUser = useId();
+
   const idTextarea = useId();
+
   const { idComment } = useContext(CommentContext);
   const { idProject } = useContext(ProjectContext);
+
   const placeholderTextarea = Multilanguage({
     ukr: 'Ваш коментар',
     eng: 'Your comment',
@@ -59,17 +62,19 @@ export const useCommentForm = (closeReplyForm: () => void) => {
       return;
     }
     const id = uuidv4();
+    const idUser = uuidv4();
     setTextareaError(false);
     const newComment: CommentType = {
       _id: id,
       description: textarea,
       date: `${new Date().toLocaleTimeString('en-GB')} ${new Date().toLocaleDateString('en-GB')}`,
-      likes: 0,
+      likes: [],
       logo: userLogoChat,
       name: user.username || `User ${idUser}`,
       replies: [],
       isReply: false,
       idComment: id,
+      userId: userId ? userId : idUser,
       idProject: idProject !== '' ? idProject : '',
     };
 
@@ -79,6 +84,7 @@ export const useCommentForm = (closeReplyForm: () => void) => {
       isReply: true,
     };
     delete newReply.replies;
+    saveUserId(prev => (prev ? prev : idUser));
 
     idComment
       ? createReplyMutation.mutate(newReply)

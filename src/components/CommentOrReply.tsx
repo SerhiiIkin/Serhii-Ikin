@@ -11,7 +11,7 @@ export const CommentOrReply: FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <Tag
       className={classes([
-        isReply ? 'pl-6' : 'border-l border-l-primaryOrange pl-2',
+        isReply ? 'pl-7' : 'border-l border-l-primaryOrange pl-5',
       ])}
     >
       {children}

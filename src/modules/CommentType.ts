@@ -3,11 +3,12 @@ export type CommentType = {
   name: string;
   description: string;
   date: string;
-  likes: number;
+  likes: string[];
   logo: string;
   replies?: CommentType[];
   className?: string;
   isReply: boolean;
   idComment: string;
   idProject?: string;
+  userId?: string;
 };

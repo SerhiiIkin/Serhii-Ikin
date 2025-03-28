@@ -65,6 +65,7 @@ const AuthUserForm = ({
               className={classes([
                 'absolute left-2 top-1/2 -translate-y-1/2 text-secondaryDarkGrey duration-700',
                 'peer-focus:top-0 peer-focus:bg-white peer-focus:text-xs',
+                usernameInput && 'top-0 bg-white text-xs',
               ])}
             >
               {placeholderForm}

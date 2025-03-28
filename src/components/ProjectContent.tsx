@@ -1,4 +1,4 @@
-import { lazy, useContext } from 'react';
+import { lazy, useContext, useMemo } from 'react';
 import { FaEdit, FaRegTrashAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
@@ -18,9 +18,18 @@ import type { ProjectContentProps } from '@modules/ProjectContentProps';
 const Carousel = lazy(() => import('@components/Carousel'));
 
 const ProjectContent = (props: ProjectContentProps) => {
-  const { _id, link } = props;
+  const { _id, link,images } = props;
   const { isAdmin, isDescription, classNameProject, isLink, isMore } =
     useContext(ProjectContext);
+  
+  const imagesURL = useMemo(
+    () =>
+      images != undefined && images.length > 0
+        ? images.map(image => image.fileUrl)
+        : [],
+    [images]
+  );
+  console.log("🚀 ~ ProjectContent ~ imagesURL:", imagesURL)
 
   const {
     linkText,

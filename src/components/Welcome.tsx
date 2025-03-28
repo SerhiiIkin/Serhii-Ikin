@@ -38,7 +38,6 @@ const Welcome = () => {
             'md:col-span-3 md:row-start-1 md:min-h-0',
             'xl:col-span-2',
             'before:absolute before:-left-0 before:-top-4 before:-z-10 before:font-serif before:text-6xl before:font-bold before:content-[open-quote]',
-            language != 'UKR' && 'font-DancingScript',
           ].join(' ')}
         >
           {description}

@@ -43,7 +43,7 @@ const Projects = () => {
       <SectionLayout
         className={classes(['', classNameProjects?.section ?? ''])}
       >
-        <Title typeTitle="h2" className="">
+        <Title typeTitle="h2" className="pb-8">
           {title}
         </Title>
         <FetchDataHandler
@@ -63,7 +63,7 @@ const Projects = () => {
               ? projects?.map((project: ProjectType) => {
                   return (
                     <Suspense key={project._id} fallback={<Loader />}>
-                      <ProjectContent {...project} />
+                      <ProjectContent comments={[]} {...project} />
                     </Suspense>
                   );
                 })

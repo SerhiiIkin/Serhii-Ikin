@@ -15,7 +15,7 @@ const PopUpReplyForm = () => {
 
   return (
     <>
-      <div className="relative inline-block">
+      <div className="relative">
         {!isReply && (
           <Button onClick={openReplyForm}>
             <MdOutlineReply />

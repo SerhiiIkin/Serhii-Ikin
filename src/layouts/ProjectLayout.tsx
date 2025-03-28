@@ -16,7 +16,7 @@ const ProjectLayout = (props: ProjectLayoutProps) => {
       to={`/portfolio/${id}`}
       ref={inViewRef as LegacyRef<HTMLAnchorElement>}
       className={classes([
-        'group flex flex-col gap-2 rounded p-2 shadow-2xl shadow-primaryDarkBlue duration-1000',
+        'group flex flex-col gap-x-5 rounded p-2 shadow-2xl shadow-primaryDarkBlue duration-1000',
         'xl:hover:bg-primaryOrange xl:hover:shadow-2xl xl:hover:shadow-primaryOrange',
         inView
           ? 'md:translate-x-0 md:opacity-100 md:duration-1000'
@@ -30,7 +30,7 @@ const ProjectLayout = (props: ProjectLayoutProps) => {
     <div
       ref={inViewRef as LegacyRef<HTMLDivElement>}
       className={classes([
-        'mb-4 flex flex-col gap-2 sm:mb-6',
+        'mb-6 flex flex-col gap-2 sm:mb-8',
         inView
           ? 'md:translate-x-0 md:opacity-100 md:duration-1000'
           : 'even:-translate-x-6 md:translate-x-6 md:opacity-0 md:duration-1000 md:motion-reduce:translate-x-0',

@@ -28,15 +28,12 @@ export const useCarousel = ({
 
   const [containerHeight, setContainerHeight] = useState(0);
 
+  const [currentTransformX, setCurrentTransformX] = useState(0);
+
   useLayoutEffect(() => {
     const slideOffsetHeight = slideRef?.current?.offsetHeight ?? 0;
     setContainerHeight(slideOffsetHeight);
   }, [slideRef]);
-
-  const currentTransformX = useMemo(() => {
-    const slideOffetWidth = slideRef?.current?.offsetWidth ?? 0;
-    return slideOffetWidth ? -slideOffetWidth - spaceBetween : 0;
-  }, [spaceBetween, slideRef]);
 
   const changeSlide = (diraction: string, e?: MouseEvent) => {
     e?.preventDefault();
@@ -131,7 +128,8 @@ export const useCarousel = ({
   };
 
   const init = () => {
-    // setCurrentTransformX(-containerOffetWidth - spaceBetween);
+    const slideOffetWidth = slideRef?.current?.offsetWidth ?? 0;
+    setCurrentTransformX(-slideOffetWidth - spaceBetween);
     if (interval) checkInterval();
   };
 

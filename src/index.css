@@ -104,18 +104,19 @@
 
 .bg-custom-radial-t-o,
 .bg-custom-radial-o-w {
-  &:not(:disabled) {
-    background: radial-gradient(
-        circle at var(--x, 0%) var(--y, 0%),
-        var(--to) calc(var(--r) - 1px),
-        var(--from) var(--r)
-      )
-      border-box;
-  }
+  @apply bg-orange-500 xl:hover:bg-white;
   @media (min-width: 1281px) {
     &:hover {
       --r: 100%;
       transition: --r 0.75s;
+    }
+    &:not(:disabled) {
+      background: radial-gradient(
+          circle at var(--x, 0%) var(--y, 0%),
+          var(--to) calc(var(--r) - 1px),
+          var(--from) var(--r)
+        )
+        border-box;
     }
   }
 }
@@ -124,3 +125,9 @@
   --from: rgb(249 115 22 /1);
   --to: white;
 }
+
+.bg-custom-radial-t-o {
+  @apply bg-transparent;
+}
+
+

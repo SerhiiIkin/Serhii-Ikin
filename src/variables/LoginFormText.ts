@@ -2,9 +2,9 @@ import Multilanguage from '@utils/Multilanguage';
 
 export const LoginFormText = () => {
   const loginform = Multilanguage({
-    ukr: 'Форма входу',
-    eng: 'Login form',
-    dk: 'Login formular',
+    ukr: 'Форма чату',
+    eng: 'Chat form',
+    dk: 'Chatformular',
   });
   const placeholderForm = Multilanguage({
     ukr: "Напишіть своє ім'я",
