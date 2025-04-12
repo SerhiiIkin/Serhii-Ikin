@@ -12,7 +12,7 @@ import { useGetImages } from '@hooks/useGetImages';
 import { useSectionTilteDescriptionHook } from '@hooks/useSectionTilteDescriptionHook';
 
 import Multilanguage from '@utils/Multilanguage';
-import { getJobsAxios } from '@utils/axios';
+import { getImagesAxios, getJobsAxios } from '@utils/axios';
 import { classes } from '@utils/classes';
 
 import { folderNames } from '@variables/folderNames';
@@ -50,6 +50,15 @@ const Blog = () => {
     dk: 'Hvor arbejdede jeg?',
   });
 
+  const imagesBlogResume = useQuery({
+    queryKey: ['images', folderNames.blogResume],
+    queryFn: () => getImagesAxios(folderNames.blogResume),
+  });
+  const imagesBlogHobby = useQuery({
+    queryKey: ['images', folderNames.blogHobby],
+    queryFn: () => getImagesAxios(folderNames.blogHobby),
+  });
+
   return (
     <>
       <SectionLayout classNameContainer="md:grid md:grid-cols-2 gap-2 md:gap-4 xl:gap-6">
@@ -79,8 +88,22 @@ const Blog = () => {
           SkeletonCount={16}
         >
           <Title typeTitle="h2"> {resumeData.title} </Title>
-          <p className="text-primaryDark"> {resumeData.description} </p>
+          <p className="pb-4 text-primaryDark"> {resumeData.description} </p>
         </FetchDataHandler>
+        <div className="col-span-2 grid grid-cols-auto-fit gap-2">
+          <FetchDataHandler
+            SkeletonCount={16}
+            data={{
+              data: imagesBlogResume.data,
+              isLoading: imagesBlogResume.isLoading,
+              error: imagesBlogResume.error?.message ?? '',
+            }}
+          >
+            {imagesBlogResume.data?.map((image: string) => (
+              <img key={image} className="" src={image} alt="resume" />
+            ))}
+          </FetchDataHandler>
+        </div>
       </SectionLayout>
       <SectionLayout>
         <FetchDataHandler
@@ -91,8 +114,22 @@ const Blog = () => {
           }}
         >
           <Title typeTitle="h3"> {hobbyData.title} </Title>
-          <p> {hobbyData.description} </p>
+          <p className="pb-4"> {hobbyData.description} </p>
         </FetchDataHandler>
+        <div className="grid grid-cols-auto-fit gap-2">
+          <FetchDataHandler
+            SkeletonCount={16}
+            data={{
+              data: imagesBlogHobby.data,
+              isLoading: imagesBlogHobby.isLoading,
+              error: imagesBlogHobby.error?.message ?? '',
+            }}
+          >
+            {imagesBlogHobby.data?.map((image: string) => (
+              <img key={image} className="" src={image} alt="resume" />
+            ))}
+          </FetchDataHandler>
+        </div>
       </SectionLayout>
       <SectionLayout>
         <Title typeTitle="h2" className="text-primaryDarkBlue xl:pb-8">

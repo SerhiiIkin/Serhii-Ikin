@@ -56,6 +56,7 @@ const ProjectForm = () => {
     data: currentProject,
   } = useQuery({
     queryKey: ['editproject'],
+    enabled: !!id,
     queryFn: async () =>
       getSingleProjectOrInitAxios({
         id: id ?? '',
@@ -209,8 +210,8 @@ const ProjectForm = () => {
   const handleImages = async (formData: FormData) => {
     try {
       const response = id
-        ? await uploadImagesAxios(formData)
-        : await updateImagesAxios(formData);
+        ? await updateImagesAxios(formData)
+        : await uploadImagesAxios(formData);
       toast.success(
         id ? 'Картинки оновленно на сервері' : 'Картинки завантажено на сервер'
       );

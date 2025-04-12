@@ -33,7 +33,7 @@ export const LanguagesSection = () => {
   ];
 
   return (
-    <ul className="flex flex-wrap justify-between gap-1 sm:gap-4">
+    <ul className="flex flex-wrap justify-between gap-3 sm:gap-5">
       {data.map((l, i) => (
         <li
           key={i}
