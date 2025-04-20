@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://serhii-ikin.vercel.app/sitemap.xml
